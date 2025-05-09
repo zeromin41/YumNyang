@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import defaultUserImg from '../assets/defaultUserImg.svg'
 import css from './Comment.module.css'
 import StarRating from './StarRating'
 
@@ -16,7 +15,7 @@ const Comment = () => {
             <div className={css.commentWrapper}>
                 <div className={css.userCon}>
                     <div className={css.userImg}>
-                        <img src={defaultUserImg} alt="작성자" />
+                        <img src="images/defaultUserImg.svg" alt="작성자" />
                     </div>
                     <p>작성자</p>
                 </div>
@@ -36,7 +35,7 @@ const Comment = () => {
                 <div className={css.commentWrapper}>
                     <div className={css.userCon}>
                         <div className={css.userImg}>
-                            <img src={defaultUserImg} alt="작성자" />
+                            <img src="images/defaultUserImg.svg" alt="작성자" />
                         </div>
                         <p>작성자</p>
                     </div>
@@ -45,7 +44,7 @@ const Comment = () => {
                 <div className={css.commentWrapper}>
                     <div className={css.userCon}>
                         <div className={css.userImg}>
-                            <img src={defaultUserImg} alt="작성자" />
+                            <img src="images/defaultUserImg.svg" alt="작성자" />
                         </div>
                         <p>작성자</p>
                     </div>
