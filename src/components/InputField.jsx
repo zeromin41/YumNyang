@@ -18,7 +18,7 @@ const InputField = ({
             </label>
             <div className={css.inputWrapper}>
                 <input id={id} type={type} value={value} onChange={onChange} />
-                {rightElement && <div className={css.rightElement}>{rightElement}</div>}
+                {rightElement && <div>{rightElement}</div>}
             </div>
             {errorMsg && <span className={`${css.msg} ${css.error}`}>{errorMsg}</span>}
             {successMsg && <span className={`${css.msg} ${css.success}`}>{successMsg}</span>}
