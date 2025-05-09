@@ -2,8 +2,10 @@
     width: 100%;
     outline: none;
     border: none;
+    font-family: 'Goyang', sans-serif;
     border-radius: var(--fs8);
-    padding: var(--fs12) var(--fs33);
+    padding: var(--fs16) var(--fs33);
+    font-size: var(--fs20);
     cursor: pointer;
     transition: filter 0.2s;
 }
@@ -18,16 +20,19 @@
 }
 .accent {
     background-color: var(--main-colors-accent);
+    color: white;
 }
 .red {
     background-color: var(--service-colors-errors);
     color: white;
 }
 
-/* 사이즈 - 부모가 display: flex일 때 적용 */
+/* 사이즈 */
 .md {
-    flex-grow: 2;
+    width: auto;
 }
 .sm {
-    flex-grow: 1;
+    width: auto;
+    padding: var(--fs12) var(--fs16);
+    font-size: var(--fs12);
 }
