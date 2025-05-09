@@ -7,6 +7,7 @@
     padding: var(--fs4) var(--fs33);
     font-size: var(--fs20);
     cursor: pointer;
+    font-family: 'Goyang', sans-serif;
 }
 .filterBtn:hover,
 .filterBtn:active {
