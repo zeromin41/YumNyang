@@ -1,0 +1,50 @@
+* {
+    max-width: 375px;
+    max-height: 812px;
+    margin: 0 auto;
+}
+
+/* 전체 슬라이더 컨테이너 */
+:global(.mySwiper) {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 40px; /* 페이지네이션을 위한 하단 여백 */
+}
+
+/* 슬라이드 내용 스타일링 */
+:global(.swiper-slide) {
+    text-align: center;
+    font-size: 18px;
+    background: #f8f8f8;
+    height: 300px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+}
+
+/* 페이지네이션 컨테이너 스타일 */
+:global(.swiper-pagination) {
+    bottom: 10px !important; /* 하단에서 위치 조정 */
+    border: 1px solid aqua;
+}
+
+/* 페이지네이션 불릿 스타일 */
+:global(.swiper-pagination-bullet) {
+    width: var(--fs8) !important;
+    height: var(--fs8) !important;
+    margin: 0 6px !important;
+    background: #dddddd !important;
+
+    opacity: 1 !important;
+}
+
+/* 활성화된 페이지네이션 불릿 스타일 */
+:global(.swiper-pagination-bullet-active) {
+    background: #007aff !important;
+    width: 24px !important;
+    height: var(--fs8) !important;
+    background-color: var(--neutral-colors-sand-brown) !important;
+    border-radius: var(--fs4) !important;
+}
