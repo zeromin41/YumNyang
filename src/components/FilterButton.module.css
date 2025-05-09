@@ -1,0 +1,14 @@
+.filterBtn {
+    border: none;
+    outline: none;
+    border-radius: var(--fs33);
+    background-color: var(--main-colors-accent);
+    color: var(--neutral-colors-white);
+    padding: var(--fs4) var(--fs33);
+    font-size: var(--fs20);
+    cursor: pointer;
+}
+.filterBtn:hover,
+.filterBtn:active {
+    filter: brightness(90%);
+}
