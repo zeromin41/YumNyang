@@ -1,0 +1,33 @@
+* {
+    max-width: 375px;
+    max-height: 812px;
+
+    margin: 0 auto;
+}
+
+.recipeImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.desContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--fs4);
+}
+
+.desContainer .description {
+    flex: 1;
+    padding-left: var(--fs33);
+}
+
+.desContainer button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    width: var(--fs64);
+    height: var(--fs33);
+    justify-content: center;
+}
