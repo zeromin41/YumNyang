@@ -1,0 +1,33 @@
+.btn {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: var(--fs8);
+    padding: var(--fs12) var(--fs33);
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+.btn:hover,
+.btn:active {
+    filter: brightness(90%);
+}
+
+/* 색상 */
+.default {
+    background-color: var(--neutral-colors-light-gray);
+}
+.accent {
+    background-color: var(--main-colors-accent);
+}
+.red {
+    background-color: var(--service-colors-errors);
+    color: white;
+}
+
+/* 사이즈 - 부모가 display: flex일 때 적용 */
+.md {
+    flex-grow: 2;
+}
+.sm {
+    flex-grow: 1;
+}
