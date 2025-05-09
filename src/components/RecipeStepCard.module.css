@@ -16,6 +16,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: var(--fs4);
+    background-color: var(--neutral-colors-cream-beige);
 }
 
 .desContainer .description {
@@ -24,10 +25,13 @@
 }
 
 .desContainer button {
+    display: flex;
+    background: transparent;
     outline: none;
     border: none;
     cursor: pointer;
     width: var(--fs64);
     height: var(--fs33);
     justify-content: center;
+    align-items: center;
 }
