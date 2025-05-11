@@ -1,5 +1,6 @@
 import React from 'react'
 import css from './RecipeStepCard.module.css'
+import TTSComponent from './TTSComponent'
 const RecipeStepCard = ({ number, instruction, image }) => {
     return (
         <div>
@@ -8,9 +9,8 @@ const RecipeStepCard = ({ number, instruction, image }) => {
                 <p className={css.description}>
                     {number}. {instruction}
                 </p>
-                <button>
-                    <img src="/images/play-03.svg" alt="" />
-                </button>
+
+                <TTSComponent text={instruction} />
             </div>
         </div>
     )

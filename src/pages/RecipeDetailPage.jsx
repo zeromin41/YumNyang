@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import RecipeStepCard from '../components/RecipeStepCard'
+import TTSComponent from '../components/TTSComponent'
 
 //더미데이터
 const recipesData = [
@@ -62,8 +63,12 @@ const RecipeDetailPage = () => {
     const [recipeData, setRecipeData] = useState(recipesData)
     //useEffect로 데이터 받아와야함
 
+    //조리법 전체를 읽어주기 위해 필요
+    const recipeStepsInstruction = recipeData[0].steps.map((step) => step.instruction)
+
     return (
         <>
+            <TTSComponent text={recipeStepsInstruction} />
             {recipeData[0].steps.map((step, index) => (
                 <RecipeStepCard
                     key={index}
