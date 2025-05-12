@@ -1,0 +1,38 @@
+.btn {
+    width: 100%;
+    outline: none;
+    border: none;
+    font-family: 'Goyang', sans-serif;
+    border-radius: var(--fs8);
+    padding: var(--fs16) var(--fs33);
+    font-size: var(--fs20);
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+.btn:hover,
+.btn:active {
+    filter: brightness(90%);
+}
+
+/* 색상 */
+.default {
+    background-color: var(--neutral-colors-light-gray);
+}
+.accent {
+    background-color: var(--main-colors-accent);
+    color: white;
+}
+.red {
+    background-color: var(--service-colors-errors);
+    color: white;
+}
+
+/* 사이즈 */
+.md {
+    width: auto;
+}
+.sm {
+    width: auto;
+    padding: var(--fs12) var(--fs16);
+    font-size: var(--fs12);
+}

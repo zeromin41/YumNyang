@@ -1,0 +1,17 @@
+.tagCon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--fs4);
+    padding: var(--fs8) var(--fs16);
+    border-radius: var(--fs33);
+    background-color: var(--main-colors-accent);
+    color: var(--neutral-colors-white);
+}
+.tagCon i {
+    cursor: pointer;
+    transition: transform 0.3s ease-out;
+}
+.tagCon i:hover {
+    transform: rotate(15deg);
+}
