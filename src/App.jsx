@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
 import './App.css'
 import Tab from './components/Tab'
+import FloatingButton from './components/FloatingButton'
 
 function App() {
     const tabs = [
@@ -17,6 +18,7 @@ function App() {
                 activeTab={activeTab}
                 onTabSelect={(value) => setSearchParams({ tab: value })}
             />
+            <FloatingButton />
         </>
     )
 }
