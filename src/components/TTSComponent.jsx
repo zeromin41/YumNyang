@@ -1,8 +1,45 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-const TTSComponent = ({ text, children }) => {
-    const [isPlayed, setIsPlayed] = useState(false)
-    const PlayTTS = (speakText) => {
+// 전역 상태 관리를 위한 변수 (모든 컴포넌트가 공유)
+let globalActiveButton = null
+
+const TTSComponent = ({ text, children, btnkey }) => {
+    const [isActive, setIsActive] = useState(false)
+    const utteranceRef = useRef(null)
+
+    useEffect(() => {
+        if (typeof SpeechSynthesisUtterance !== 'undefined') {
+            utteranceRef.current = new SpeechSynthesisUtterance()
+            utteranceRef.current.rate = 1 // 속도  : 0.1 ~ 10
+            utteranceRef.current.pitch = 1 // 음높이 : 0 ~ 2
+            utteranceRef.current.lang = 'ko-KR'
+            utteranceRef.current.text = text
+
+            // tts가 끝났을때
+            utteranceRef.current.onend = () => {
+                if (globalActiveButton === btnkey) {
+                    globalActiveButton = null
+                    setIsActive(false)
+                }
+                console.log('tts 종료됨')
+            }
+        }
+
+        // 컴포넌트 언마운트 시 정리
+        return () => {
+            if (window.speechSynthesis && globalActiveButton === btnkey) {
+                window.speechSynthesis.cancel()
+                globalActiveButton = null
+            }
+        }
+    }, [text, btnkey])
+
+    // 다른 컴포넌트의 활성화 상태에 따라 이 컴포넌트의 상태 업데이트
+    useEffect(() => {
+        setIsActive(globalActiveButton === btnkey)
+    }, [btnkey])
+
+    const handleTTS = () => {
         if (
             typeof SpeechSynthesisUtterance === 'undefined' ||
             typeof window.speechSynthesis === 'undefined'
@@ -11,31 +48,54 @@ const TTSComponent = ({ text, children }) => {
             return
         }
 
-        window.speechSynthesis.cancel() // 현재 읽고 있었다면 초기화해줌
+        console.log('현재 눌린 버튼 key', btnkey, '활성 상태:', isActive)
 
-        const speechMsg = new SpeechSynthesisUtterance()
-        speechMsg.rate = 1 // 속도  : 0.1 ~ 10
-        speechMsg.pitch = 1 // 음높이 : 0 ~ 2
-        speechMsg.lang = 'ko-KR'
-        speechMsg.text = speakText
-
-        if (isPlayed === false) {
-            setIsPlayed(!isPlayed)
-            //SpeechSynthesisUtterance에 저장된 ㅐㄴ용을 바탕으로 음성합성 실행
-            window.speechSynthesis.speak(speechMsg)
+        // 이미 활성화된 버튼이면 비활성화
+        if (isActive) {
+            window.speechSynthesis.cancel()
+            globalActiveButton = null
+            setIsActive(false)
+            console.log('같은 버튼 - 재생 중지')
+            return
         }
 
-        if (isPlayed === true) {
-            setIsPlayed(!isPlayed)
-            window.speechSynthesis.pause(speechMsg)
+        // 다른 버튼이 활성화 상태라면 비활성화
+        if (globalActiveButton !== null && globalActiveButton !== btnkey) {
+            window.speechSynthesis.cancel()
+            // 이전 활성 버튼 상태 업데이트는 useEffect에서 자동으로 처리됨
         }
 
-        console.log('현재상태', isPlayed)
+        // 새로운 재생 시작
+        utteranceRef.current.text = text
+        window.speechSynthesis.speak(utteranceRef.current)
+        globalActiveButton = btnkey
+        setIsActive(true)
+        console.log('새 버튼 재생 시작:', btnkey)
     }
+
+    // 이 버튼의 활성화 상태 감지
+    const checkAndUpdateState = () => {
+        const newState = globalActiveButton === btnkey
+        if (isActive !== newState) {
+            setIsActive(newState)
+        }
+    }
+
+    // 16ms마다 상태 확인 (약 60fps)
+    useEffect(() => {
+        const intervalId = setInterval(checkAndUpdateState, 16)
+        return () => clearInterval(intervalId)
+    }, [btnkey, isActive])
+
     return (
         <>
-            <button onClick={() => PlayTTS(text)}>
-                {children || <img src="/images/play-03.svg" alt="재생" />}
+            <button onClick={handleTTS}>
+                {children || (
+                    <img
+                        src={isActive ? '/icons/stop-03.svg' : '/icons/play-03.svg'}
+                        alt={isActive ? '정지' : '재생'}
+                    />
+                )}
             </button>
         </>
     )

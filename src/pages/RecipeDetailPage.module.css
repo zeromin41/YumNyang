@@ -1,0 +1,16 @@
+.ttsWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--fs8) 0;
+    background-color: var(--neutral-colors-cream-beige);
+}
+
+.ttsWrap button {
+    position: absolute;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    left: 40%;
+}
