@@ -1,0 +1,64 @@
+* {
+    max-width: 170px;
+    max-height: 170px;
+    margin: 0 auto;
+}
+
+/* 전체 슬라이더 컨테이너 */
+:global(.mySwiper) {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 40px; /* 페이지네이션을 위한 하단 여백 */
+}
+
+/* 슬라이드 내용 스타일링 */
+:global(.swiper-slide) {
+    font-size: 18px;
+    background: #f8f8f8;
+    height: 170px;
+
+    text-align: start;
+}
+
+/* 페이지네이션 컨테이너 스타일 */
+:global(.swiper-pagination) {
+    bottom: 10px !important; /* 하단에서 위치 조정 */
+}
+
+/* 페이지네이션 불릿 스타일 */
+:global(.swiper-pagination-bullet) {
+    width: 6px !important;
+    height: 6px !important;
+    margin: 0 6px !important;
+    background: #dddddd !important;
+
+    opacity: 1 !important;
+}
+
+/* 활성화된 페이지네이션 불릿 스타일 */
+:global(.swiper-pagination-bullet-active) {
+    background: #007aff !important;
+    width: 15px !important;
+    height: 6px !important;
+    background-color: var(--neutral-colors-sand-brown) !important;
+    border-radius: var(--fs4) !important;
+}
+
+.imgWrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.imgWrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--fs12);
+}
+
+.textWrap {
+    position: absolute;
+    width: 100%;
+    top: 80%;
+    left: 5%;
+}
