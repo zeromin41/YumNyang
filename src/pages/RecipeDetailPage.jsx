@@ -23,7 +23,7 @@ const recipesData = [
             },
             {
                 instruction: '닭가슴살을 익힌 후 잘게 찢는다.',
-                image: '/images/testImg2.png',
+                image: '/images/testImg.jpg',
             },
             {
                 instruction: '으깬 단호박과 닭가슴살을 섞고 조미료로 간을 한다.',
@@ -46,11 +46,11 @@ const recipesData = [
             },
             {
                 instruction: '무와 당근, 대파를 적당한 크기로 썬다.',
-                image: '/images/testImg2.png',
+                image: '/images/testImg.jpg',
             },
             {
                 instruction:
-                    '숙성된 갈비를 냄비에 담고 물 1컵을 부어 푹 익힙니다. 고기가 익으면 무, 당근, 대파를 넣고 국물이 자박해질 때까지 끓입니다.',
+                    '숙성된 갈비를 냄비에 담고 물 1컵을 부어 푹 익힌다. 고기가 익으면 무, 당근, 대파를 넣고 국물이 자박해질 때까지 끓인다.',
                 image: '/images/testImg.jpg',
             },
         ],
@@ -69,6 +69,7 @@ const RecipeDetailPage = () => {
     return (
         <>
             <TTSComponent text={recipeStepsInstruction} />
+            {/* 게시글 id로 받아 올 예정 */}
             {recipeData[0].steps.map((step, index) => (
                 <RecipeStepCard
                     key={index}
