@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 
 const TTSComponent = ({ text, children }) => {
     const [isPlayed, setIsPlayed] = useState(false)
+    const [isPause, setIsPause] = useState(false)
     const PlayTTS = (speakText) => {
         if (
             typeof SpeechSynthesisUtterance === 'undefined' ||
@@ -10,8 +11,6 @@ const TTSComponent = ({ text, children }) => {
             alert('이 브라우저는 TTS를 지원하지 않습니다')
             return
         }
-
-        window.speechSynthesis.cancel() // 현재 읽고 있었다면 초기화해줌
 
         const speechMsg = new SpeechSynthesisUtterance()
         speechMsg.rate = 1 // 속도  : 0.1 ~ 10
@@ -23,11 +22,27 @@ const TTSComponent = ({ text, children }) => {
             setIsPlayed(!isPlayed)
             //SpeechSynthesisUtterance에 저장된 ㅐㄴ용을 바탕으로 음성합성 실행
             window.speechSynthesis.speak(speechMsg)
+            console.log('isplay상태 변경됨')
         }
 
-        if (isPlayed === true) {
-            setIsPlayed(!isPlayed)
+        if (isPlayed && isPause === false) {
             window.speechSynthesis.pause(speechMsg)
+            setIsPause(true)
+            console.log('pause 호출')
+        }
+
+        if (isPlayed && isPause) {
+            window.speechSynthesis.resume(speechMsg)
+            setIsPause(false)
+
+            console.log('resume 호출')
+        }
+
+        speechMsg.onend = () => {
+            window.speechSynthesis.cancel()
+            setIsPause(false)
+            setIsPlayed(false)
+            console.log('tts 종료됨')
         }
 
         console.log('현재상태', isPlayed)
