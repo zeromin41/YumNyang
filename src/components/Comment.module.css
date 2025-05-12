@@ -1,0 +1,63 @@
+.commentCon {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs8);
+}
+.commentCon > label {
+    font-size: var(--fs20);
+}
+.bar {
+    border: 1px solid var(--neutral-colors-light-gray);
+}
+.commentWrapper {
+    display: flex;
+    gap: var(--fs16);
+    padding: var(--fs4) var(--fs12);
+}
+.userCon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.userCon > p {
+    font-size: var(--fs12);
+}
+.ratingWrapper {
+    display: flex;
+    gap: var(--fs8);
+}
+.commentForm {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs8);
+}
+.commentForm > button {
+    padding-right: var(--fs16);
+    align-self: flex-end;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-family: 'Goyang', sans-serif;
+    cursor: pointer;
+    transition: scale 0.3s;
+}
+.commentForm > textarea {
+    outline: none;
+    border: none;
+    border-radius: var(--fs8);
+    background-color: var(--neutral-colors-light-gray);
+    resize: none;
+    padding: var(--fs16);
+    height: var(--fs64);
+}
+.commentForm > button:hover {
+    scale: 1.1;
+}
+.commentList {
+    display: flex;
+    flex-direction: column;
+}
+.commentMsg {
+    padding: var(--fs8) 0;
+}
