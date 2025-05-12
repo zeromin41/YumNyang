@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import RecipeStepCard from '../components/RecipeStepCard'
 import TTSComponent from '../components/TTSComponent'
+import css from './RecipeDetailPage.module.css'
 
 //더미데이터
 const recipesData = [
@@ -68,7 +69,11 @@ const RecipeDetailPage = () => {
 
     return (
         <>
-            <TTSComponent text={recipeStepsInstruction} />
+            {/* 내용 전체재생인데 css 따로 적용해야할듯함 */}
+            <div className={css.ttsWrap}>
+                <TTSComponent text={recipeStepsInstruction} />
+                <span className={css.btnTitle}> 전체레시피 읽어주기</span>
+            </div>
             {/* 게시글 id로 받아 올 예정 */}
             {recipeData[0].steps.map((step, index) => (
                 <RecipeStepCard
@@ -76,6 +81,7 @@ const RecipeDetailPage = () => {
                     number={index + 1}
                     instruction={step.instruction}
                     image={step.image}
+                    btnkey={index}
                 />
             ))}
         </>
