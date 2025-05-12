@@ -1,0 +1,21 @@
+.tabCon {
+    display: flex;
+}
+.tabCon > button {
+    flex: 1;
+    outline: none;
+    border: 1px solid var(--neutral-colors-light-gray);
+    background-color: transparent;
+    font-family: 'Goyang', sans-serif;
+    padding: var(--fs4) var(--fs16);
+    font-size: var(--fs20);
+    cursor: pointer;
+    transition: 0.2s;
+}
+.tabCon > button:hover {
+    background-color: var(--neutral-colors-light-gray);
+    filter: brightness(90%);
+}
+.tabCon .active {
+    background-color: var(--neutral-colors-light-gray);
+}

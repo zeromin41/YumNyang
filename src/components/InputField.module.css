@@ -1,0 +1,30 @@
+.inputFieldCon {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs4);
+}
+.label {
+    font-size: var(--fs16);
+}
+.inputWrapper {
+    display: flex;
+    gap: var(--fs12);
+}
+.inputWrapper input {
+    flex: 1;
+    outline: none;
+    border: none;
+    padding: var(--fs12);
+    border-radius: var(--fs8);
+    background-color: var(--neutral-colors-light-gray);
+}
+
+.msg {
+    font-size: var(--fs12);
+}
+.error {
+    color: var(--service-colors-errors);
+}
+.success {
+    color: var(--service-colors-success);
+}
