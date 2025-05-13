@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import RecipeStepCard from '../components/RecipeStepCard'
 import TTSComponent from '../components/TTSComponent'
 import css from './RecipeDetailPage.module.css'
+import playImg from '../assets/volume-big.png'
 
 //더미데이터
 const recipesData = [
@@ -71,7 +72,7 @@ const RecipeDetailPage = () => {
         <>
             {/* 내용 전체재생인데 css 따로 적용해야할듯함 */}
             <div className={css.ttsWrap}>
-                <TTSComponent text={recipeStepsInstruction} />
+                <TTSComponent text={recipeStepsInstruction} playBtnImg={playImg} />
                 <span className={css.btnTitle}> 전체레시피 읽어주기</span>
             </div>
             {/* 게시글 id로 받아 올 예정 */}
