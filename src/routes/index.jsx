@@ -6,6 +6,7 @@ import MyPage from '../pages/MyPage'
 import SignupPage from '../pages/SignupPage'
 import catAuthImg from '../assets/고양이측면책.png'
 import AuthLayout from '../layout/AuthLayout'
+import LoginPage from '../pages/LoginPage'
 
 const router = createBrowserRouter([
     {
@@ -27,11 +28,20 @@ const router = createBrowserRouter([
         ],
     },
     {
-        element: <AuthLayout title="회원가입" image={catAuthImg} />, // 회원가입 페이지에서는 signUpImage
+        element: <AuthLayout title="회원가입" image={catAuthImg} />,
         children: [
             {
                 path: '/signup',
                 element: <SignupPage />,
+            },
+        ],
+    },
+    {
+        element: <AuthLayout title="로그인" image={catAuthImg} />,
+        children: [
+            {
+                path: '/login',
+                element: <LoginPage />,
             },
         ],
     },
