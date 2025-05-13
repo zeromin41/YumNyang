@@ -1,0 +1,22 @@
+.authLayout {
+    display: flex;
+    flex-direction: column;
+    padding: 0px var(--fs26);
+    padding-bottom: var(--fs26);
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h1 {
+    font-size: 40px;
+}
+.imgWrapper {
+    max-width: 150px;
+}
+.imgWrapper img {
+    width: 100%;
+}

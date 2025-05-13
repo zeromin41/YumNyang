@@ -1,0 +1,34 @@
+.loginCon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--fs33);
+    flex: 1;
+    padding-top: var(--fs64);
+}
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs64);
+}
+.signUpPrompt {
+    align-self: flex-end;
+    text-align: center;
+}
+.signUpPrompt p {
+    font-size: var(--fs20);
+}
+.signUpPrompt a {
+    color: inherit;
+    text-decoration: none;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+.signUpPrompt a:hover {
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+.btnWrapper {
+    bottom: var(--fs26);
+    display: flex;
+    gap: var(--fs12);
+}

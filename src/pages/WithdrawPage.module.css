@@ -1,0 +1,19 @@
+.withdrawCon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--fs33);
+    flex: 1;
+    padding-top: var(--fs64);
+}
+.withdrawForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs64);
+}
+
+.btnWrapper {
+    bottom: var(--fs26);
+    display: flex;
+    gap: var(--fs12);
+}

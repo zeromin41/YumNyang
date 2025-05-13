@@ -1,4 +1,5 @@
 import React from 'react'
+
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
 import CatCard from '../components/CatCard'
 import './Home.css'
@@ -49,6 +50,7 @@ const Home = () => {
             <RecipeCardSwiper data={dummyRecipeData} onCardClick={handleCardClick} />
         </div>
     )
+
 }
 
 export default Home
