@@ -12,10 +12,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
     /* 필요하다면 최대 너비 및 중앙 정렬 */
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 :root {
@@ -33,7 +35,9 @@
     --neutral-colors-sand-brown: #d6bfaf;
     --neutral-colors-maroon: #5e463a;
     --neutral-colors-light-gray: #eae4dc;
+
     --neutral-colors-gray: #c7c7cc;
+
     --neutral-colors-white: #ffffff;
     --neutral-colors-black: #000000;
 
@@ -50,6 +54,5 @@
     --fs33: 33px;
     --fs64: 64px;
 }
-
-
 /*375 x 812*/
+
