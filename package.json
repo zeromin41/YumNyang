@@ -15,18 +15,10 @@
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
-
-    "swiper": "^11.2.6"
-
-
+    "swiper": "^11.2.6",
     "react-dropzone": "^14.3.8",
-  
     "react-swiper": "^0.1.5",
-    "swiper": "^11.2.6"
-
     "react-router-dom": "^7.6.0"
-
-
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
