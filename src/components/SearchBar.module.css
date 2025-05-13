@@ -1,0 +1,17 @@
+.searchBarWrapper {
+    position: relative;
+    width: 100%;
+}
+.searchBar {
+    width: 100%;
+    padding: var(--fs12) var(--fs64) var(--fs12) var(--fs16);
+    outline: none;
+    border: 1px solid var(--neutral-colors-sand-brown);
+    border-radius: var(--fs4);
+}
+.searchIcon {
+    position: absolute;
+    right: var(--fs16);
+    top: 50%;
+    transform: translateY(-50%);
+}
