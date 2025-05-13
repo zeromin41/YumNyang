@@ -1,0 +1,23 @@
+/* src/pages/Home.css */
+.home-container {
+    padding: 10px;
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+.cat-card-section {
+    display: flex;
+    flex-wrap: wrap; /* 카드가 많아지면 다음 줄로 넘김 */
+    justify-content: center; /* 카드들을 가운데 정렬 */
+    align-items: flex-start; /* 상단 정렬 */
+    margin-bottom: 40px;
+    gap: 10px; /* 카드 사이 간격 */
+}
+
+.recipe-section {
+    margin-bottom: 30px;
+}
+
+.recipe-section h2 {
+    padding-left: 10px; /* Swiper와 정렬 맞추기 위함 (RecipeCardSwiper 내부 패딩에 따라 조정) */
+}

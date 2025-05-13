@@ -15,10 +15,12 @@
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
-    "swiper": "^11.2.6",
+
     "react-dropzone": "^14.3.8",
+    "react-router-dom": "^7.6.0",
     "react-swiper": "^0.1.5",
-    "react-router-dom": "^7.6.0"
+    "swiper": "^11.2.6"
+
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -32,6 +34,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "prettier": "^3.5.3",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }

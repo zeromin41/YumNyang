@@ -18,8 +18,8 @@ const CARD_MAX_WIDTH = '120px' // 스와이퍼 계산 시 중요한 카드 하�
 function RecipeCardSwiper({ data, onCardClick }) {
     // 스와이퍼 슬라이드 간 간격 및 컨테이너 좌우 패딩에 사용할 값 (CSS 변수 활용)
     // index.css에 정의된 --fs16 (16px) 변수를 사용
-    const spaceBetween = 16 // px
-    const slidesOffset = 16 // px (좌우 여백)
+    const spaceBetween = 16 
+    const slidesOffset = 16 
     const slidesPerView = 'auto' //  다음 슬라이드 살짝 보이도록 설정
 
     // Swiper 설정 객체
@@ -30,7 +30,6 @@ function RecipeCardSwiper({ data, onCardClick }) {
         slidesOffsetBefore: slidesOffset, // 첫 번째 슬라이드 앞에 여백 추가 (컨테이너 왼쪽 패딩 효과)
         slidesOffsetAfter: slidesOffset, // 마지막 슬라이드 뒤에 여백 추가 (컨테이너 오른쪽 패딩 효과)
         pagination: {
-            // 페이지네이션 (점 모양 인디케이터) 사용 설정
             clickable: true, // 점을 클릭하여 해당 슬라이드로 이동 가능
         },
     }
@@ -43,17 +42,18 @@ function RecipeCardSwiper({ data, onCardClick }) {
                 <SwiperSlide
                     key={recipe.id} // 각 슬라이드의 고유 키 (레시피 ID 등)
                     style={{
-                        width: CARD_MAX_WIDTH, // 예: '120px'
-                        display: 'flex', // 내부 RecipeCard 정렬을 위해 flex 사용
-                        justifyContent: 'center', // RecipeCard 중앙 정렬
-                        alignItems: 'center', // RecipeCard 세로 중앙 정렬
+                        width: CARD_MAX_WIDTH,
+                        display: 'flex', 
+                        justifyContent: 'center', 
+                        alignItems: 'center', 
+                        
                     }}
                 >
                     {/* 각 슬라이드 안에 RecipeCard 컴포넌트 렌더링 */}
                     <RecipeCard
                         imageSrc={recipe.imageSrc}
                         title={recipe.title}
-                        // RecipeCard에 다른 필요한 props 전달 
+                        // RecipeCard에 다른 필요한 props 전달
                         altText={recipe.altText || recipe.title}
                         // 카드 클릭 시 상위 컴포넌트로부터 받은 onCardClick 함수 호출
                         onClick={() => onCardClick && onCardClick(recipe.id)} // 클릭 시 레시피 ID 등 전달
