@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 
+import stopImg from '../assets/mute.png'
 // 전역 상태 관리를 위한 변수 (모든 컴포넌트가 공유)
 let globalActiveButton = null
 
-const TTSComponent = ({ text, children, btnkey }) => {
+const TTSComponent = ({ text, children, btnkey, playBtnImg }) => {
     const [isActive, setIsActive] = useState(false)
     const utteranceRef = useRef(null)
 
@@ -91,10 +92,7 @@ const TTSComponent = ({ text, children, btnkey }) => {
         <>
             <button onClick={handleTTS}>
                 {children || (
-                    <img
-                        src={isActive ? '/icons/stop-03.svg' : '/icons/play-03.svg'}
-                        alt={isActive ? '정지' : '재생'}
-                    />
+                    <img src={isActive ? stopImg : playBtnImg} alt={isActive ? '정지' : '재생'} />
                 )}
             </button>
         </>
