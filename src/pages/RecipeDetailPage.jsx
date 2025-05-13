@@ -1,90 +1,75 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import RecipeStepCard from '../components/RecipeStepCard'
-import TTSComponent from '../components/TTSComponent'
 import css from './RecipeDetailPage.module.css'
-import playImg from '../assets/volume-big.png'
+import TTSComponent from '../components/TTSComponent'
+import playImg from '../assets/play-03.svg'
+import Comment from '../components/Comment'
+import Nutritional from './../components/Nutritional'
 
-//더미데이터
-const recipesData = [
-    {
-        id: 1,
-        title: '단호박 닭가슴살 베이크',
-        description: '건강한 단호박과 닭가슴살로 만드는 간단한 베이크 요리',
-        thumbnail: 'images/testWideImg.png',
-        ingredients: [
-            '단호박 1개',
-            '닭가슴살 200g',
-            '모짜렐라 치즈 100g',
-            '올리브 오일 2큰술',
-            '소금, 후추 약간',
-        ],
-        steps: [
-            {
-                instruction: '단호박은 껍질을 벗기고 찐 후 으깬다.',
-                image: '/images/testImg.jpg',
-            },
-            {
-                instruction: '닭가슴살을 익힌 후 잘게 찢는다.',
-                image: '/images/testImg.jpg',
-            },
-            {
-                instruction: '으깬 단호박과 닭가슴살을 섞고 조미료로 간을 한다.',
-                image: '/images/testImg.jpg',
-            },
-        ],
-        cookingTime: '30분',
-        difficulty: '쉬움',
-    },
-    {
-        id: 2,
-        title: '돼지갈비찜',
-        description: '부드럽고 맛있는 돼지갈비찜 레시피',
-        ingredients: ['돼지갈비 500g', '무 1/2개', '당근 1개', '대파 1대', '양념장'],
-        thumbnail: 'images/testWideImg.png',
-        steps: [
-            {
-                instruction: '갈비를 물에 1시간 정도 담가 핏물을 뺀다.',
-                image: '/images/testImg.jpg',
-            },
-            {
-                instruction: '무와 당근, 대파를 적당한 크기로 썬다.',
-                image: '/images/testImg.jpg',
-            },
-            {
-                instruction:
-                    '숙성된 갈비를 냄비에 담고 물 1컵을 부어 푹 익힌다. 고기가 익으면 무, 당근, 대파를 넣고 국물이 자박해질 때까지 끓인다.',
-                image: '/images/testImg.jpg',
-            },
-        ],
-        cookingTime: '1시간 30분',
-        difficulty: '중간',
-    },
-]
+const BASE_URL = 'https://seungwoo.i234.me:3333'
 
 const RecipeDetailPage = () => {
-    const [recipeData, setRecipeData] = useState(recipesData)
-    //useEffect로 데이터 받아와야함
+    const [recipeData, setRecipeData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
-    //조리법 전체를 읽어주기 위해 필요
-    const recipeStepsInstruction = recipeData[0].steps.map((step) => step.instruction)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const response = await axios.get(`${BASE_URL}/getRecipe/9`)
+                setRecipeData(response.data)
+                console.log('데이터 받아오기 성공', response.data)
+            } catch (error) {
+                console.log('데이터 받아오기 실패', error)
+                setError('데이터를 불러오는데 실패했습니다.')
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [])
+
+    // 로딩 중 표시
+    if (loading) {
+        return <div>로딩 중...</div>
+    }
+
+    // 에러 표시
+    if (error) {
+        return <div>오류 발생: {error}</div>
+    }
+
+    // 데이터가 없거나 형식이 예상과 다른 경우
+    if (!recipeData || !recipeData.description || !Array.isArray(recipeData.description)) {
+        console.log('데이터 형식 오류:', recipeData)
+        return <div>레시피 데이터가 올바른 형식이 아닙니다.</div>
+    }
+
+    // 전체 레시피 텍스트
+    const allDescriptions = recipeData.description.map((step) => step.DESCRIPTION)
 
     return (
         <>
-            {/* 내용 전체재생인데 css 따로 적용해야할듯함 */}
+            {/* 내용 전체재생 */}
             <div className={css.ttsWrap}>
-                <TTSComponent text={recipeStepsInstruction} playBtnImg={playImg} />
-                <span className={css.btnTitle}> 전체레시피 읽어주기</span>
+                <TTSComponent text={allDescriptions} playBtnImg={playImg} />
+                <span className={css.btnTitle}>전체레시피 읽어주기</span>
             </div>
-            {/* 게시글 id로 받아 올 예정 */}
-            {recipeData[0].steps.map((step, index) => (
+
+            {/* 레시피 단계별 카드 */}
+            {recipeData.description.map((step, index) => (
                 <RecipeStepCard
                     key={index}
-                    number={index + 1}
-                    instruction={step.instruction}
-                    image={step.image}
+                    number={step.FLOW || index + 1}
+                    instruction={step.DESCRIPTION}
+                    image={step.IMAGE_URL}
                     btnkey={index}
                 />
             ))}
+            <Nutritional />
+            <Comment />
         </>
     )
 }
