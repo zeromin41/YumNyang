@@ -7,6 +7,7 @@ const InputField = ({
     type = 'text',
     value,
     onChange,
+    onKeyUp,
     rightElement,
     errorMsg,
     successMsg,
@@ -17,7 +18,7 @@ const InputField = ({
                 {label}
             </label>
             <div className={css.inputWrapper}>
-                <input id={id} type={type} value={value} onChange={onChange} />
+                <input id={id} type={type} value={value} onChange={onChange} onKeyUp={onKeyUp} />
                 {rightElement && <div>{rightElement}</div>}
             </div>
             {errorMsg && <span className={`${css.msg} ${css.error}`}>{errorMsg}</span>}
