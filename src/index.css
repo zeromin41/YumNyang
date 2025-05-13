@@ -1,44 +1,55 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @font-face {
-  font-family: "Goyang";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Goyang.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Goyang';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Goyang.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* 필요하다면 최대 너비 및 중앙 정렬 */
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 :root {
-  font-family: "Goyang", sans-serif;
-  font-weight: bold;
-  --main-colors-accent: #ffb482;
-  --main-colors-pink: #f9c6d0;
-  --main-colors-mint: #a4d4ae;
+    /* defalut 폰트는 Roboto, Goyang폰트 사용 시  font-family: var(--font-goyang); font-weight: bold;(선택)   */
+    font-family: 'Roboto', sans-serif;
 
-  --neutral-colors-cream-beige: #fff5e1;
-  --neutral-colors-sand-brown: #d6bfaf;
-  --neutral-colors-maroon: #5e463a;
-  --neutral-colors-light-gray: #eae4dc;
-  --neutral-colors-white: #ffffff;
-  --neutral-colors-black: #000000;
+    --font-goyang: 'Goyang', sans-serif;
+    --font-roboto: 'Roboto', sans-serif;
 
-  --service-colors-errors: #e76464;
-  --service-colors-success: #7bbf64;
-  --service-colors-warning: #ffe0b2;
+    --main-colors-accent: #ffb482;
+    --main-colors-pink: #f9c6d0;
+    --main-colors-mint: #a4d4ae;
 
-  --fs4: 4px;
-  --fs8: 8px;
-  --fs12: 12px;
-  --fs16: 16px;
-  --fs20: 20px;
-  --fs26: 24px;
-  --fs33: 33px;
-  --fs64: 64px;
+    --neutral-colors-cream-beige: #fff5e1;
+    --neutral-colors-sand-brown: #d6bfaf;
+    --neutral-colors-maroon: #5e463a;
+    --neutral-colors-light-gray: #eae4dc;
+    --neutral-colors-gray: #c7c7cc;
+    --neutral-colors-white: #ffffff;
+    --neutral-colors-black: #000000;
+
+    --service-colors-errors: #e76464;
+    --service-colors-success: #7bbf64;
+    --service-colors-warning: #ffe0b2;
+
+    --fs4: 4px;
+    --fs8: 8px;
+    --fs12: 12px;
+    --fs16: 16px;
+    --fs20: 20px;
+    --fs26: 24px;
+    --fs33: 33px;
+    --fs64: 64px;
 }
+
 
 /*375 x 812*/
