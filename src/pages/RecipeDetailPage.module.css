@@ -1,3 +1,10 @@
+* {
+    max-width: 375px;
+    max-height: 812px;
+    margin: 0 auto;
+    padding: var(--fs4);
+}
+
 .ttsWrap {
     display: flex;
     justify-content: center;
