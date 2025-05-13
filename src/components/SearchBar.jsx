@@ -1,5 +1,6 @@
 import React from 'react'
 import css from './SearchBar.module.css'
+import Input from './Input'
 
 const SearchBar = ({ value, mode, placeholder, onChange, onOpenModal }) => {
     const handleClick = () => {
@@ -15,14 +16,12 @@ const SearchBar = ({ value, mode, placeholder, onChange, onOpenModal }) => {
     }
 
     return (
-        <div className={css.searchBarWrapper} onClick={handleClick}>
-            <input
-                type="text"
+        <div className={css.searchBar} onClick={handleClick}>
+            <Input
                 value={value}
                 onChange={handleChange}
                 readOnly={mode === 'modal'}
                 placeholder={placeholder}
-                className={css.searchBar}
             />
             <svg
                 width="20"
