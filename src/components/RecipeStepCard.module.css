@@ -1,8 +1,18 @@
 * {
     max-width: 375px;
     max-height: 812px;
-
     margin: 0 auto;
+    padding: var(--fs4);
+}
+
+.mainContainer {
+    border: 1px solid black;
+}
+
+.recipeImgWrap {
+    border: 1px solid red;
+    min-height: 214px;
+    margin-bottom: var(--fs12);
 }
 
 .recipeImg img {
@@ -13,15 +23,17 @@
 
 .desContainer {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-bottom: var(--fs4);
+    margin-bottom: var(--fs12);
     background-color: var(--neutral-colors-cream-beige);
 }
 
-.desContainer .description {
-    flex: 1;
+.desContainer .des {
+    display: flex;
+    align-items: center;
     padding-left: var(--fs33);
+    flex: 1; /* 추가: 남은 공간 모두 차지 */
+    line-height: 1.4; /* 추가: 텍스트 줄 간격 */
 }
 
 .desContainer button {
@@ -34,4 +46,5 @@
     height: var(--fs33);
     justify-content: center;
     align-items: center;
+    flex-shrink: 0; /* 추가: 버튼 크기 축소 방지 */
 }
