@@ -1,0 +1,18 @@
+.headerContainer {
+    display: flex;
+    justify-content: space-between; /* 양쪽 끝으로 요소 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 15px 0px; /* 상하, 좌우 패딩 */
+    background-color: #ffffff; /* 헤더 배경색  */
+    border-bottom: 1px solid #e0e0e0; /* 하단 테두리  */
+    height: 60px;
+    box-sizing: border-box;
+    font-family: 'Goyang', sans-serif; /* Goyang 폰트 사용 */
+}
+
+.logoLink {
+    font-size: 1.5em; /* '먹었냥' 글씨 크기 */
+    font-weight: bold;
+    color: #333; /* 글씨 색상 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+}

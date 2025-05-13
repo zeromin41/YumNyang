@@ -4,7 +4,7 @@
     border: none;
     font-family: 'Goyang', sans-serif;
     border-radius: var(--fs8);
-    padding: var(--fs16) var(--fs33);
+    padding: var(--fs12) var(--fs16);
     font-size: var(--fs20);
     cursor: pointer;
     transition: filter 0.2s;
@@ -22,6 +22,14 @@
     background-color: var(--main-colors-accent);
     color: white;
 }
+.sandBrown {
+    background-color: var(--neutral-colors-sand-brown);
+    color: white;
+}
+.brown {
+    background-color: var(--neutral-colors-maroon);
+    color: white;
+}
 .red {
     background-color: var(--service-colors-errors);
     color: white;
@@ -29,10 +37,10 @@
 
 /* 사이즈 */
 .md {
-    width: auto;
+    padding: var(--fs8) var(--fs16);
+    font-size: var(--fs12);
 }
 .sm {
     width: auto;
-    padding: var(--fs12) var(--fs16);
     font-size: var(--fs12);
 }

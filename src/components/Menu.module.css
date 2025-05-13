@@ -1,32 +1,41 @@
-.menu{
+.menu {
     display: flex;
     width: 100%;
+    padding: 15px 20px; /* 상하, 좌우 패딩 */
+    border-top: 1px solid #e0e0e0; /* 상단 테두리  */
+    height: 70px;
+    box-sizing: border-box;
 }
+
 .normal {
-    font-size: 7em;
     display: flex;
     flex-direction: column;
     text-align: center;
     text-decoration: none;
+    font-size: var(--fs12);
+    font-weight: bold;
     width: 100%;
-    padding: 0 1em;
 }
-.normal svg{
+
+.normal svg {
     width: 100%;
-    stroke: #c7c7cc;
+    stroke: var(--neutral-colors-gray);
     fill: var(--neutral-colors-white);
-    transition: fill 0.3s;
+    width: 28px; /* 아이콘 너비 조절 */
+    height: 28px; /* 아이콘 높이 조절 */
+    color: var(--neutral-colors-gray);
+    transition: color 0.2s ease;
 }
 
 .normal span {
-    color: #c7c7cc;
+    color: var(--neutral-colors-gray);
     transition: color 0.3s;
 }
 
-.active svg{
+.active svg {
     stroke: var(--main-colors-accent);
 }
 
-.active span{
+.active span {
     color: var(--main-colors-accent);
 }

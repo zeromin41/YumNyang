@@ -1,0 +1,22 @@
+.signUpCon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--fs33);
+    flex: 1;
+}
+.signUpForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs16);
+}
+.petTypeField {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs8);
+}
+.btnWrapper {
+    bottom: var(--fs26);
+    display: flex;
+    gap: var(--fs12);
+}

@@ -1,11 +1,11 @@
 import React from 'react'
 import css from './FloatingButton.module.css'
 
-const FloatingButton = () => {
+const FloatingButton = ({ iconSrc, alt = 'icon', onClick }) => {
     return (
         <div className={css.floatingBtnWrapper}>
-            <button className={css.floatingBtn}>
-                <img src="icons/plus.svg" alt="plus" />
+            <button className={css.floatingBtn} onClick={onClick}>
+                <img src={iconSrc} alt={alt} />
             </button>
         </div>
     )
