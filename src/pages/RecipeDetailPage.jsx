@@ -9,6 +9,8 @@ import Nutritional from './../components/Nutritional'
 import Header from '../components/Header'
 import starImg from '../assets/full-star.svg'
 import heartImg from '../assets/full-heart.svg'
+import { formatDate } from './../utils/feature'
+import Menu from '../components/Menu'
 
 const BASE_URL = 'https://seungwoo.i234.me:3333'
 
@@ -42,7 +44,7 @@ const RecipeDetailPage = () => {
                 <span>작성자: {recipeData.recipe.USER_ID}</span>
             </div>
             <div className={css.postDateWrap}>
-                <span>작성일:25년5월14일 13:33</span>
+                <span>{formatDate(recipeData.recipe.CREATE_AT)}</span>
             </div>
             <div className={css.starWrap}>
                 <img src={starImg} alt="별" />
