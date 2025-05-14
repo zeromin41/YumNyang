@@ -13,7 +13,7 @@ import {
     isValidPasswordConfirm,
 } from '../utils/validator'
 import { VALIDATION_MESSAGES } from '../constants/messages'
-import { checkId, checkNickname } from '../apis/auth'
+import { checkId, checkNickname, signUp } from '../apis/auth'
 
 const SignupPage = () => {
     const navigate = useNavigate()
@@ -48,6 +48,8 @@ const SignupPage = () => {
     const [isIdChecked, setIsIdChecked] = useState(false)
     const [isNicknameChecked, setIsNicknameChecked] = useState(false)
 
+    const [generalError, setGeneralError] = useState('')
+
     const handleChange = (key) => (e) => {
         setForm({ ...form, [key]: e.target.value })
         setSuccess((prev) => ({ ...prev, [key]: '' }))
@@ -70,6 +72,7 @@ const SignupPage = () => {
             setErrors((prev) => ({ ...prev, id: '' }))
             setIsIdChecked(true)
         } catch (err) {
+            console.log(err)
             setErrors((prev) => ({ ...prev, id: err.message }))
         }
     }
@@ -85,7 +88,7 @@ const SignupPage = () => {
         }
     }
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         // 빈 값 검증
         const newErrors = {}
 
@@ -114,10 +117,24 @@ const SignupPage = () => {
             if (!petNameFilled) newErrors.petName = VALIDATION_MESSAGES.EMPTY_PET_NAME
         }
 
-        setErrors({ ...errors, ...newErrors })
+        setErrors(newErrors)
         if (Object.values(newErrors).some(Boolean)) return
 
-        // 회원가입 로직...
+        // 회원가입
+        try {
+            const formData = {
+                email: form.id,
+                nickname: form.nickname,
+                password: form.password,
+                name: form.petName,
+                type: form.petType,
+                age: form.petAge,
+            }
+            await signUp(formData)
+            navigate('/login')
+        } catch (err) {
+            setGeneralError(err.message)
+        }
     }
 
     return (
@@ -217,6 +234,7 @@ const SignupPage = () => {
                 <Button text="가입하기" flex={2} onClick={handleSignUp} />
                 <Button text="나가기" color="default" flex={1} onClick={() => navigate('/')} />
             </div>
+            {generalError && <span className={css.error}>{generalError}</span>}
         </div>
     )
 }
