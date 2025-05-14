@@ -6,6 +6,9 @@ import TTSComponent from '../components/TTSComponent'
 import playImg from '../assets/play-03.svg'
 import Comment from '../components/Comment'
 import Nutritional from './../components/Nutritional'
+import Header from '../components/Header'
+import starImg from '../assets/full-star.svg'
+import heartImg from '../assets/full-heart.svg'
 
 const BASE_URL = 'https://seungwoo.i234.me:3333'
 
@@ -13,12 +16,13 @@ const RecipeDetailPage = () => {
     const [recipeData, setRecipeData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [activeTab, setActiveTab] = useState(0) // 탭 상태를 최상위 컴포넌트로 이동
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get(`${BASE_URL}/getRecipe/9`)
+                const response = await axios.get(`${BASE_URL}/getRecipe/15`)
                 setRecipeData(response.data)
                 console.log('데이터 받아오기 성공', response.data)
             } catch (error) {
@@ -30,6 +34,45 @@ const RecipeDetailPage = () => {
         }
         fetchData()
     }, [])
+
+    //작성자,작성일,별점,좋아요
+    const WriterInfo = () => (
+        <div className={css.writerInfoContainer}>
+            <div className={css.writerNicknameWrap}>
+                <span>작성자: {recipeData.recipe.USER_ID}</span>
+            </div>
+            <div className={css.postDateWrap}>
+                <span>작성일:25년5월14일 13:33</span>
+            </div>
+            <div className={css.starWrap}>
+                <img src={starImg} alt="별" />
+                <span>4.5</span>
+            </div>
+            <div className={css.likeWrap}>
+                <img src={heartImg} alt="하트" />
+                <span>{recipeData.recipe.FAVORITES_COUNT}</span>
+            </div>
+        </div>
+    )
+
+    // 탭 컴포넌트
+    const DetailTab = () => {
+        const tabTiles = ['기본 정보', '조리법']
+
+        return (
+            <div className={css.tabBtn}>
+                {tabTiles.map((title, index) => (
+                    <button
+                        key={index}
+                        className={activeTab === index ? css.active : ''}
+                        onClick={() => setActiveTab(index)}
+                    >
+                        {title}
+                    </button>
+                ))}
+            </div>
+        )
+    }
 
     // 로딩 중 표시
     if (loading) {
@@ -50,7 +93,58 @@ const RecipeDetailPage = () => {
     // 전체 레시피 텍스트
     const allDescriptions = recipeData.description.map((step) => step.DESCRIPTION)
 
-    return (
+    // 기본 정보 탭 내용
+    const BasicInfo = () => (
+        <>
+            <BasicInfoList />
+            <IngredientList />
+            {/* 영양 정보 컴포넌트 */}
+            <Nutritional />
+        </>
+    )
+
+    //정보 카드 (추천 대상, 조리 시간, 칼로리)
+    const BasicInfoList = () => (
+        <div className={css.infoListWrap}>
+            <ul style={{ marginTop: '12px' }}>
+                <li>추천 대상: {recipeData.recipe?.TARGET_PET_TYPE || '정보없음'}</li>
+                <li>
+                    조리 시간: {recipeData.recipe?.COOKING_TIME_LIMIT || '정보없음'} / 난이도:{' '}
+                    {recipeData.recipe?.LEVEL || '정보없음'}
+                </li>
+                <li>
+                    칼로리: {recipeData.recipe?.CALORIES_PER_SERVING || '정보없음'}kcal / 1회
+                    급여량: {recipeData.ingredient[0]?.QUANTITY_AMOUNT}
+                    {recipeData.ingredient[0]?.QUANTITY_UNIT}
+                </li>
+            </ul>
+        </div>
+    )
+
+    //재료
+    const IngredientList = () => (
+        <>
+            <span className={css.ingredentTitle}>🐾&nbsp;&nbsp;재료</span>
+            <div className={css.infoListWrap}>
+                <ul style={{ marginTop: '12px' }}>
+                    {recipeData.ingredient.map((data, index) => (
+                        <li key={index}>
+                            {data.INGREDIENT_NAME}&nbsp;{data.QUANTITY_AMOUNT}
+                            {data.QUANTITY_UNIT}{' '}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
+    )
+
+    const ThumbnailImg = () => (
+        <div className={css.imgContainer}>
+            <img src={recipeData.recipe.MAIN_IMAGE_URL} alt="" />
+        </div>
+    )
+    // 조리법 탭 내용
+    const RecipeSteps = () => (
         <>
             {/* 내용 전체재생 */}
             <div className={css.ttsWrap}>
@@ -68,9 +162,26 @@ const RecipeDetailPage = () => {
                     btnkey={index}
                 />
             ))}
-            <Nutritional />
-            <Comment />
         </>
+    )
+
+    return (
+        <div className={css.recipeDetailContainer}>
+            {/* 요리 제목  */}
+            <div className={css.recipeTitle}>
+                <span>{recipeData.recipe.TITLE}</span>
+            </div>
+            <WriterInfo />
+            <ThumbnailImg />
+            {/* 탭 버튼 */}
+            <DetailTab />
+
+            {/* 탭 내용 */}
+            <div className={css.tabContent}>{activeTab === 0 ? BasicInfo() : RecipeSteps()}</div>
+
+            {/* 댓글 섹션은 항상 표시 */}
+            <Comment />
+        </div>
     )
 }
 
