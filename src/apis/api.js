@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { API_BASE_URL, API_POST_REQUEST_OPTIONS } from '../utils/apiConfig'
 
+axios.defaults.withCredentials = true
+
 export const postRequest = async (endpoint, data) => {
     try {
         const response = await axios.post(

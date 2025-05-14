@@ -5,6 +5,7 @@ import InputField from '../components/InputField'
 import Button from '../components/Button'
 import { isEmpty } from '../utils/validator'
 import { VALIDATION_MESSAGES } from '../constants/messages'
+import { login } from '../apis/auth'
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -19,12 +20,25 @@ const LoginPage = () => {
         setter(e.target.value)
     }
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         // 빈 값 검증
         setIdError(!isEmpty(id) ? '' : VALIDATION_MESSAGES.EMPTY_ID)
         setPasswordError(!isEmpty(password) ? '' : VALIDATION_MESSAGES.EMPTY_PASSWORD)
+        if (idError || passwordError) return
 
-        // 로그인 로직...
+        // 로그인
+        try {
+            const formData = {
+                email: id,
+                password,
+            }
+            await login(formData)
+            setIdError('')
+            setPasswordError('')
+            navigate('/')
+        } catch (err) {
+            setPasswordError(err.message)
+        }
     }
     return (
         <div className={css.loginCon}>
