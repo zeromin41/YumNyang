@@ -1,129 +1,178 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
-import emptyHeart from '../assets/empty-heart.svg'
-import fullHeart from '../assets/full-heart.svg'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../index.css'
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import emptyHeart from '../assets/empty-heart.svg'; 
+import fullHeart from '../assets/full-heart.svg';   
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../index.css'; 
 
-const IMAGE_HEIGHT = '150px'
-const CARD_MAX_WIDTH = '120px'
-const CARD_TOTAL_HEIGHT = '180px'
-const API_BASE_URL = 'https://seungwoo.i234.me' // 백엔드 API 기본 URL
+// apiConfig.js 에서 설정 가져오기
+import { API_BASE_URL, API_REQUEST_OPTIONS, API_POST_REQUEST_OPTIONS } from '../utils/apiConfig.js'; // 경로 주의!
+
+const IMAGE_HEIGHT = '150px';
+const CARD_MAX_WIDTH = '120px';
+const CARD_TOTAL_HEIGHT = '180px';
+const CARD_MARGIN_BOTTOM = '2.5rem';
 
 function RecipeCard({ imageSrc, title, altText, onClick, recipeId, isLoggedIn, userId }) {
-    const imageAltText = altText || title || '반려동물 음식 레시피 이미지'
-    const navigate = useNavigate()
 
-    const [isFavorite, setIsFavorite] = useState(false)
-    const [favoriteId, setFavoriteId] = useState(null) // 즐겨찾기 항목의 고유 ID (삭제 시 사용)
-    const [isHoveringHeart, setIsHoveringHeart] = useState(false)
+    // console.log('RecipeCard imageSrc:', imageSrc, 'for recipe title:', title);
 
-    // 로그인 상태 및 사용자 ID, 레시피 ID가 변경될 때 즐겨찾기 정보 다시 조회
+
+    const imageAltText = altText || title || '반려동물 음식 레시피 이미지';
+    const navigate = useNavigate();
+
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favoriteId, setFavoriteId] = useState(null);
+    const [isHoveringHeart, setIsHoveringHeart] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         const fetchFavorites = async () => {
-            if (!isLoggedIn || !userId) {
-                setIsFavorite(false)
-                setFavoriteId(null)
-                return
+            if (!isLoggedIn || !userId || !recipeId) {
+                setIsFavorite(false);
+                setFavoriteId(null);
+                return;
             }
 
+            setIsLoading(true); // 로딩 시작 추가
             try {
                 const response = await fetch(`${API_BASE_URL}/getFavorites/${userId}`, {
-                    credentials: 'include', // 쿠키를 포함하여 요청
-                })
+                    ...API_REQUEST_OPTIONS // 공통 GET 요청 옵션 사용
+                });
+                
+                if (response.status === 404) {
+                    setIsFavorite(false);
+                    setFavoriteId(null);
+                    return;
+                }
+                
                 if (!response.ok) {
-                    const errorData = await response
-                        .json()
-                        .catch(() => ({ error: '즐겨찾기 조회 응답 처리 실패' }))
-                    console.error('즐겨찾기 조회 실패:', errorData.error || response.statusText)
-                    setIsFavorite(false)
-                    setFavoriteId(null)
-                    return
+                    let errorData = { message: `즐겨찾기 조회 실패: ${response.status} ${response.statusText}` };
+                    try {
+                        const errJson = await response.json();
+                        errorData = errJson;
+                        console.error('즐겨찾기 조회 실패 (서버 응답):', errJson);
+                    } catch (e) {
+                        console.error('즐겨찾기 조회 실패 (응답 파싱 불가):', response.status, response.statusText);
+                    }
+                    setIsFavorite(false);
+                    setFavoriteId(null);
+                    return;
                 }
 
-                const data = await response.json()
-                const favoriteItem = data.favorites?.find((fav) => fav.recipeId === recipeId)
+                const data = await response.json();
+                const favoriteItem = data.favorites?.find((fav) => String(fav.recipeId) === String(recipeId)); // ID 비교 시 타입 일치 고려
 
                 if (favoriteItem) {
-                    setIsFavorite(true)
-                    setFavoriteId(favoriteItem.id) // 즐겨찾기 고유 ID (삭제용)
+                    setIsFavorite(true);
+                    setFavoriteId(favoriteItem.id);
                 } else {
-                    setIsFavorite(false)
-                    setFavoriteId(null)
+                    setIsFavorite(false);
+                    setFavoriteId(null);
                 }
             } catch (err) {
-                console.error('즐겨찾기 조회 중 네트워크 오류 또는 기타 실패:', err)
-                setIsFavorite(false)
-                setFavoriteId(null)
+                console.error('즐겨찾기 조회 중 네트워크 오류 또는 기타 실패:', err);
+                setIsFavorite(false);
+                setFavoriteId(null);
+            } finally {
+                setIsLoading(false);
             }
-        }
+        };
 
-        fetchFavorites()
-    }, [isLoggedIn, userId, recipeId])
+        fetchFavorites();
+    }, [isLoggedIn, userId, recipeId]);
 
     const handleHeartClick = useCallback(
         async (e) => {
-            e.stopPropagation() // 카드 클릭 이벤트 전파 방지
+            e.stopPropagation();
 
             if (!isLoggedIn || !userId) {
-                alert('로그인이 필요합니다.')
-                navigate('/login')
-                return
+                alert('로그인이 필요한 기능입니다.'); // 사용자에게 알림
+                navigate('/login');
+                return;
             }
 
+            if (isLoading) return;
+
+            setIsLoading(true);
             try {
                 if (isFavorite && favoriteId) {
-                    // favoriteId가 있어야 삭제 가능
-                    // 즐겨찾기 삭제
+                    // 즐겨찾기 삭제 (GET 요청)
                     const response = await fetch(`${API_BASE_URL}/removeFavorites/${favoriteId}`, {
-                        method: 'GET',
-                        credentials: 'include',
-                    })
-                    const result = await response.json()
+                        method: 'GET', // API 명세에 따름
+                        ...API_REQUEST_OPTIONS // 공통 GET 요청 옵션 사용
+                    });
+                    
+                    const result = await response.json();
                     if (response.ok) {
-                        setIsFavorite(false)
-                        setFavoriteId(null)
-                        console.log(result.message || '즐겨찾기 삭제 성공')
+                        setIsFavorite(false);
+                        setFavoriteId(null);
+                        console.log(result.message || '즐겨찾기 삭제 성공');
                     } else {
-                        alert(result.error || result.message || '즐겨찾기 삭제에 실패했습니다.')
+                        console.error('즐겨찾기 삭제 실패:', result.error || result.message);
+                        alert(result.error || result.message || '즐겨찾기 삭제에 실패했습니다.');
                     }
                 } else {
-                    // 즐겨찾기 추가
+                    // 즐겨찾기 추가 (POST 요청)
                     const response = await fetch(`${API_BASE_URL}/addFavorites`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        ...API_POST_REQUEST_OPTIONS, 
                         body: JSON.stringify({ userId, recipeId }),
-                        credentials: 'include',
-                    })
-                    const result = await response.json()
+                    });
+                    
+                    const result = await response.json();
                     if (response.ok) {
-                        setIsFavorite(true)
-                        console.log(result.message || '즐겨찾기 추가 성공')
+                        setIsFavorite(true);
+                        console.log(result.message || '즐겨찾기 추가 성공');
+                        // 즐겨찾기 추가 후 새로운 favoriteId를 가져오기 위해 다시 조회 (?)
+                     
+                        try {
+                            const favResponse = await fetch(`${API_BASE_URL}/getFavorites/${userId}`, {
+                                ...API_REQUEST_OPTIONS
+                            });
+                            if (favResponse.ok) {
+                                const favData = await favResponse.json();
+                                const newFavorite = favData.favorites?.find((fav) => String(fav.recipeId) === String(recipeId));
+                                if (newFavorite) {
+                                    setFavoriteId(newFavorite.id);
+                                }
+                            }
+                        } catch (fetchErr) {
+                            console.error('즐겨찾기 ID 재조회 실패:', fetchErr);
+                        }
                     } else {
-                        alert(result.error || result.message || '즐겨찾기 추가에 실패했습니다.')
+                        console.error('즐겨찾기 추가 실패:', result.error || result.message);
+                        alert(result.error || result.message || '즐겨찾기 추가에 실패했습니다.');
                     }
                 }
             } catch (err) {
-                alert('서버와 통신 중 오류가 발생했습니다.')
-                console.error('즐겨찾기 처리 오류:', err)
+                console.error('즐겨찾기 처리 오류:', err);
+                if (!isLoggedIn || !userId) { // 혹시 모를 상황 대비
+                     alert('로그인이 필요한 기능입니다.');
+                    navigate('/login');
+                } else {
+                    alert('서버와 통신 중 오류가 발생했습니다.');
+                }
+            } finally {
+                setIsLoading(false);
             }
         },
-        [isFavorite, favoriteId, isLoggedIn, userId, recipeId, navigate]
-    )
+        [isFavorite, favoriteId, isLoggedIn, userId, recipeId, navigate, isLoading]
+    );
 
     const handleClick = useCallback(() => {
-        onClick?.()
-    }, [onClick])
+        onClick?.();
+    }, [onClick]);
 
     const handleMouseEnterHeart = useCallback(() => {
-        setIsHoveringHeart(true)
-    }, [])
+        setIsHoveringHeart(true);
+    }, []);
 
     const handleMouseLeaveHeart = useCallback(() => {
-        setIsHoveringHeart(false)
-    }, [])
+        setIsHoveringHeart(false);
+    }, []);
 
-    const heartIconSrc = isFavorite ? fullHeart : isHoveringHeart ? fullHeart : emptyHeart
+    const heartIconSrc = isFavorite ? fullHeart : isHoveringHeart ? fullHeart : emptyHeart;
 
     return (
         <div
@@ -131,9 +180,12 @@ function RecipeCard({ imageSrc, title, altText, onClick, recipeId, isLoggedIn, u
             style={{
                 cursor: onClick ? 'pointer' : 'default',
                 maxWidth: CARD_MAX_WIDTH,
+                width: CARD_MAX_WIDTH,
                 height: CARD_TOTAL_HEIGHT,
                 margin: '0 auto 1rem auto',
-                marginBottom: '2.5rem',
+                marginBottom: CARD_MARGIN_BOTTOM,
+                display: 'flex',
+                flexDirection: 'column',
             }}
             onClick={onClick ? handleClick : undefined}
             role={onClick ? 'button' : undefined}
@@ -148,16 +200,16 @@ function RecipeCard({ imageSrc, title, altText, onClick, recipeId, isLoggedIn, u
                     width: '100%',
                     height: IMAGE_HEIGHT,
                     objectFit: 'cover',
+                    flexShrink: 0,
                 }}
                 onError={(e) => {
-                    e.target.onerror = null
-                    e.target.src = `https://placehold.co/${parseInt(CARD_MAX_WIDTH)}x${parseInt(IMAGE_HEIGHT)}/EBF0F5/7D8A9C?text=이미지&font=sans-serif`
-                    e.target.alt = '이미지를 불러올 수 없습니다'
+                    e.target.onerror = null;
+                    e.target.src = `https://placehold.co/${parseInt(CARD_MAX_WIDTH)}x${parseInt(IMAGE_HEIGHT)}/EBF0F5/7D8A9C?text=이미지&font=sans-serif`;
+                    e.target.alt = '이미지를 불러올 수 없습니다';
                 }}
                 loading="lazy"
             />
 
-            {/* 찜 하트 아이콘 */}
             <img
                 src={heartIconSrc}
                 alt="찜하기"
@@ -165,10 +217,11 @@ function RecipeCard({ imageSrc, title, altText, onClick, recipeId, isLoggedIn, u
                     width: '20px',
                     height: '20px',
                     position: 'absolute',
-                    bottom: '35px', // 제목 영역 바로 위
+                    bottom: '35px',
                     right: '5px',
                     cursor: 'pointer',
-                    zIndex: 1, // 다른 요소 위에 오도록
+                    zIndex: 1,
+                    opacity: isLoading ? 0.5 : 1,
                 }}
                 onClick={handleHeartClick}
                 onMouseEnter={handleMouseEnterHeart}
@@ -195,7 +248,7 @@ function RecipeCard({ imageSrc, title, altText, onClick, recipeId, isLoggedIn, u
                 </h5>
             </div>
         </div>
-    )
+    );
 }
 
-export default RecipeCard
+export default RecipeCard;
