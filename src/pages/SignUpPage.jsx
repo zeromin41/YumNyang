@@ -14,36 +14,18 @@ import {
 } from '../utils/validator'
 import { VALIDATION_MESSAGES } from '../constants/messages'
 import { checkId, checkNickname, signUp } from '../apis/auth'
+import {
+    initialErrorState,
+    initialFormState,
+    initialSuccessState,
+} from '../constants/initialStates'
 
 const SignupPage = () => {
     const navigate = useNavigate()
 
-    const [form, setForm] = useState({
-        id: '',
-        nickname: '',
-        password: '',
-        passwordConfirm: '',
-        petType: '',
-        petName: '',
-        petAge: '',
-    })
-
-    const [errors, setErrors] = useState({
-        id: '',
-        nickname: '',
-        password: '',
-        passwordConfirm: '',
-        petType: '',
-        petName: '',
-        petAge: '',
-    })
-
-    const [success, setSuccess] = useState({
-        id: '',
-        nickname: '',
-        password: '',
-        passwordConfirm: '',
-    })
+    const [form, setForm] = useState(initialFormState)
+    const [errors, setErrors] = useState(initialErrorState)
+    const [success, setSuccess] = useState(initialSuccessState)
 
     const [isIdChecked, setIsIdChecked] = useState(false)
     const [isNicknameChecked, setIsNicknameChecked] = useState(false)
@@ -72,7 +54,6 @@ const SignupPage = () => {
             setErrors((prev) => ({ ...prev, id: '' }))
             setIsIdChecked(true)
         } catch (err) {
-            console.log(err)
             setErrors((prev) => ({ ...prev, id: err.message }))
         }
     }
@@ -131,9 +112,14 @@ const SignupPage = () => {
                 age: form.petAge,
             }
             await signUp(formData)
+            setGeneralError('')
+            setErrors(initialErrorState)
+            setSuccess(initialSuccessState)
             navigate('/login')
         } catch (err) {
             setGeneralError(err.message)
+            setErrors(initialErrorState)
+            setSuccess(initialSuccessState)
         }
     }
 
