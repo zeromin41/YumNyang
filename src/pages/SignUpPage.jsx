@@ -13,6 +13,7 @@ import {
     isValidPasswordConfirm,
 } from '../utils/validator'
 import { VALIDATION_MESSAGES } from '../constants/messages'
+import { checkId } from '../apis/auth'
 
 const SignupPage = () => {
     const navigate = useNavigate()
@@ -37,8 +38,19 @@ const SignupPage = () => {
         petAge: '',
     })
 
+    const [success, setSuccess] = useState({
+        id: '',
+        nickname: '',
+        password: '',
+        passwordConfirm: '',
+    })
+
+    const [isIdChecked, setIsIdChecked] = useState(false)
+
     const handleChange = (key) => (e) => {
         setForm({ ...form, [key]: e.target.value })
+        setSuccess((prev) => ({ ...prev, [key]: '' }))
+        setIsIdChecked(false)
     }
 
     const handleValidation = (key, validator, message) => {
@@ -49,12 +61,24 @@ const SignupPage = () => {
         }))
     }
 
+    const handleCheckId = async () => {
+        try {
+            const data = await checkId(form.id)
+            setSuccess((prev) => ({ ...prev, id: data.message }))
+            setErrors((prev) => ({ ...prev, id: '' }))
+            setIsIdChecked(true)
+        } catch (err) {
+            setErrors((prev) => ({ ...prev, id: err.message }))
+        }
+    }
+
     const handleSignUp = () => {
         // 빈 값 검증
         const newErrors = {}
 
         if (isEmpty(form.id)) newErrors.id = VALIDATION_MESSAGES.EMPTY_ID
         else if (!isValidId(form.id)) newErrors.id = VALIDATION_MESSAGES.ID
+        else if (!isIdChecked) newErrors.id = '아이디 중복확인을 해주세요.'
 
         if (isEmpty(form.nickname)) newErrors.nickname = VALIDATION_MESSAGES.EMPTY_NICKNAME
         else if (!isValidNickname(form.nickname)) newErrors.nickname = VALIDATION_MESSAGES.NICKNAME
@@ -92,9 +116,18 @@ const SignupPage = () => {
                     id="id"
                     value={form.id}
                     onChange={handleChange('id')}
+                    onKeyDown={() => handleValidation('id', isValidId, VALIDATION_MESSAGES.ID)}
                     onKeyUp={() => handleValidation('id', isValidId, VALIDATION_MESSAGES.ID)}
                     errorMsg={errors.id}
-                    rightElement={<Button text="중복확인" size="sm" />}
+                    successMsg={success.id}
+                    rightElement={
+                        <Button
+                            text="중복확인"
+                            size="sm"
+                            onClick={handleCheckId}
+                            disabled={isEmpty(form.id) || !isValidId(form.id)}
+                        />
+                    }
                 />
                 <InputField
                     label="닉네임"
