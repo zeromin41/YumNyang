@@ -19,20 +19,10 @@ const LoginPage = () => {
         setter(e.target.value)
     }
 
-    const handleError = (value, validator, errorSetter, validationMessage) => {
-        const error = validator(value) ? '' : validationMessage
-        errorSetter(error)
-    }
-
     const handleLogin = () => {
         // 빈 값 검증
-        handleError(id, (v) => !isEmpty(v), setIdError, VALIDATION_MESSAGES.EMPTY_ID)
-        handleError(
-            password,
-            (v) => !isEmpty(v),
-            setPasswordError,
-            VALIDATION_MESSAGES.EMPTY_PASSWORD
-        )
+        setIdError(!isEmpty(id) ? '' : VALIDATION_MESSAGES.EMPTY_ID)
+        setPasswordError(!isEmpty(password) ? '' : VALIDATION_MESSAGES.EMPTY_PASSWORD)
 
         // 로그인 로직...
     }

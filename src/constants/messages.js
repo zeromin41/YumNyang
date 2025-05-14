@@ -5,5 +5,9 @@ export const VALIDATION_MESSAGES = {
     PASSWORD_CONFIRM: '비밀번호가 일치하지 않습니다.',
 
     EMPTY_ID: '아이디를 입력해주세요.',
+    EMPTY_NICKNAME: '닉네임을 입력해주세요.',
     EMPTY_PASSWORD: '비밀번호를 입력해주세요.',
+    EMPTY_PET_TYPE: '반려동물 종을 선택해주세요.',
+    EMPTY_PET_NAME: '반려동물 이름을 입력해주세요.',
+    EMPTY_PET_AGE: '반려동물 나이를 입력해주세요.',
 }
