@@ -13,6 +13,7 @@ import {
     isValidPasswordConfirm,
 } from '../utils/validator'
 import { VALIDATION_MESSAGES } from '../constants/messages'
+import { checkId, checkNickname } from '../apis/auth'
 
 const SignupPage = () => {
     const navigate = useNavigate()
@@ -37,8 +38,21 @@ const SignupPage = () => {
         petAge: '',
     })
 
+    const [success, setSuccess] = useState({
+        id: '',
+        nickname: '',
+        password: '',
+        passwordConfirm: '',
+    })
+
+    const [isIdChecked, setIsIdChecked] = useState(false)
+    const [isNicknameChecked, setIsNicknameChecked] = useState(false)
+
     const handleChange = (key) => (e) => {
         setForm({ ...form, [key]: e.target.value })
+        setSuccess((prev) => ({ ...prev, [key]: '' }))
+        if (key === 'id') setIsIdChecked(false)
+        if (key === 'nickname') setIsNicknameChecked(false)
     }
 
     const handleValidation = (key, validator, message) => {
@@ -49,15 +63,39 @@ const SignupPage = () => {
         }))
     }
 
+    const handleCheckId = async () => {
+        try {
+            const data = await checkId(form.id)
+            setSuccess((prev) => ({ ...prev, id: data.message }))
+            setErrors((prev) => ({ ...prev, id: '' }))
+            setIsIdChecked(true)
+        } catch (err) {
+            setErrors((prev) => ({ ...prev, id: err.message }))
+        }
+    }
+
+    const handleCheckNickname = async () => {
+        try {
+            const data = await checkNickname(form.nickname)
+            setSuccess((prev) => ({ ...prev, nickname: data.message }))
+            setErrors((prev) => ({ ...prev, nickname: '' }))
+            setIsNicknameChecked(true)
+        } catch (err) {
+            setErrors((prev) => ({ ...prev, nickname: err.message }))
+        }
+    }
+
     const handleSignUp = () => {
         // 빈 값 검증
         const newErrors = {}
 
         if (isEmpty(form.id)) newErrors.id = VALIDATION_MESSAGES.EMPTY_ID
         else if (!isValidId(form.id)) newErrors.id = VALIDATION_MESSAGES.ID
+        else if (!isIdChecked) newErrors.id = '아이디 중복확인을 해주세요.'
 
         if (isEmpty(form.nickname)) newErrors.nickname = VALIDATION_MESSAGES.EMPTY_NICKNAME
         else if (!isValidNickname(form.nickname)) newErrors.nickname = VALIDATION_MESSAGES.NICKNAME
+        else if (!isNicknameChecked) newErrors.nickname = '닉네임 중복확인을 해주세요.'
 
         if (isEmpty(form.password)) newErrors.password = VALIDATION_MESSAGES.EMPTY_PASSWORD
         else if (!isValidPassword(form.password)) newErrors.password = VALIDATION_MESSAGES.PASSWORD
@@ -66,16 +104,14 @@ const SignupPage = () => {
             newErrors.passwordConfirm = VALIDATION_MESSAGES.PASSWORD_CONFIRM
         }
 
-        // 반려동물 필드에 하나라도 채워져있는 경우 나머지 빈 값 검증
-        const petFieldsFilled = [form.petType, form.petName, form.petAge].some((v) => !isEmpty(v))
-        if (petFieldsFilled) {
-            if (isEmpty(form.petType)) newErrors.petType = VALIDATION_MESSAGES.EMPTY_PET_TYPE
-            if (isEmpty(form.petName)) newErrors.petName = VALIDATION_MESSAGES.EMPTY_PET_NAME
-            if (isEmpty(form.petAge)) newErrors.petAge = VALIDATION_MESSAGES.EMPTY_PET_AGE
-        } else {
-            newErrors.petType = ''
-            newErrors.petName = ''
-            newErrors.petAge = ''
+        // 반려동물 필드가 하나라도 채워져있는 경우 검증 (타입, 이름 필수)
+        const petTypeFilled = !isEmpty(form.petType)
+        const petNameFilled = !isEmpty(form.petName)
+        const petAgeFilled = !isEmpty(form.petAge)
+
+        if (petTypeFilled || petNameFilled || petAgeFilled) {
+            if (!petTypeFilled) newErrors.petType = VALIDATION_MESSAGES.EMPTY_PET_TYPE
+            if (!petNameFilled) newErrors.petName = VALIDATION_MESSAGES.EMPTY_PET_NAME
         }
 
         setErrors({ ...errors, ...newErrors })
@@ -92,9 +128,18 @@ const SignupPage = () => {
                     id="id"
                     value={form.id}
                     onChange={handleChange('id')}
+                    onKeyDown={() => handleValidation('id', isValidId, VALIDATION_MESSAGES.ID)}
                     onKeyUp={() => handleValidation('id', isValidId, VALIDATION_MESSAGES.ID)}
                     errorMsg={errors.id}
-                    rightElement={<Button text="중복확인" size="sm" />}
+                    successMsg={success.id}
+                    rightElement={
+                        <Button
+                            text="중복확인"
+                            size="sm"
+                            onClick={handleCheckId}
+                            disabled={isEmpty(form.id) || !isValidId(form.id)}
+                        />
+                    }
                 />
                 <InputField
                     label="닉네임"
@@ -105,7 +150,15 @@ const SignupPage = () => {
                         handleValidation('nickname', isValidNickname, VALIDATION_MESSAGES.NICKNAME)
                     }
                     errorMsg={errors.nickname}
-                    rightElement={<Button text="중복확인" size="sm" />}
+                    successMsg={success.nickname}
+                    rightElement={
+                        <Button
+                            text="중복확인"
+                            size="sm"
+                            onClick={handleCheckNickname}
+                            disabled={isEmpty(form.nickname) || !isValidNickname(form.nickname)}
+                        />
+                    }
                 />
                 <InputField
                     label="비밀번호"
@@ -142,7 +195,7 @@ const SignupPage = () => {
                             setForm({ ...form, petType: selectedOption.value })
                         }
                     />
-                    {errors.petType && <p className={css.error}>{errors.petType}</p>}
+                    {errors.petType && <span className={css.error}>{errors.petType}</span>}
                 </div>
                 <InputField
                     label="반려동물 이름"
