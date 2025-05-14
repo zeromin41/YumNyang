@@ -104,16 +104,14 @@ const SignupPage = () => {
             newErrors.passwordConfirm = VALIDATION_MESSAGES.PASSWORD_CONFIRM
         }
 
-        // 반려동물 필드에 하나라도 채워져있는 경우 나머지 빈 값 검증
-        const petFieldsFilled = [form.petType, form.petName, form.petAge].some((v) => !isEmpty(v))
-        if (petFieldsFilled) {
-            if (isEmpty(form.petType)) newErrors.petType = VALIDATION_MESSAGES.EMPTY_PET_TYPE
-            if (isEmpty(form.petName)) newErrors.petName = VALIDATION_MESSAGES.EMPTY_PET_NAME
-            if (isEmpty(form.petAge)) newErrors.petAge = VALIDATION_MESSAGES.EMPTY_PET_AGE
-        } else {
-            newErrors.petType = ''
-            newErrors.petName = ''
-            newErrors.petAge = ''
+        // 반려동물 필드가 하나라도 채워져있는 경우 검증 (타입, 이름 필수)
+        const petTypeFilled = !isEmpty(form.petType)
+        const petNameFilled = !isEmpty(form.petName)
+        const petAgeFilled = !isEmpty(form.petAge)
+
+        if (petTypeFilled || petNameFilled || petAgeFilled) {
+            if (!petTypeFilled) newErrors.petType = VALIDATION_MESSAGES.EMPTY_PET_TYPE
+            if (!petNameFilled) newErrors.petName = VALIDATION_MESSAGES.EMPTY_PET_NAME
         }
 
         setErrors({ ...errors, ...newErrors })
@@ -197,7 +195,7 @@ const SignupPage = () => {
                             setForm({ ...form, petType: selectedOption.value })
                         }
                     />
-                    {errors.petType && <p className={css.error}>{errors.petType}</p>}
+                    {errors.petType && <span className={css.error}>{errors.petType}</span>}
                 </div>
                 <InputField
                     label="반려동물 이름"
