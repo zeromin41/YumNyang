@@ -3,4 +3,7 @@ export const VALIDATION_MESSAGES = {
     NICKNAME: '닉네임은 2~10자의 한글, 영문 또는 숫자만 가능합니다.',
     PASSWORD: '비밀번호는 영문, 숫자, 특수문자를 포함한 8~20자여야 합니다.',
     PASSWORD_CONFIRM: '비밀번호가 일치하지 않습니다.',
+
+    EMPTY_ID: '아이디를 입력해주세요.',
+    EMPTY_PASSWORD: '비밀번호를 입력해주세요.',
 }
