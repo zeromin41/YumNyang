@@ -34,6 +34,10 @@ const SignupPage = () => {
     }
 
     const handleError = (value, validator, errorSetter, validationMessage) => {
+        if (value === '') {
+            errorSetter('')
+            return
+        }
         const error = validator(value) ? '' : validationMessage
         errorSetter(error)
     }
@@ -73,6 +77,7 @@ const SignupPage = () => {
                 <InputField
                     label="비밀번호"
                     id="password"
+                    type="password"
                     value={password}
                     onKeyUp={() =>
                         handleError(
@@ -88,6 +93,7 @@ const SignupPage = () => {
                 <InputField
                     label="비밀번호 확인"
                     id="passwordConfirm"
+                    type="password"
                     value={passwordConfirm}
                     onKeyUp={() =>
                         handleError(
@@ -117,6 +123,7 @@ const SignupPage = () => {
                 <InputField
                     label="반려동물 나이"
                     id="petAge"
+                    type="number"
                     value={petAge}
                     onChange={handleChange(setPetAge)}
                 />
