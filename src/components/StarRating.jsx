@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-
+import fullStar from '../assets/full-star.svg'
+import star from '../assets/star-02.svg'
 const StarRating = ({ totalStars = 5, onChange }) => {
     const [rating, setRating] = useState(0)
 
@@ -14,10 +15,10 @@ const StarRating = ({ totalStars = 5, onChange }) => {
             {Array.from({ length: totalStars }, (_, index) => (
                 <img
                     key={index}
-                    src={index < rating ? 'icons/sta-fill.svg' : 'icons/star.svg'}
+                    src={index < rating ? `${fullStar}` : `${star}`}
                     alt={`${index + 1}점`}
                     onClick={() => handleStarClick(index)}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: 'pointer', width: '30px' }}
                 />
             ))}
         </div>
