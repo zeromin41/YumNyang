@@ -1,50 +1,72 @@
-import React from 'react'
-import '../index.css'
-import 'bootstrap/dist/css/bootstrap.min.css' // Bootstrap CSS 임포트
+import React from 'react';
+import '../index.css'; // index.css가 먼저 임포트되도록 순서 조정 가능성 있음
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const IMAGE_HEIGHT = '160px'
-const CARD_MAX_WIDTH = '120px'
+// RecipeCard와 동일한 상수 사용
+const IMAGE_HEIGHT = '150px';
+const CARD_MAX_WIDTH = '120px';
+const CARD_TOTAL_HEIGHT = '180px'; // RecipeCard의 최종 높이
+const CARD_MARGIN_BOTTOM = '2.5rem'; // RecipeCard와 동일한 하단 마진
 
-/* RecipeCard 컴포넌트의 로딩 상태를 시각적으로 표시하는 스켈레톤 UI 컴포넌트*/
 function RecipeCardSkeleton() {
+    const SKELETON_TITLE_HEIGHT = 'calc(var(--fs12) * 1.4)'; // 대략적인 한 줄 제목 높이
+
     return (
         <div
-            className="card shadow-sm"
+            className="card shadow-sm" // RecipeCard와 동일한 클래스 유지
             style={{
-                maxWidth: CARD_MAX_WIDTH, // 실제 카드와 동일한 최대 너비 적용
-                margin: '0 auto 1rem auto', // 실제 카드와 동일하게 중앙 정렬 및 하단 마진
+                maxWidth: CARD_MAX_WIDTH,
+                width: CARD_MAX_WIDTH, // 너비 고정
+                height: CARD_TOTAL_HEIGHT, // ★★★ 전체 높이 고정 ★★★
+                margin: `0 auto 1rem auto`, // RecipeCard의 기본 마진 (좌우 auto, 상단 0, 하단 1rem)
+                marginBottom: CARD_MARGIN_BOTTOM, // RecipeCard와 동일한 하단 마진 (더 구체적인 값으로 덮어쓰기)
+                display: 'flex', // 내부 요소(이미지, 본문) 수직 정렬
+                flexDirection: 'column',
+                backgroundColor: '#fff', // 스켈레톤 배경색 (Bootstrap card 기본값과 유사하게)
             }}
-            aria-hidden="true" // 스크린 리더가 이 스켈레톤 요소를 무시하도록 설정 (접근성)
+            aria-hidden="true"
         >
-            {/* 이미지 영역 스켈레톤 플레이스홀더 */}
+            {/* 이미지 영역 스켈레톤 */}
             <div
-                className="placeholder-glow" // 플레이스홀더 빛나는 애니메이션 효과
+                className="placeholder-glow"
                 style={{
-                    width: '100%', // 부모(카드) 너비에 꽉 차도록 설정
-                    height: IMAGE_HEIGHT, // 실제 이미지와 동일한 높이 적용
-                    // Bootstrap .placeholder 클래스가 기본 배경색을 제공
+                    width: '100%',
+                    height: IMAGE_HEIGHT, // 이미지 높이 고정
+                    backgroundColor: '#e9ecef', // 플레이스홀더 기본 배경색
+                    flexShrink: 0, // 상위 flex 컨테이너에서 크기가 줄어들지 않도록
                 }}
             >
-                {/* 실제 플레이스홀더 애니메이션 요소 */}
                 <span className="placeholder w-100 h-100 d-block"></span>
             </div>
 
             {/* 카드 본문 스켈레톤 (텍스트 영역) */}
-            <div className="card-body text-center py-1 px-1">
+            <div
+                className="card-body text-center py-1 px-1" // RecipeCard와 동일한 클래스 및 패딩
+                style={{
+                    flexGrow: 1, // 남은 공간을 모두 차지하도록
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center', // 내부 플레이스홀더를 수직 중앙에 (선택적)
+                    alignItems: 'center',    // 내부 플레이스홀더를 수평 중앙에
+                    backgroundColor: 'transparent', // card-body 자체는 투명하게
+                }}
+            >
                 <div
-                    className="placeholder-glow" // 플레이스홀더 빛나는 애니메이션 효과
+                    className="placeholder-glow w-100" // 너비 100%
                     style={{
-                        minHeight: '2rem', // 예시 값
+                        height: SKELETON_TITLE_HEIGHT, // 제목 영역의 높이와 유사하게
+                        display: 'flex',
+                        alignItems: 'center', // 내부 span 정렬
                     }}
                 >
                     <span
-                        className="placeholder d-inline-block" // 스켈레톤 요소, 인라인 블록으로 너비 지정
-                        style={{ width: '80%', height: 'var(--fs12)' }} // 첫 번째 줄: 너비 70%,
+                        className="placeholder"
+                        style={{ width: '80%', height: 'calc(var(--fs12))' }} // 실제 텍스트 높이와 유사하게
                     ></span>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default RecipeCardSkeleton
+export default RecipeCardSkeleton;

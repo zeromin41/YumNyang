@@ -8,7 +8,10 @@ import catImageBaebbang from '../assets/고양이배빵빵.png'
 import catImageBook from '../assets/고양이측면책.png'
 import catImageSleep from '../assets/고양이쿨쿨.png'
 import catImageDance from '../assets/고양이댄스.png'
+import catImageGame from '../assets/고양이게임.png'
+import catImageTeaTime from '../assets/고양이티타임.png'
 
+// 츄르 이미지 임포트
 import churuFullImg from '../assets/churu-full.svg'
 import churuHalfImg from '../assets/churu-half.svg'
 import churuEndsImg from '../assets/churu-ends.svg'
@@ -19,6 +22,8 @@ const catVariations = [
     { image: catImageBook, text: '독서 시간!', alt: '책 옆에 있는 고양이' },
     { image: catImageSleep, text: '흠냥 흠냥~', alt: '잠자는 고양이' },
     { image: catImageDance, text: '신난다~!', alt: '춤추는 고양이' },
+    { image: catImageGame, text: '게임 중~!', alt: '게임하는 고양이' },
+    { image: catImageTeaTime, text: '호로록~', alt: '차를 마시는 고양이' },
 ]
 
 const CHURU_SPAWN_INTERVAL_MIN = 4000
