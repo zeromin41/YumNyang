@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { API_BASE_URL, API_POST_REQUEST_OPTIONS } from '../utils/apiConfig'
-import { Form } from 'react-router-dom'
 
 export const checkId = async (id) => {
     try {
@@ -11,7 +10,7 @@ export const checkId = async (id) => {
         )
         return response.data
     } catch (error) {
-        throw new Error('아이디 중복 체크 실패')
+        throw new Error(error.response.data.message)
     }
 }
 
@@ -24,7 +23,7 @@ export const checkNickname = async (nickname) => {
         )
         return response.data
     } catch (error) {
-        throw new Error('닉네임 중복 체크 실패')
+        throw new Error(error.response.data.message)
     }
 }
 
@@ -38,6 +37,7 @@ export const signUp = async (formData) => {
         )
         return response.data
     } catch (error) {
+        console.log(error)
         throw new Error(error.response.data.error)
     }
 }

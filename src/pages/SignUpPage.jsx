@@ -72,6 +72,7 @@ const SignupPage = () => {
             setErrors((prev) => ({ ...prev, id: '' }))
             setIsIdChecked(true)
         } catch (err) {
+            console.log(err)
             setErrors((prev) => ({ ...prev, id: err.message }))
         }
     }
