@@ -13,6 +13,11 @@
 .btn:active {
     filter: brightness(90%);
 }
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: none;
+}
 
 /* 색상 */
 .default {
