@@ -10,6 +10,19 @@ export const checkId = async (id) => {
         )
         return response.data
     } catch (error) {
-        throw new Error('ID 중복 체크 실패')
+        throw new Error('아이디 중복 체크 실패')
+    }
+}
+
+export const checkNickname = async (nickname) => {
+    try {
+        const response = await axios.post(
+            `${API_BASE_URL}/checkNickname`,
+            { nickname },
+            API_POST_REQUEST_OPTIONS
+        )
+        return response.data
+    } catch (error) {
+        throw new Error('닉네임 중복 체크 실패')
     }
 }
