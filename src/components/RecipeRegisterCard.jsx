@@ -30,7 +30,7 @@ const RecipeRegisterCard = () => {
     };
 
     return (
-        <Card className="shadow-sm mx-auto" style={{ width: '300px', marginBottom: '1rem' }}>
+        <Card className="shadow-sm mx-auto" style={{ width: '300px', marginBottom: '1rem', backgroundColor:'#c'}}>
             <Card.Body className="d-flex flex-column align-items-center">
 
                 <div
