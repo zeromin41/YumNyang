@@ -15,6 +15,10 @@
     flex-direction: column;
     gap: var(--fs8);
 }
+.error {
+    font-size: var(--fs12);
+    color: var(--service-colors-errors);
+}
 .btnWrapper {
     bottom: var(--fs26);
     display: flex;

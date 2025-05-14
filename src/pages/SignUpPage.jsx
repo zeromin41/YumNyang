@@ -5,73 +5,159 @@ import { useNavigate } from 'react-router-dom'
 import css from './SignUpPage.module.css'
 import DropDown from '../components/DropDown'
 import { PET_TYPE_OPTIONS } from '../constants/options'
+import {
+    isEmpty,
+    isValidId,
+    isValidNickname,
+    isValidPassword,
+    isValidPasswordConfirm,
+} from '../utils/validator'
+import { VALIDATION_MESSAGES } from '../constants/messages'
 
 const SignupPage = () => {
     const navigate = useNavigate()
 
-    const [id, setId] = useState('')
-    const [nickname, setNickname] = useState('')
-    const [password, setPassword] = useState('')
-    const [passwordConfirm, setPasswordConfirm] = useState('')
-    const [petType, setPetType] = useState('')
-    const [petName, setPetName] = useState('')
-    const [petAge, setPetAge] = useState('')
+    const [form, setForm] = useState({
+        id: '',
+        nickname: '',
+        password: '',
+        passwordConfirm: '',
+        petType: '',
+        petName: '',
+        petAge: '',
+    })
 
-    const handleChange = (setter) => (e) => {
-        setter(e.target.value)
+    const [errors, setErrors] = useState({
+        id: '',
+        nickname: '',
+        password: '',
+        passwordConfirm: '',
+        petType: '',
+        petName: '',
+        petAge: '',
+    })
+
+    const handleChange = (key) => (e) => {
+        setForm({ ...form, [key]: e.target.value })
+    }
+
+    const handleValidation = (key, validator, message) => {
+        if (isEmpty(form[key])) return setErrors((prev) => ({ ...prev, [key]: '' }))
+        setErrors((prev) => ({
+            ...prev,
+            [key]: validator(form[key]) ? '' : message,
+        }))
     }
 
     const handleSignUp = () => {
+        // 빈 값 검증
+        const newErrors = {}
+
+        if (isEmpty(form.id)) newErrors.id = VALIDATION_MESSAGES.EMPTY_ID
+        else if (!isValidId(form.id)) newErrors.id = VALIDATION_MESSAGES.ID
+
+        if (isEmpty(form.nickname)) newErrors.nickname = VALIDATION_MESSAGES.EMPTY_NICKNAME
+        else if (!isValidNickname(form.nickname)) newErrors.nickname = VALIDATION_MESSAGES.NICKNAME
+
+        if (isEmpty(form.password)) newErrors.password = VALIDATION_MESSAGES.EMPTY_PASSWORD
+        else if (!isValidPassword(form.password)) newErrors.password = VALIDATION_MESSAGES.PASSWORD
+
+        if (!isValidPasswordConfirm(form.password, form.passwordConfirm)) {
+            newErrors.passwordConfirm = VALIDATION_MESSAGES.PASSWORD_CONFIRM
+        }
+
+        // 반려동물 필드에 하나라도 채워져있는 경우 나머지 빈 값 검증
+        const petFieldsFilled = [form.petType, form.petName, form.petAge].some((v) => !isEmpty(v))
+        if (petFieldsFilled) {
+            if (isEmpty(form.petType)) newErrors.petType = VALIDATION_MESSAGES.EMPTY_PET_TYPE
+            if (isEmpty(form.petName)) newErrors.petName = VALIDATION_MESSAGES.EMPTY_PET_NAME
+            if (isEmpty(form.petAge)) newErrors.petAge = VALIDATION_MESSAGES.EMPTY_PET_AGE
+        } else {
+            newErrors.petType = ''
+            newErrors.petName = ''
+            newErrors.petAge = ''
+        }
+
+        setErrors({ ...errors, ...newErrors })
+        if (Object.values(newErrors).some(Boolean)) return
+
         // 회원가입 로직...
     }
+
     return (
         <div className={css.signUpCon}>
             <form onSubmit={(e) => e.preventDefault()} className={css.signUpForm}>
                 <InputField
                     label="아이디"
                     id="id"
-                    value={id}
-                    onChange={handleChange(setId)}
+                    value={form.id}
+                    onChange={handleChange('id')}
+                    onKeyUp={() => handleValidation('id', isValidId, VALIDATION_MESSAGES.ID)}
+                    errorMsg={errors.id}
                     rightElement={<Button text="중복확인" size="sm" />}
                 />
                 <InputField
                     label="닉네임"
                     id="nickname"
-                    value={nickname}
-                    onChange={handleChange(setNickname)}
+                    value={form.nickname}
+                    onChange={handleChange('nickname')}
+                    onKeyUp={() =>
+                        handleValidation('nickname', isValidNickname, VALIDATION_MESSAGES.NICKNAME)
+                    }
+                    errorMsg={errors.nickname}
                     rightElement={<Button text="중복확인" size="sm" />}
                 />
                 <InputField
                     label="비밀번호"
                     id="password"
-                    value={password}
-                    onChange={handleChange(setPassword)}
+                    type="password"
+                    value={form.password}
+                    onChange={handleChange('password')}
+                    onKeyUp={() =>
+                        handleValidation('password', isValidPassword, VALIDATION_MESSAGES.PASSWORD)
+                    }
+                    errorMsg={errors.password}
                 />
                 <InputField
                     label="비밀번호 확인"
                     id="passwordConfirm"
-                    value={passwordConfirm}
-                    onChange={handleChange(setPasswordConfirm)}
+                    type="password"
+                    value={form.passwordConfirm}
+                    onChange={handleChange('passwordConfirm')}
+                    onKeyUp={() =>
+                        handleValidation(
+                            'passwordConfirm',
+                            (value) => isValidPasswordConfirm(form.password, value),
+                            VALIDATION_MESSAGES.PASSWORD_CONFIRM
+                        )
+                    }
+                    errorMsg={errors.passwordConfirm}
                 />
                 <div className={css.petTypeField}>
                     <label>반려동물 종</label>
                     <DropDown
                         placeholder="종류 선택"
                         options={PET_TYPE_OPTIONS}
-                        onSelect={(selectedOption) => setPetType(selectedOption.value)}
+                        onSelect={(selectedOption) =>
+                            setForm({ ...form, petType: selectedOption.value })
+                        }
                     />
+                    {errors.petType && <p className={css.error}>{errors.petType}</p>}
                 </div>
                 <InputField
                     label="반려동물 이름"
                     id="petName"
-                    value={petName}
-                    onChange={handleChange(setPetName)}
+                    value={form.petName}
+                    onChange={handleChange('petName')}
+                    errorMsg={errors.petName}
                 />
                 <InputField
                     label="반려동물 나이"
                     id="petAge"
-                    value={petAge}
-                    onChange={handleChange(setPetAge)}
+                    type="number"
+                    value={form.petAge}
+                    onChange={handleChange('petAge')}
+                    errorMsg={errors.petAge}
                 />
             </form>
             <div className={css.btnWrapper}>
