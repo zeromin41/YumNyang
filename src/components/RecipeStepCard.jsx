@@ -1,15 +1,15 @@
 import React from 'react'
 import css from './RecipeStepCard.module.css'
 import TTSComponent from './TTSComponent'
-import playImg from '../assets/volume.png'
+import playImg from '../assets/volume-06.svg'
 const RecipeStepCard = ({ number, instruction, image, btnkey }) => {
     return (
-        <div>
-            <div className={css.recipeImg}>{image && <img src={image} alt="이미지" />}</div>
+        <div className={css.mainContainer}>
+            <div className={css.recipeImgWrap}>{image && <img src={image} alt="이미지" />}</div>
             <div className={css.desContainer}>
-                <p className={css.description}>
+                <span className={css.des}>
                     {number}. {instruction}
-                </p>
+                </span>
 
                 <TTSComponent text={instruction} btnkey={btnkey} playBtnImg={playImg} />
             </div>
