@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import css from './WithdrawPage.module.css'
 import { useNavigate } from 'react-router-dom'
 import InputField from '../components/InputField'
@@ -6,9 +6,6 @@ import Button from '../components/Button'
 import { isEmpty, isValidPasswordConfirm } from '../utils/validator'
 import { VALIDATION_MESSAGES } from '../constants/messages'
 import { withdraw } from '../apis/auth'
-import { API_REQUEST_OPTIONS } from '../utils/apiConfig'
-import axios from 'axios'
-import { fetchCheckToken } from '../apis/api'
 
 const WithDrawPage = () => {
     const navigate = useNavigate()
@@ -94,7 +91,6 @@ const WithDrawPage = () => {
                 />
             </form>
             <div className={css.btnWrapper}>
-                <Button text="토큰체크" color="red" flex={1} onClick={fetchCheckToken} />
                 <Button text="탈퇴하기" color="red" flex={1} onClick={handleWithdraw} />
                 <Button text="나가기" color="default" flex={2} onClick={() => navigate('/')} />
             </div>
