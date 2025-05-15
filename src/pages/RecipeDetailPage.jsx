@@ -184,7 +184,8 @@ const RecipeDetailPage = () => {
             </div>
 
             {/* 댓글 섹션은 항상 표시 */}
-            <Comment />
+            {/* useParam으로 recipeId 받아와야함 */}
+            <Comment recipeId={'15'} />
         </div>
     )
 }

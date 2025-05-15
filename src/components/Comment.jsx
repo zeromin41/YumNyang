@@ -1,23 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import css from './Comment.module.css'
 import StarRating from './StarRating'
+import axios from 'axios'
 
-const Comment = () => {
+const Comment = ({ recipeId }) => {
+    const [reviewData, setReviewData] = useState(null)
     const [comment, setComment] = useState('')
     const [rating, setRating] = useState(0)
 
-    const handleSubmit = () => alert('등록')
+    useEffect(() => {
+        const getReviewData = async () => {
+            const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
+            setReviewData(response.data)
+            console.log('리뷰데이터 받아오기 성공', response.data)
+        }
+        getReviewData()
+    }, [])
+
+    const handleSubmit = () => {
+        alert(rating)
+    }
 
     return (
         <div className={css.commentCon}>
-            <label>💬 댓글</label>
-            <div className={css.bar}></div>
+            <div className={css.commentLabel}>
+                <span>💬 댓글</span>
+            </div>
+
             <div className={css.commentWrapper}>
                 <div className={css.userCon}>
-                    <div className={css.userImg}>
-                        <img src="images/defaultUserImg.svg" alt="작성자" />
-                    </div>
-                    <p>작성자</p>
+                    <span>작성자</span>
                 </div>
                 <div className={css.commentForm}>
                     <div className={css.ratingWrapper}>
@@ -32,23 +44,20 @@ const Comment = () => {
                 </div>
             </div>
             <div className={css.commentList}>
+                {/* {reviewData.review.map((data, index) => (
+                    <div className={css.commentWrapper} key={index}>
+                        <div className={css.userCon}>
+                            <span>{data.U</span>
+                        </div>
+                        <span className={css.commentMsg}>레시피가 간단하고 쉬워요 ~</span>
+                    </div>
+                ))} */}
+
                 <div className={css.commentWrapper}>
                     <div className={css.userCon}>
-                        <div className={css.userImg}>
-                            <img src="images/defaultUserImg.svg" alt="작성자" />
-                        </div>
-                        <p>작성자</p>
+                        <span>작성자</span>
                     </div>
-                    <p className={css.commentMsg}>레시피가 간단하고 쉬워요 ~</p>
-                </div>
-                <div className={css.commentWrapper}>
-                    <div className={css.userCon}>
-                        <div className={css.userImg}>
-                            <img src="images/defaultUserImg.svg" alt="작성자" />
-                        </div>
-                        <p>작성자</p>
-                    </div>
-                    <p className={css.commentMsg}>레시피가 간단하고 쉬워요 ~</p>
+                    <span className={css.commentMsg}>레시피가 간단하고 쉬워요 ~</span>
                 </div>
             </div>
         </div>
