@@ -140,7 +140,7 @@ const SignupPage = () => {
                             text="중복확인"
                             size="sm"
                             onClick={handleCheckId}
-                            disabled={isEmpty(form.id) || !isValidId(form.id)}
+                            disabled={isEmpty(form.id) || !isValidId(form.id) || isIdChecked}
                         />
                     }
                 />
@@ -159,7 +159,11 @@ const SignupPage = () => {
                             text="중복확인"
                             size="sm"
                             onClick={handleCheckNickname}
-                            disabled={isEmpty(form.nickname) || !isValidNickname(form.nickname)}
+                            disabled={
+                                isEmpty(form.nickname) ||
+                                !isValidNickname(form.nickname) ||
+                                isNicknameChecked
+                            }
                         />
                     }
                 />
