@@ -2,7 +2,7 @@
     width: 100%;
     outline: none;
     border: none;
-    font-family: 'Goyang', sans-serif;
+    font-family: var(--font-roboto);
     border-radius: var(--fs8);
     padding: var(--fs12) var(--fs16);
     font-size: var(--fs20);
@@ -12,6 +12,11 @@
 .btn:hover,
 .btn:active {
     filter: brightness(90%);
+}
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: none;
 }
 
 /* 색상 */
