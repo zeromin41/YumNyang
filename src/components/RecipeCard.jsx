@@ -5,8 +5,7 @@ import fullHeart from '../assets/full-heart.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css'; 
 
-// apiConfig.js 에서 설정 가져오기
-import { API_BASE_URL, API_REQUEST_OPTIONS, API_POST_REQUEST_OPTIONS } from '../utils/apiConfig.js'; // 경로 주의!
+import { API_BASE_URL, API_REQUEST_OPTIONS, API_POST_REQUEST_OPTIONS } from '../utils/apiConfig.js'; 
 
 const IMAGE_HEIGHT = '150px';
 const CARD_MAX_WIDTH = '120px';
