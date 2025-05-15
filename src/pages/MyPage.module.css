@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--fs20);
+    overflow: hidden;
 }
 .userInfo {
     display: flex;
@@ -31,16 +32,16 @@
 
 .title {
     font-family: var(--font-goyang);
+    margin-bottom: var(--fs16);
 }
 .myContentsCon {
     display: flex;
     flex-direction: column;
     gap: var(--fs20);
+    padding: 10px;
 }
 .myContentsWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: var(--fs16);
+    overflow: hidden;
 }
 .myContentsWrapper > p {
     text-align: center;
@@ -53,7 +54,7 @@
     justify-content: center;
     align-items: center;
     gap: var(--fs33);
-    margin-top: var(--fs33);
+    margin-top: var(--fs26);
     padding: var(--fs16) 0;
     border-top: 1px solid var(--neutral-colors-light-gray);
 }
