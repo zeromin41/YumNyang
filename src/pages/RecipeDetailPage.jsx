@@ -19,6 +19,7 @@ const RecipeDetailPage = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0) // 탭 상태를 최상위 컴포넌트로 이동
+    const [postWriter, setPostWriter] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,7 +42,7 @@ const RecipeDetailPage = () => {
     const WriterInfo = () => (
         <div className={css.writerInfoContainer}>
             <div className={css.writerNicknameWrap}>
-                <span>작성자: {recipeData.recipe.USER_ID}</span>
+                <span>작성자: 닉네임</span>
             </div>
             <div className={css.postDateWrap}>
                 <span>{formatDate(recipeData.recipe.CREATE_AT)}</span>
@@ -158,7 +159,7 @@ const RecipeDetailPage = () => {
             {recipeData.description.map((step, index) => (
                 <RecipeStepCard
                     key={index}
-                    number={step.FLOW || index + 1}
+                    number={step.FLOW + 1}
                     instruction={step.DESCRIPTION}
                     image={step.IMAGE_URL}
                     btnkey={index}
