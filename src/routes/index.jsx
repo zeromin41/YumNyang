@@ -9,6 +9,7 @@ import catWithdrawImg from '../assets/고양이눈물.png'
 import AuthLayout from '../layout/AuthLayout'
 import LoginPage from '../pages/LoginPage'
 import WithDrawPage from '../pages/WithDrawPage'
+import Addition from '../pages/Addition'
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
                 path: '/myPage',
                 element: <MyPage />,
             },
+            {
+                path : '/Addition',
+                element : <Addition />
+            }
         ],
     },
     {
