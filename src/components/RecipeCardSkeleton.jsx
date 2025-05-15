@@ -1,16 +1,43 @@
-import React from 'react';
-import '../index.css'; // index.css가 먼저 임포트되도록 순서 조정 가능성 있음
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react'
+import '../index.css' // index.css가 먼저 임포트되도록 순서 조정 가능성 있음
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // RecipeCard와 동일한 상수 사용
-const IMAGE_HEIGHT = '150px';
-const CARD_MAX_WIDTH = '120px';
-const CARD_TOTAL_HEIGHT = '180px'; // RecipeCard의 최종 높이
-const CARD_MARGIN_BOTTOM = '2.5rem'; // RecipeCard와 동일한 하단 마진
+const IMAGE_HEIGHT = '150px'
+const CARD_MAX_WIDTH = '120px'
+const CARD_TOTAL_HEIGHT = '180px' // RecipeCard의 최종 높이
+const CARD_MARGIN_BOTTOM = '2.5rem' // RecipeCard와 동일한 하단 마진
 
-function RecipeCardSkeleton() {
-    const SKELETON_TITLE_HEIGHT = 'calc(var(--fs12) * 1.4)'; // 대략적인 한 줄 제목 높이
+function RecipeCardSkeleton({ isReview }) {
+    const SKELETON_TITLE_HEIGHT = 'calc(var(--fs12) * 1.4)' // 대략적인 한 줄 제목 높이
 
+    if (isReview) {
+        return (
+            <div
+                className="card shadow-sm"
+                style={{
+                    maxWidth: CARD_MAX_WIDTH,
+                    width: CARD_MAX_WIDTH,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    backgroundColor: '#fff',
+                }}
+                aria-hidden="true"
+            >
+                <div
+                    className="placeholder-glow"
+                    style={{
+                        width: '100%',
+                        height: 30,
+                        backgroundColor: '#e9ecef',
+                        flexShrink: 0,
+                    }}
+                >
+                    <span className="placeholder w-100 h-100 d-block"></span>
+                </div>
+            </div>
+        )
+    }
     return (
         <div
             className="card shadow-sm" // RecipeCard와 동일한 클래스 유지
@@ -47,7 +74,7 @@ function RecipeCardSkeleton() {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center', // 내부 플레이스홀더를 수직 중앙에 (선택적)
-                    alignItems: 'center',    // 내부 플레이스홀더를 수평 중앙에
+                    alignItems: 'center', // 내부 플레이스홀더를 수평 중앙에
                     backgroundColor: 'transparent', // card-body 자체는 투명하게
                 }}
             >
@@ -66,7 +93,7 @@ function RecipeCardSkeleton() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default RecipeCardSkeleton;
+export default RecipeCardSkeleton

@@ -3,4 +3,5 @@
     padding-left: 16px; /* 원하는 좌우 패딩 값 */
     padding-right: 16px; /* 원하는 좌우 패딩 값 */
     padding-bottom: 70px;
+    overflow: hidden;
 }
