@@ -21,11 +21,11 @@
 .signUpPrompt a {
     color: inherit;
     text-decoration: none;
-    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 4px 4px var(--neutral-colors-sand-brown);
     transition: 0.3s;
 }
 .signUpPrompt a:hover {
-    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 4px 4px var(--main-colors-accent);
 }
 .btnWrapper {
     bottom: var(--fs26);

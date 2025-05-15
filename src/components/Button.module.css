@@ -2,7 +2,7 @@
     width: 100%;
     outline: none;
     border: none;
-    font-family: 'Goyang', sans-serif;
+    font-family: var(--font-roboto);
     border-radius: var(--fs8);
     padding: var(--fs12) var(--fs16);
     font-size: var(--fs20);
