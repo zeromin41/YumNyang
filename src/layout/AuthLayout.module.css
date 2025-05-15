@@ -12,6 +12,7 @@
     align-items: center;
 }
 .header h1 {
+    font-family: var(--font-goyang);
     font-size: 40px;
 }
 .imgWrapper {
