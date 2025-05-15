@@ -101,7 +101,7 @@ const RecipeDetailPage = () => {
             <BasicInfoList />
             <IngredientList />
             {/* 영양 정보 컴포넌트 */}
-            <Nutritional />
+            <Nutritional recipeData={recipeData} />
         </>
     )
 
@@ -179,7 +179,9 @@ const RecipeDetailPage = () => {
             <DetailTab />
 
             {/* 탭 내용 */}
-            <div className={css.tabContent}>{activeTab === 0 ? BasicInfo() : RecipeSteps()}</div>
+            <div className={css.tabContent}>
+                {activeTab === 0 ? <BasicInfo /> : <RecipeSteps />}
+            </div>
 
             {/* 댓글 섹션은 항상 표시 */}
             <Comment />
