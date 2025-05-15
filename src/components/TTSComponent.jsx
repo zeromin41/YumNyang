@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import stopImg from '../assets/mute.png'
+import stopImg from '../assets/volume-07.svg'
 // 전역 상태 관리를 위한 변수 (모든 컴포넌트가 공유)
 let globalActiveButton = null
 

@@ -7,3 +7,14 @@ export const checkNickname = (nickname) => postRequest('/checkNickname', { nickn
 export const signUp = (formData) => postRequest('/signUp', formData)
 
 export const login = (formData) => postRequest('/login', formData)
+
+export const withdraw = (formData) => postRequest('/withdraw', formData)
+
+export const fetchCheckToken = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/checkToken`, API_REQUEST_OPTIONS)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

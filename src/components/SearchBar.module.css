@@ -7,4 +7,5 @@
     right: var(--fs16);
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
 }
