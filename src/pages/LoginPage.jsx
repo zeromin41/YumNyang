@@ -32,7 +32,10 @@ const LoginPage = () => {
                 email: id,
                 password,
             }
-            await login(formData)
+            const data = await login(formData)
+            const userId = data.number
+            if (userId) localStorage.setItem('userId', userId)
+
             setIdError('')
             setPasswordError('')
             navigate('/')
