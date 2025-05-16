@@ -4,6 +4,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import RecipeCard from './RecipeCard'
 import RecipeCardSkeleton from './RecipeCardSkeleton' // 스켈레톤 컴포넌트 임포트
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const CARD_MAX_WIDTH = '120px'
 
@@ -22,6 +23,7 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isL
         //     clickable: true,
         // },
     }
+    console.log(isReview, data)
 
     return (
         <Swiper {...swiperParams}>
@@ -37,6 +39,21 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isL
                 >
                     {isSkeleton ? (
                         <RecipeCardSkeleton isReview={isReview} />
+                    ) : isReview ? (
+                        <div
+                            style={{
+                                padding: '10px 15px',
+                                width: '100%',
+                                border: '1px solid rgba(0, 0, 0, 0.175)',
+                                boxShadow: '0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)',
+                                borderRadius: '5px',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                            }}
+                        >
+                            {item.COMMENT_TEXT}
+                        </div>
                     ) : (
                         <RecipeCard
                             recipeId={item.id} // item.id를 recipeId로 전달

@@ -109,13 +109,15 @@ const MyPage = () => {
     }
 
     const renderRecipeSection = (title, data, isLoading, isReview = false) => {
-        const mappedData = Array.isArray(data)
-            ? data.map((item) => ({
-                  id: item.ID,
-                  imageSrc: item.MAIN_IMAGE_URL,
-                  title: item.TITLE,
-              }))
-            : []
+        const mappedData = (() => {
+            if (!Array.isArray(data)) return []
+            if (isReview) return data
+            return data.map((item) => ({
+                id: item.ID,
+                imageSrc: item.MAIN_IMAGE_URL,
+                title: item.TITLE,
+            }))
+        })()
 
         return (
             <div className={css.myContentsWrapper}>
