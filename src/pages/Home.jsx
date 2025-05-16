@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
 import CatCard from '../components/CatCard'
 import './Home.css'
-
-import { API_BASE_URL, API_REQUEST_OPTIONS } from '../utils/apiConfig.js'
+import { getRequest } from '../apis/api' // getRequest만 필요
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -13,95 +13,102 @@ const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
 const Home = () => {
     const [recentRecipes, setRecentRecipes] = useState([])
     const [popularRecipes, setPopularRecipes] = useState([])
+
     const [isLoadingRecent, setIsLoadingRecent] = useState(true)
     const [isLoadingPopular, setIsLoadingPopular] = useState(true)
 
-    const isLoggedIn = false // TODO: 실제 로그인 상태로 교체
-    const userId = 1
+    const outletContext = useOutletContext()
+    const isUserLoggedIn = outletContext?.isLoggedIn || false
+    const currentUserId = outletContext?.userId || null
+
+    const navigate = useNavigate()
+
+
+    const fetchRecipeDetails = useCallback(async (entries, idFieldName = 'RECIPE_ID') => {
+        if (!entries || entries.length === 0) return []
+        const recipeDetailPromises = entries.map((entry) =>
+            getRequest(`/getRecipe/${entry[idFieldName]}`).catch((err) => {
+                console.error(
+                    `Home - Error fetching details for recipe ${entry[idFieldName]}:`,
+                    err.message
+                )
+                return null
+            })
+        )
+        const responses = await Promise.all(recipeDetailPromises)
+        return responses
+            .filter((response) => response && response.recipe)
+            .map((response) => ({
+                id: response.recipe.ID,
+                title: response.recipe.TITLE,
+                imageSrc: response.recipe.MAIN_IMAGE_URL,
+            }))
+    }, [])
 
     useEffect(() => {
-        const fetchPopularRecipes = async () => {
+        const fetchPopular = async () => {
             setIsLoadingPopular(true)
             try {
-                const response = await fetch(`${API_BASE_URL}/getPopularity`, {
-                    ...API_REQUEST_OPTIONS, // 공통 GET 요청 옵션 사용
-                })
-
-                if (!response.ok) {
-                    const errorData = await response
-                        .json()
-                        .catch(() => ({ message: `인기 레시피 로딩 실패: ${response.statusText}` }))
-                    console.error('인기 레시피 로딩 실패:', errorData.message || response.status)
-                    throw new Error(`HTTP error! status: ${response.status}`)
+                const data = await getRequest('/getPopularity')
+                if (data && data.popularity) {
+                    const mappedData = data.popularity.map((recipe) => ({
+                        id: recipe.ID,
+                        imageSrc: recipe.MAIN_IMAGE_URL,
+                        title: recipe.TITLE,
+                    }))
+                    setPopularRecipes(mappedData)
+                } else {
+                    setPopularRecipes([])
                 }
-
-                const data = await response.json()
-                // console.log('API 응답 원본 (인기 레시피):', JSON.stringify(data, null, 2));
-
-                const mappedData = data.popularity.map((recipe) => ({
-                    id: recipe.ID,
-                    imageSrc: recipe.MAIN_IMAGE_URL,
-                    title: recipe.TITLE,
-                }))
-                setPopularRecipes(mappedData)
             } catch (error) {
-                console.error('인기 레시피 API 호출 중 오류:', error)
+                console.error('Home - 인기 레시피 API 오류:', error.message)
                 setPopularRecipes([])
             } finally {
                 setIsLoadingPopular(false)
             }
         }
-        fetchPopularRecipes()
+        fetchPopular()
     }, [])
 
     useEffect(() => {
-        if (!isLoggedIn || !userId) {
+        if (!isUserLoggedIn || !currentUserId) {
             setIsLoadingRecent(false)
             setRecentRecipes([])
             return
         }
-
-        const fetchRecentRecipes = async () => {
+        const fetchRecent = async () => {
             setIsLoadingRecent(true)
             try {
-                const response = await fetch(`${API_BASE_URL}/getRecentlyView/${userId}`, {
-                    ...API_REQUEST_OPTIONS, // 공통 GET 요청 옵션 사용 (쿠키 전송 필요)
-                })
-
-                if (response.status === 404) {
-                    console.log('최근 본 레시피가 없습니다.')
-                    setRecentRecipes([])
-                    // 404도 정상 처리의 일환으로 finally에서 로딩 해제
-                } else if (!response.ok) {
-                    // 404가 아닌 다른 에러
-                    const errorData = await response.json().catch(() => ({
-                        message: `최근 본 레시피 로딩 실패: ${response.statusText}`,
-                    }))
-                    console.error('최근 본 레시피 로딩 실패:', errorData.message || response.status)
-                    throw new Error(`HTTP error! status: ${response.status}`)
+                const recentEntriesData = await getRequest(`/getRecentlyView/${currentUserId}`)
+                if (
+                    recentEntriesData &&
+                    recentEntriesData.recentlyView &&
+                    recentEntriesData.recentlyView.length > 0
+                ) {
+                    const detailedRecipes = await fetchRecipeDetails(
+                        recentEntriesData.recentlyView,
+                        'RECIPE_ID'
+                    )
+                    setRecentRecipes(detailedRecipes)
                 } else {
-                    // 성공 (200 OK)
-                    const data = await response.json()
-                    const mappedData = data.recentlyView.map((recipe) => ({
-                        id: recipe.ID,
-                        imageSrc: recipe.MAIN_IMAGE_URL,
-                        title: recipe.TITLE,
-                    }))
-                    setRecentRecipes(mappedData)
+                    setRecentRecipes([])
                 }
             } catch (error) {
-                console.error('최근 본 레시피 API 호출 중 오류:', error)
-                setRecentRecipes([])
+                if (error.message && error.message.includes('최근 본 레시피가 없습니다')) {
+                    setRecentRecipes([])
+                } else {
+                    console.error('Home - 최근 본 레시피 API 오류:', error.message)
+                    setRecentRecipes([])
+                }
             } finally {
                 setIsLoadingRecent(false)
             }
         }
-        fetchRecentRecipes()
-    }, [isLoggedIn, userId])
+        fetchRecent()
+    }, [isUserLoggedIn, currentUserId, fetchRecipeDetails])
 
     const handleCardClick = (recipeId) => {
-        console.log('클릭된 레시피 ID (상세페이지로 이동):', recipeId)
-        // 예: navigate(`/recipe/${recipeId}`); // useNavigate 훅을 Home 컴포넌트에도 선언해야 함
+        navigate(`/recipe/${recipeId}`)
     }
 
     const renderSkeletonSwiper = () => (
@@ -114,30 +121,34 @@ const Home = () => {
                 <CatCard />
             </div>
 
-            <h2 style={{ fontFamily: 'Goyang', marginBottom: 30 }}>최근 본 레시피</h2>
-            {isLoadingRecent ? (
-                renderSkeletonSwiper()
-            ) : recentRecipes.length > 0 ? (
-                <RecipeCardSwiper
-                    data={recentRecipes}
-                    onCardClick={handleCardClick}
-                    isLoggedIn={isLoggedIn}
-                    userId={userId}
-                />
-            ) : (
-                <p
-                    style={{
-                        textAlign: 'center',
-                        fontFamily: 'Goyang',
-                        color: '#888',
-                        marginBottom: 30,
-                    }}
-                >
-                    최근 본 레시피가 없습니다.
-                </p>
+            {isUserLoggedIn && ( // 로그인한 경우에만 "최근 본 레시피" 섹션 표시
+                <>
+                    <h2 style={{ fontFamily: 'Goyang', marginBottom: 30, marginTop: 30 }}>
+                        최근 본 레시피
+                    </h2>
+                    {isLoadingRecent ? (
+                        renderSkeletonSwiper()
+                    ) : recentRecipes.length > 0 ? (
+                        <RecipeCardSwiper
+                            data={recentRecipes} // RecipeCard에 필요한 데이터 (id, title, imageSrc)
+                            onCardClick={handleCardClick} // 상세 페이지 이동 핸들러
+                            isLoggedIn={isUserLoggedIn} // RecipeCard에 전달하여 내부 즐겨찾기 로직에 사용
+                            userId={currentUserId} // RecipeCard에 전달하여 내부 즐겨찾기 로직에 사용
+                        />
+                    ) : (
+                        <p className="no-recipes-message">최근 본 레시피가 없습니다.</p>
+                    )}
+                </>
             )}
 
-            <h2 style={{ fontFamily: 'Goyang', marginBottom: 30, marginTop: 10 }}>
+            <h2
+                style={{
+                    fontFamily: 'Goyang',
+                    marginBottom: 30,
+                    marginTop:
+                        isUserLoggedIn && recentRecipes.length > 0 ? 30 : isUserLoggedIn ? 30 : 10,
+                }}
+            >
                 인기있는 레시피
             </h2>
             {isLoadingPopular ? (
@@ -146,20 +157,11 @@ const Home = () => {
                 <RecipeCardSwiper
                     data={popularRecipes}
                     onCardClick={handleCardClick}
-                    isLoggedIn={isLoggedIn}
-                    userId={userId}
+                    isLoggedIn={isUserLoggedIn}
+                    userId={currentUserId}
                 />
             ) : (
-                <p
-                    style={{
-                        textAlign: 'center',
-                        fontFamily: 'Goyang',
-                        color: '#888',
-                        marginBottom: 30,
-                    }}
-                >
-                    인기 레시피가 없습니다.
-                </p>
+                <p className="no-recipes-message">인기 레시피가 없습니다.</p>
             )}
         </div>
     )
