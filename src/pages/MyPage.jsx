@@ -6,6 +6,9 @@ import Modal from '../components/Modal'
 import UserEditForm from '../components/UserEditForm'
 import { fetchMyPageData } from '../apis/myPage'
 import { fetchUserFavorites } from '../store/favoritesSlice'
+import { useNavigate } from 'react-router-dom'
+import { logout } from '../apis/auth'
+import Button from '../components/Button'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -14,6 +17,7 @@ const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
 
 const MyPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [userId, setUserId] = useState(null)
     const [nickname, setNickname] = useState('')
@@ -26,7 +30,8 @@ const MyPage = () => {
         myReviews: true,
     })
 
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
     const [updateSuccessMsg, setUpdateSuccessMsg] = useState('')
 
     const isLoggedIn = true // TODO: 실제 로그인 상태와 연동
@@ -52,7 +57,10 @@ const MyPage = () => {
 
     // 내 레시피, 내 리뷰 데이터 fetch
     const loadMyPageData = useCallback(async () => {
-        if (!userId) return
+        if (!userId) {
+            setIsLoading({ myRecipes: false, myReviews: false })
+            return
+        }
 
         try {
             const { nickname, petInfo, myRecipes, myReviews } = await fetchMyPageData(userId)
@@ -83,11 +91,21 @@ const MyPage = () => {
     const handleUpdate = (message) => {
         loadMyPageData()
         setUpdateSuccessMsg(message)
-        setIsModalOpen(false)
+        setIsEditModalOpen(false)
     }
 
     const handleCardClick = (recipeId) => {
         alert(`클릭된 레시피 ID: ${recipeId}`)
+    }
+
+    const handleLogout = async () => {
+        try {
+            await logout()
+            localStorage.removeItem('userId')
+            navigate('/')
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 
     const renderRecipeSection = (title, data, isLoading, isReview = false) => {
@@ -131,7 +149,7 @@ const MyPage = () => {
                     <span>반려동물 정보: </span>
                     <span>{petInfo.NAME}</span>
                 </div>
-                <div className={css.actionItem} onClick={() => setIsModalOpen(true)}>
+                <div className={css.actionItem} onClick={() => setIsEditModalOpen(true)}>
                     정보 수정
                 </div>
             </section>
@@ -148,19 +166,39 @@ const MyPage = () => {
             </section>
 
             <section className={css.accountActions}>
-                <div className={css.actionItem}>로그아웃</div>
-                <div className={css.actionItem}>회원탈퇴</div>
+                <div className={css.actionItem} onClick={() => setIsLogoutModalOpen(true)}>
+                    로그아웃
+                </div>
+                <div className={css.actionItem} onClick={() => navigate('/withdraw')}>
+                    회원탈퇴
+                </div>
             </section>
 
-            {isModalOpen && (
+            {isEditModalOpen && (
                 <Modal>
                     <UserEditForm
                         userId={userId}
                         nickname={nickname}
                         petInfo={petInfo}
                         onUpdate={handleUpdate}
-                        onClose={() => setIsModalOpen(false)}
+                        onClose={() => setIsEditModalOpen(false)}
                     />
+                </Modal>
+            )}
+
+            {isLogoutModalOpen && (
+                <Modal>
+                    <div className={css.logoutModalContents}>
+                        <p>로그아웃 하시겠습니까?</p>
+                        <div className={css.btnWrapper}>
+                            <Button text="로그아웃" color="brown" onClick={handleLogout} />
+                            <Button
+                                text="닫기"
+                                color="default"
+                                onClick={() => setIsLogoutModalOpen(false)}
+                            />
+                        </div>
+                    </div>
                 </Modal>
             )}
         </main>
