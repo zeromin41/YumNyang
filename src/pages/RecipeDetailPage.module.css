@@ -111,6 +111,7 @@ li{
 
 /* 마지막 요소에는 오른쪽 패딩 제거 */
 .likeWrap {
+    right: var(--fs8);
     padding-right: 0;
 }
 
