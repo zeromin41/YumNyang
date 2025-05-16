@@ -11,6 +11,7 @@ function Timer({ size = 500, strokeWidth = 12, onComplete }) {
 
     // Fix radius calculation to account for the stroke width properly
     const radius = (size - strokeWidth * 2) / 2
+    const radius = (size - strokeWidth * 4) / 2
     const circumference = 2 * Math.PI * radius
 
     useEffect(() => {
@@ -48,7 +49,7 @@ function Timer({ size = 500, strokeWidth = 12, onComplete }) {
         rafId = requestAnimationFrame(update)
 
         return () => cancelAnimationFrame(rafId)
-    }, [started, circumference, onComplete, remainingSec])
+    }, [started])
 
     const handleStart = () => {
         const mins = parseInt(inputMinutes, 10) || 0
@@ -76,7 +77,7 @@ function Timer({ size = 500, strokeWidth = 12, onComplete }) {
         <div className={style.timerWrapper}>
             <div className={style.circularTimer} style={{ width: size, height: size }}>
                 {/* Add viewBox to ensure SVG scales properly */}
-                <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+                <svg width={size} height={size}>
                     <circle
                         className={style.circularTimer__bg}
                         cx={size / 2}
