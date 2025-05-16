@@ -57,11 +57,18 @@ const Header = () => {
     }
   };
 
-  return (
-    <header className={styles.headerContainer}>
-      <Link to="/" className={styles.logoLink}>
-        먹었냥🐾
-      </Link>
+
+    return (
+        <header className={styles.headerContainer}>
+            {location.pathname === '/mypage' ? (
+                <Link to="/mypage" className={styles.logoLink}>
+                    마이냥 🐾
+                </Link>
+            ) : (
+                <Link to="/" className={styles.logoLink}>
+                    먹었냥 🐾
+                </Link>
+            )}
 
       <div
         className={styles.profileIconContainer}
@@ -85,4 +92,5 @@ const Header = () => {
   );
 };
 
-export default Header;
+
+export default Header
