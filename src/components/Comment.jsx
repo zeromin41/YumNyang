@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import css from './Comment.module.css'
 import StarRating from './StarRating'
 import axios from 'axios'
+import { API_BASE_URL } from '../utils/apiConfig'
 
 const Comment = ({ recipeId }) => {
     const [reviewData, setReviewData] = useState(null)
@@ -83,8 +84,36 @@ const Comment = ({ recipeId }) => {
         }
     }
 
-    const handleSubmit = () => {
-        alert(`평점: ${rating}, 댓글: ${comment}`)
+    // 등록하기 버튼 (리뷰 작성)
+    const handleSubmit = async () => {
+        if (rating === (null || 0)) {
+            alert('평점을 선택해주세요')
+            return
+        }
+
+        if (comment === (null || '')) {
+            alert('내용을 작성해주세요')
+            return
+        }
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/addReview`, {
+                recipeId: parseInt(recipeId),
+                // 로그인되어있는 userid 가져와야함 현재 테스트용 id
+                userId: parseInt(277),
+                ratingScore: parseInt(rating),
+                commentText: comment,
+            })
+
+            console.log('리뷰 작성 성공', response.data)
+            alert('리뷰 작성 완료!')
+            setComment('')
+            setRating(0)
+            await getReviewData()
+        } catch (error) {
+            console.log('리뷰 작성 실패', error)
+            alert('리뷰 작성을 실패했습니다')
+        }
     }
 
     // 해당 USER_ID의 닉네임 가져오기 (없으면 "익명" 반환)
