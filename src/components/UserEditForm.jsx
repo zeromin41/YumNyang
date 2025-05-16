@@ -12,8 +12,9 @@ import {
 import { VALIDATION_MESSAGES } from '../constants/messages'
 import { checkNickname } from '../apis/auth'
 import css from './UserEditForm.module.css'
+import { updateMyInfo } from '../apis/myPage'
 
-const UserEditForm = ({ nickname, petInfo, onClose }) => {
+const UserEditForm = ({ userId, nickname, petInfo, onUpdate, onClose }) => {
     const [form, setForm] = useState({
         nickname: '',
         password: '',
@@ -22,14 +23,13 @@ const UserEditForm = ({ nickname, petInfo, onClose }) => {
         petName: '',
         petAge: '',
     })
-
     const [errors, setErrors] = useState({})
     const [success, setSuccess] = useState({})
     const [isNicknameChecked, setIsNicknameChecked] = useState(false)
     const [generalError, setGeneralError] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
-        console.log(nickname, petInfo)
         if (nickname) {
             setForm((prev) => ({
                 ...prev,
@@ -107,12 +107,31 @@ const UserEditForm = ({ nickname, petInfo, onClose }) => {
 
     const handleEdit = async () => {
         if (!validate()) return
+        setIsSubmitting(true)
 
         try {
-            console.log('제출 데이터:', form)
+            await updateMyInfo(
+                {
+                    id: userId,
+                    nickname: form.nickname,
+                    password: form.password,
+                },
+                {
+                    id: petInfo.ID,
+                    userId,
+                    type: form.petType,
+                    name: form.petName,
+                    age: form.petAge === '' ? null : form.petAge,
+                }
+            )
+            setIsSubmitting(false)
+
+            onUpdate?.('정보가 성공적으로 수정되었습니다.')
             onClose?.()
         } catch (err) {
             setGeneralError(err.message || '수정 중 오류가 발생했습니다.')
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -235,7 +254,12 @@ const UserEditForm = ({ nickname, petInfo, onClose }) => {
                 </div>
             </form>
             <div className={css.btnWrapper}>
-                <Button text="저장" color="brown" flex={2} onClick={handleEdit} />
+                <Button
+                    text={isSubmitting ? '저장 중...' : '저장'}
+                    color="brown"
+                    flex={2}
+                    onClick={handleEdit}
+                />
                 <Button text="취소" color="sandBrown" flex={1} onClick={onClose} />
             </div>
             {generalError && <div className={`${css.msg} ${css.error}`}>{generalError}</div>}

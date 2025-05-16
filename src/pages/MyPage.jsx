@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import css from './MyPage.module.css'
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
 import Modal from '../components/Modal'
@@ -19,11 +19,14 @@ const MyPage = () => {
     const [myRecipes, setMyRecipes] = useState([])
     const [myReviews, setMyReviews] = useState([])
 
-    const [isLoadingFavorite, setIsLoadingFavorite] = useState(true)
-    const [isLoadingMyRecipes, setIsLoadingMyRecipes] = useState(true)
-    const [isLoadingMyReviews, setIsLoadingMyReviews] = useState(true)
+    const [isLoading, setIsLoading] = useState({
+        favorite: true,
+        myRecipes: true,
+        myReviews: true,
+    })
 
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [updateSuccessMsg, setUpdateSuccessMsg] = useState('')
 
     const isLoggedIn = false // TODO: 실제 로그인 상태와 연동
 
@@ -32,35 +35,45 @@ const MyPage = () => {
         if (storedUserId) setUserId(Number(storedUserId))
     }, [])
 
-    useEffect(() => {
+    const loadMyPageData = useCallback(async () => {
         if (!userId) return
 
-        const loadMyPageData = async () => {
-            try {
-                const { nickname, petInfo, favoriteRecipes, myRecipes, myReviews } =
-                    await fetchMyPageData(userId)
-                setNickname(nickname?.nickname?.NICKNAME)
-                setPetInfo(petInfo?.pets?.[0])
-                setFavoriteRecipes(favoriteRecipes)
-                setMyRecipes(myRecipes)
-                setMyReviews(myReviews)
+        try {
+            const { nickname, petInfo, favoriteRecipes, myRecipes, myReviews } =
+                await fetchMyPageData(userId)
 
-                setIsLoadingFavorite(false)
-                setIsLoadingMyRecipes(false)
-                setIsLoadingMyReviews(false)
-            } catch (err) {
-                console.log(err.message)
+            setNickname(nickname?.nickname?.NICKNAME)
+            setPetInfo(petInfo?.pets?.[0] || {})
 
-                setIsLoadingFavorite(false)
-                setIsLoadingMyRecipes(false)
-                setIsLoadingMyReviews(false)
-            }
+            setFavoriteRecipes(favoriteRecipes)
+            setMyRecipes(myRecipes)
+            setMyReviews(myReviews)
+        } catch (err) {
+            console.error(err.message)
+        } finally {
+            setIsLoading({ favorite: false, myRecipes: false, myReviews: false })
         }
-        loadMyPageData()
     }, [userId])
 
+    useEffect(() => {
+        loadMyPageData()
+    }, [loadMyPageData])
+
+    useEffect(() => {
+        if (updateSuccessMsg) {
+            const timer = setTimeout(() => setUpdateSuccessMsg(''), 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [updateSuccessMsg])
+
+    const handleUpdate = (message) => {
+        loadMyPageData() // 데이터 리로드
+        setUpdateSuccessMsg(message)
+        setIsModalOpen(false)
+    }
+
     const handleCardClick = (recipeId) => {
-        alert('클릭된 레시피 ID:', recipeId)
+        alert(`클릭된 레시피 ID: ${recipeId}`)
     }
 
     const renderRecipeSection = (title, data, isLoading, isReview = false) => (
@@ -84,6 +97,7 @@ const MyPage = () => {
 
     return (
         <main className={css.myPageCon}>
+            {updateSuccessMsg && <div className={css.updateSuccessMsg}>{updateSuccessMsg}</div>}
             <section className={css.userInfo}>
                 <span className={css.nickname}>{nickname}</span>
                 <div className={css.petInfo}>
@@ -96,9 +110,9 @@ const MyPage = () => {
             </section>
 
             <section className={css.myContentsCon}>
-                {renderRecipeSection('찜한 레시피', favoriteRecipes, isLoadingFavorite)}
-                {renderRecipeSection('내가 작성한 레시피', myRecipes, isLoadingMyRecipes)}
-                {renderRecipeSection('내가 작성한 리뷰', myReviews, isLoadingMyReviews, true)}
+                {renderRecipeSection('찜한 레시피', favoriteRecipes, isLoading.favorite)}
+                {renderRecipeSection('내가 작성한 레시피', myRecipes, isLoading.myRecipes)}
+                {renderRecipeSection('내가 작성한 리뷰', myReviews, isLoading.myReviews, true)}
             </section>
 
             <section className={css.accountActions}>
@@ -109,8 +123,10 @@ const MyPage = () => {
             {isModalOpen && (
                 <Modal>
                     <UserEditForm
+                        userId={userId}
                         nickname={nickname}
                         petInfo={petInfo}
+                        onUpdate={handleUpdate}
                         onClose={() => setIsModalOpen(false)}
                     />
                 </Modal>

@@ -1,4 +1,4 @@
-import { getRequest } from './api'
+import { getRequest, postRequest } from './api'
 
 export const fetchMyPageData = async (userId) => {
     const results = await Promise.allSettled([
@@ -13,4 +13,13 @@ export const fetchMyPageData = async (userId) => {
         result.status === 'fulfilled' ? result.value : []
     )
     return { nickname, petInfo, favoriteRecipes, myRecipes, myReviews }
+}
+
+export const updateMyInfo = async (userData, petData) => {
+    const results = await Promise.all([
+        postRequest('/changeUserInfo', userData),
+        postRequest('/UpdatePetInfo', petData),
+    ])
+
+    return results
 }
