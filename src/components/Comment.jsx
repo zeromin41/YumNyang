@@ -11,30 +11,29 @@ const Comment = ({ recipeId }) => {
     const [rating, setRating] = useState(0)
 
     // 리뷰 데이터 가져오기
-    useEffect(() => {
-        const getReviewData = async () => {
-            try {
-                const response = await axios.get(
-                    `https://seungwoo.i234.me:3333/getReview/${recipeId}`
-                )
-                setReviewData(response.data)
-                console.log('리뷰데이터 받아오기 성공', response.data)
 
-                // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
-                if (response.data && response.data.review && response.data.review.length > 0) {
-                    // 중복 없이 고유한 USER_ID 추출
-                    const uniqueUserIds = [
-                        ...new Set(response.data.review.map((review) => review.USER_ID)),
-                    ]
+    const getReviewData = async () => {
+        try {
+            const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
+            setReviewData(response.data)
+            console.log('리뷰데이터 받아오기 성공', response.data)
 
-                    // 각 USER_ID에 대한 닉네임 가져오기
-                    fetchReviewerNicknames(uniqueUserIds)
-                }
-            } catch (error) {
-                console.error('리뷰 데이터 가져오기 실패:', error)
+            // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
+            if (response.data && response.data.review && response.data.review.length > 0) {
+                // 중복 없이 고유한 USER_ID 추출
+                const uniqueUserIds = [
+                    ...new Set(response.data.review.map((review) => review.USER_ID)),
+                ]
+
+                // 각 USER_ID에 대한 닉네임 가져오기
+                fetchReviewerNicknames(uniqueUserIds)
             }
+        } catch (error) {
+            console.error('리뷰 데이터 가져오기 실패:', error)
         }
+    }
 
+    useEffect(() => {
         if (recipeId) {
             getReviewData()
         }
@@ -135,7 +134,7 @@ const Comment = ({ recipeId }) => {
 
             <div className={css.inputWrapper}>
                 <div className={css.userCon}>
-                    {/* 현재 로그인 중인 사람의 닉네임을 가져오거나 아예 빼도 어색하지 않을 듯함함 */}
+                    {/* 현재 로그인 중인 사람의 닉네임을 가져오거나 아예 빼도 어색하지 않을 듯함 */}
                     <span>작성자</span>
                 </div>
 
