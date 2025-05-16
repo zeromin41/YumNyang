@@ -76,6 +76,7 @@ const favoritesSlice = createSlice({
             .addCase(fetchUserFavorites.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.items = action.payload
+                state.error = null
             })
             .addCase(fetchUserFavorites.rejected, (state, action) => {
                 state.status = 'failed'
@@ -88,6 +89,7 @@ const favoritesSlice = createSlice({
             .addCase(addFavoriteToServer.fulfilled, (state) => {
                 // 목록이 fetchUserFavorites를 통해 갱신되므로 여기서는 status만 변경
                 state.status = 'succeeded'
+                state.error = null
             })
             .addCase(addFavoriteToServer.rejected, (state, action) => {
                 state.status = 'failed'
@@ -99,6 +101,7 @@ const favoritesSlice = createSlice({
             })
             .addCase(removeFavoriteFromServer.fulfilled, (state) => {
                 state.status = 'succeeded'
+                state.error = null
             })
             .addCase(removeFavoriteFromServer.rejected, (state, action) => {
                 state.status = 'failed'
