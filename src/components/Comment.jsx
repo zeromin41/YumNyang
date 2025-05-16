@@ -104,7 +104,7 @@ const Comment = ({ recipeId }) => {
                 <span>💬 댓글</span>
             </div>
 
-            <div className={css.commentWrapper}>
+            <div className={css.inputWrapper}>
                 <div className={css.userCon}>
                     {/* 현재 로그인 중인 사람의 닉네임을 가져오거나 아예 빼도 어색하지 않을 듯함함 */}
                     <span>작성자</span>
@@ -131,9 +131,11 @@ const Comment = ({ recipeId }) => {
                     <div className={css.commentWrapper} key={index}>
                         <div className={css.userCon}>
                             {/* 객체를 직접 렌더링하지 않고 문자열만 렌더링 */}
-                            {getNickname(data.USER_ID)}
+                            <span className={css.commentNickname}>{getNickname(data.USER_ID)}</span>
                         </div>
-                        <span className={css.commentMsg}>{data.COMMENT_TEXT}</span>
+                        <div className={css.msgCon}>
+                            <span className={css.commentMsg}>{data.COMMENT_TEXT}</span>
+                        </div>
                     </div>
                 ))}
             </div>
