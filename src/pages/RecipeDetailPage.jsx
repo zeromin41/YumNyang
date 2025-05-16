@@ -6,11 +6,12 @@ import TTSComponent from '../components/TTSComponent'
 import playImg from '../assets/play-03.svg'
 import Comment from '../components/Comment'
 import Nutritional from './../components/Nutritional'
-import Header from '../components/Header'
 import starImg from '../assets/full-star.svg'
 import heartImg from '../assets/full-heart.svg'
 import { formatDate } from './../utils/feature'
-import Menu from '../components/Menu'
+import FloatingButton from '../components/FloatingButton'
+import Timer from '../components/Timer'
+import watchImg from '../assets/stopwatch-03.svg'
 
 const BASE_URL = 'https://seungwoo.i234.me:3333'
 
@@ -19,6 +20,7 @@ const RecipeDetailPage = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0) // 탭 상태를 최상위 컴포넌트로 이동
+    const [showTimer, setShowTimer] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,7 +43,7 @@ const RecipeDetailPage = () => {
     const WriterInfo = () => (
         <div className={css.writerInfoContainer}>
             <div className={css.writerNicknameWrap}>
-                <span>작성자: {recipeData.recipe.USER_ID}</span>
+                <span>작성자: 닉네임</span>
             </div>
             <div className={css.postDateWrap}>
                 <span>{formatDate(recipeData.recipe.CREATE_AT)}</span>
@@ -101,7 +103,7 @@ const RecipeDetailPage = () => {
             <BasicInfoList />
             <IngredientList />
             {/* 영양 정보 컴포넌트 */}
-            <Nutritional />
+            <Nutritional recipeData={recipeData} />
         </>
     )
 
@@ -158,7 +160,7 @@ const RecipeDetailPage = () => {
             {recipeData.description.map((step, index) => (
                 <RecipeStepCard
                     key={index}
-                    number={step.FLOW || index + 1}
+                    number={step.FLOW + 1}
                     instruction={step.DESCRIPTION}
                     image={step.IMAGE_URL}
                     btnkey={index}
@@ -166,6 +168,11 @@ const RecipeDetailPage = () => {
             ))}
         </>
     )
+
+    //플로팅 버튼(타이머)
+    const clickFloatingBtn = () => {
+        setShowTimer(!showTimer)
+    }
 
     return (
         <div className={css.recipeDetailContainer}>
@@ -179,10 +186,15 @@ const RecipeDetailPage = () => {
             <DetailTab />
 
             {/* 탭 내용 */}
-            <div className={css.tabContent}>{activeTab === 0 ? BasicInfo() : RecipeSteps()}</div>
+            <div className={css.tabContent}>
+                {activeTab === 0 ? <BasicInfo /> : <RecipeSteps />}
+            </div>
 
             {/* 댓글 섹션은 항상 표시 */}
-            <Comment />
+            {/* useParam으로 recipeId 받아와야함 */}
+            <Comment recipeId={'15'} />
+            <FloatingButton iconSrc={watchImg} onClick={clickFloatingBtn} />
+            {showTimer && <Timer />}
         </div>
     )
 }

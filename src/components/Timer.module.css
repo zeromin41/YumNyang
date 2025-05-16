@@ -1,44 +1,46 @@
 .timerWrapper {
+    position: fixed;
+    bottom: var(--fs64);
+    right: var(--fs64);
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .circularTimer {
+}
+
+.circularTimer {
     position: relative;
-  }
-  
-  .circularTimer__svg {
+}
+
+.circularTimer__svg {
     display: block;
-  }
-  
-  .circularTimer__bg {
+}
+
+.circularTimer__bg {
     fill: none;
     stroke: #eee;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
-  }
-  
-  .circularTimer__progress {
+}
+
+.circularTimer__progress {
     fill: none;
     stroke: var(--main-colors-accent);
     stroke-linecap: round;
     transition: stroke-dashoffset 0.1s linear;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
-  }
-  
-  .circularTimer__text {
+}
+
+.circularTimer__text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: monospace;
     line-height: 1;
-  }
-  
-  
-  .timerButton {
+}
+
+.timerButton {
     margin-top: 16px;
     padding: 8px 16px;
     font-size: 1rem;
@@ -47,33 +49,48 @@
     color: white;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  .timerButton:disabled {
+}
+
+.timerButton:disabled {
     background-color: #aaa;
     cursor: not-allowed;
-  }
+}
 
 .timeInputs {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
 }
 
 .timeInputs input {
-  width: 2em;
-  padding: 0.2em 0;
-  text-align: center;
-  font-size: 1.2rem;
-  border: none;
-  border-bottom: 2px solid var(--main-colors-accent);
-  background: transparent;
-  color: #333;
-  outline: none;
+    width: 2em;
+    padding: 0.2em 0;
+    text-align: center;
+    font-size: 1.2rem;
+    border: none;
+    border-bottom: 2px solid var(--main-colors-accent);
+    background: transparent;
+    color: #333;
+    outline: none;
 }
 
 .timeInputs span {
-  font-size: 1.2rem;
-  line-height: 1;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+@media screen and (max-width: 480px) {
+    .timerWrapper {
+        position: fixed;
+        bottom: 400px;
+        right: 70px;
+        z-index: 100;
+        transform: scale(0.6);
+        transform-origin: bottom right;
+    }
+
+    .circularTimer__bg {
+        fill: #fff;
+    }
 }

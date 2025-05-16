@@ -1,25 +1,28 @@
 .commentCon {
-    display: flex;
     flex-direction: column;
     gap: var(--fs8);
+    font-weight: bold;
 }
-.commentCon > label {
-    font-size: var(--fs20);
+.commentLabel {
+    font-size: var(--fs26);
+
+    border-bottom: 1px solid #eae4dc;
 }
+
 .bar {
     border: 1px solid var(--neutral-colors-light-gray);
 }
-.commentWrapper {
+.inputWrapper {
     display: flex;
     gap: var(--fs16);
     padding: var(--fs4) var(--fs12);
 }
 .userCon {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-self: center;
 }
-.userCon > p {
+.inputWrapper .userCon > span {
     font-size: var(--fs12);
 }
 .ratingWrapper {
@@ -54,10 +57,7 @@
 .commentForm > button:hover {
     scale: 1.1;
 }
-.commentList {
+/* 댓글쪽 스타일링 */
+.commentWrapper {
     display: flex;
-    flex-direction: column;
-}
-.commentMsg {
-    padding: var(--fs8) 0;
 }
