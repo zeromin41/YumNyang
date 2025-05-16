@@ -12,18 +12,17 @@
 .bar {
     border: 1px solid var(--neutral-colors-light-gray);
 }
-.commentWrapper {
+.inputWrapper {
     display: flex;
     gap: var(--fs16);
     padding: var(--fs4) var(--fs12);
-    justify-content: center;
 }
 .userCon {
     display: flex;
     align-items: center;
     justify-self: center;
 }
-.userCon > span {
+.inputWrapper .userCon > span {
     font-size: var(--fs12);
 }
 .ratingWrapper {
@@ -58,20 +57,7 @@
 .commentForm > button:hover {
     scale: 1.1;
 }
-.commentList {
+/* 댓글쪽 스타일링 */
+.commentWrapper {
     display: flex;
-    flex-direction: column;
-}
-.commentList .commentWrapper .userCon::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 20px; /* 세로선 높이 */
-    width: 1px; /* 세로선 너비 */
-    background-color: #d9d9d9; /* 세로선 색상 */
-}
-.commentMsg {
-    padding: var(--fs8) 0;
 }
