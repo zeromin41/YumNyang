@@ -6,11 +6,12 @@ import TTSComponent from '../components/TTSComponent'
 import playImg from '../assets/play-03.svg'
 import Comment from '../components/Comment'
 import Nutritional from './../components/Nutritional'
-import Header from '../components/Header'
 import starImg from '../assets/full-star.svg'
 import heartImg from '../assets/full-heart.svg'
 import { formatDate } from './../utils/feature'
-import Menu from '../components/Menu'
+import FloatingButton from '../components/FloatingButton'
+import Timer from '../components/Timer'
+import watchImg from '../assets/stopwatch-03.svg'
 
 const BASE_URL = 'https://seungwoo.i234.me:3333'
 
@@ -19,7 +20,7 @@ const RecipeDetailPage = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0) // 탭 상태를 최상위 컴포넌트로 이동
-    const [postWriter, setPostWriter] = useState('')
+    const [showTimer, setShowTimer] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -168,6 +169,11 @@ const RecipeDetailPage = () => {
         </>
     )
 
+    //플로팅 버튼(타이머)
+    const clickFloatingBtn = () => {
+        setShowTimer(!showTimer)
+    }
+
     return (
         <div className={css.recipeDetailContainer}>
             {/* 요리 제목  */}
@@ -187,6 +193,8 @@ const RecipeDetailPage = () => {
             {/* 댓글 섹션은 항상 표시 */}
             {/* useParam으로 recipeId 받아와야함 */}
             <Comment recipeId={'15'} />
+            <FloatingButton iconSrc={watchImg} onClick={clickFloatingBtn} />
+            {showTimer && <Timer />}
         </div>
     )
 }
