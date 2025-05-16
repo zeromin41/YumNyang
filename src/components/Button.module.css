@@ -42,7 +42,7 @@
 
 /* 사이즈 */
 .md {
-    padding: var(--fs8) var(--fs16);
+    /* padding: var(--fs8) var(--fs16); */
     font-size: var(--fs12);
 }
 .sm {

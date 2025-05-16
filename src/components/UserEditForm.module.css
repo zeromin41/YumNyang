@@ -1,0 +1,34 @@
+.editFormCon {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs26);
+}
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs16);
+}
+.editField {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs4);
+}
+.editNicknameField {
+    display: flex;
+    gap: var(--fs12);
+}
+
+.msg {
+    font-size: var(--fs12);
+}
+.error {
+    color: var(--service-colors-errors);
+}
+.success {
+    color: var(--service-colors-success);
+}
+
+.btnWrapper {
+    display: flex;
+    gap: var(--fs20);
+}
