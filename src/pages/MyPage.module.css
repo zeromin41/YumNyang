@@ -55,9 +55,22 @@
     justify-content: center;
     align-items: center;
     gap: var(--fs33);
-    margin-top: var(--fs26);
     padding: var(--fs16) 0;
     border-top: 1px solid var(--neutral-colors-light-gray);
+}
+.logoutModalContents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--fs26);
+    flex: 1;
+}
+.logoutModalContents > p {
+    text-align: center;
+}
+.btnWrapper {
+    display: flex;
+    gap: var(--fs12);
 }
 
 .updateSuccessMsg {
