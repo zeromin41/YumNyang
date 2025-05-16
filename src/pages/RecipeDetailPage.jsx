@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useParams } from 'react-router-dom'; 
+import { getRequest, postRequest } from '../apis/api'
 import RecipeStepCard from '../components/RecipeStepCard'
 import css from './RecipeDetailPage.module.css'
 import TTSComponent from '../components/TTSComponent'
@@ -13,31 +14,61 @@ import FloatingButton from '../components/FloatingButton'
 import Timer from '../components/Timer'
 import watchImg from '../assets/stopwatch-03.svg'
 
-const BASE_URL = 'https://seungwoo.i234.me:3333'
-
 const RecipeDetailPage = () => {
+    const { recipeId } = useParams();
     const [recipeData, setRecipeData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0) // 탭 상태를 최상위 컴포넌트로 이동
     const [showTimer, setShowTimer] = useState(false)
+    
 
+    // fetchData 함수 수정
     useEffect(() => {
         const fetchData = async () => {
+            if (!recipeId) return
+            setLoading(true)
+            setError(null)
             try {
-                setLoading(true)
-                const response = await axios.get(`${BASE_URL}/getRecipe/15`)
-                setRecipeData(response.data)
-                console.log('데이터 받아오기 성공', response.data)
-            } catch (error) {
-                console.log('데이터 받아오기 실패', error)
-                setError('데이터를 불러오는데 실패했습니다.')
+                const responseData = await getRequest(`/getRecipe/${recipeId}`)
+                setRecipeData(responseData)
+                console.log(`Recipe ${recipeId} 데이터 받아오기 성공`, responseData)
+            } catch (err) {
+                console.error(`Recipe ${recipeId} 데이터 받아오기 실패`, err.message)
+                setError(err.message || '데이터를 불러오는데 실패했습니다.')
             } finally {
                 setLoading(false)
             }
         }
         fetchData()
-    }, [])
+    }, [recipeId])
+
+    // post 요청을 통해 최근 본 레시피 기록
+    useEffect(() => {
+        const recordRecentlyViewed = async () => {
+            const currentUserId = localStorage.getItem('userId')
+
+            if (currentUserId && recipeId && recipeData && !loading && !error) {
+                try {
+                    const responseMessage = await postRequest('/addRecentlyView', {
+                        userId: parseInt(currentUserId, 10),
+                        recipeId: parseInt(recipeId, 10),
+                    })
+                    console.log(
+                        responseMessage.message ||
+                            `최근 본 레시피 기록 성공: userId=<span class="math-inline">\{currentUserId\}, recipeId\=</span>{recipeId}`
+                    )
+                } catch (err) {
+                    console.error('최근 본 레시피 기록 API 오류:', err.message)
+                }
+            }
+        }
+
+        if (recipeData) {
+            // recipeData가 성공적으로 로드된 후에만 기록
+            recordRecentlyViewed()
+        }
+    }, [recipeData, recipeId, loading, error]) // 의존성 배열 확인
 
     //작성자,작성일,별점,좋아요
     const WriterInfo = () => (
@@ -191,8 +222,8 @@ const RecipeDetailPage = () => {
             </div>
 
             {/* 댓글 섹션은 항상 표시 */}
-            {/* useParam으로 recipeId 받아와야함 */}
-            <Comment recipeId={'15'} />
+            {/* useParam으로 recipeId 로 수정  */}
+            <Comment recipeId={recipeId} />
             <FloatingButton iconSrc={watchImg} onClick={clickFloatingBtn} />
             {showTimer && <Timer />}
         </div>
