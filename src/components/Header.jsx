@@ -1,17 +1,62 @@
-import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import styles from './Header.module.css'
-import ProfileCircle from '../assets/user-profile-circle.svg'
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from './Header.module.css';
+import ProfileCircle from '../assets/user-profile-circle.svg';
+import { getRequest } from '../apis/api'; 
 
 const Header = () => {
-    const navigate = useNavigate()
-    const location = useLocation()
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userNickname, setUserNickname] = useState('');
 
-    // 프로필 아이콘 클릭 시 실행될 함수
-    const handleProfileClick = () => {
-        alert('로그인이 필요합니다.') // 알림 메시지
-        navigate('/login') // 로그인 페이지로 이동
+  const fetchUserNickname = useCallback(async (userId) => {
+    try {
+      const data = await getRequest(`/getUserNickname/${userId}`);
+      if (data && data.nickname && data.nickname.NICKNAME) {
+        return data.nickname.NICKNAME;
+      }
+      console.warn('API response for nickname is not in expected format:', data);
+      return null;
+    } catch (error) {
+      console.error('Failed to fetch nickname in Header component:', error.message);
+      return null;
     }
+  }, []);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+
+    if (storedUserId) {
+      setIsLoggedIn(true);
+      const storedUserNickname = localStorage.getItem('userNickname');
+
+      if (storedUserNickname) {
+        setUserNickname(storedUserNickname);
+      } else {
+        fetchUserNickname(storedUserId).then(nicknameFromApi => {
+          if (nicknameFromApi) {
+            setUserNickname(nicknameFromApi);
+            localStorage.setItem('userNickname', nicknameFromApi);
+          } else {
+            setUserNickname('사용자');
+          }
+        });
+      }
+    } else {
+      setIsLoggedIn(false);
+      setUserNickname('');
+    }
+  }, [fetchUserNickname]);
+
+  const handleProfileAreaClick = () => {
+    if (isLoggedIn) {
+      navigate('/mypage');
+    } else {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+    }
+  };
+
 
     return (
         <header className={styles.headerContainer}>
@@ -25,18 +70,27 @@ const Header = () => {
                 </Link>
             )}
 
-            {/* 프로필 아이콘 영역 (클릭 가능) */}
-            <div
-                className={styles.profileIconContainer}
-                onClick={handleProfileClick}
-                role="button"
-                aria-label="로그인 페이지로 이동"
-            >
-                {/* 사용자/프로필 아이콘 SVG */}
-                <img src={ProfileCircle} alt="프로필 아이콘" className={styles.profileIcon} />
-            </div>
-        </header>
-    )
-}
+      <div
+        className={styles.profileIconContainer}
+        onClick={handleProfileAreaClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleProfileAreaClick(); }}
+        aria-label={isLoggedIn ? `${userNickname}님 마이페이지로 이동` : "로그인 페이지로 이동"}
+      >
+        {isLoggedIn ? (
+          <span className={styles.nicknameText}>{userNickname} 님</span>
+        ) : (
+          <img
+            src={ProfileCircle}
+            alt="프로필 아이콘"
+            className={styles.profileIcon}
+          />
+        )}
+      </div>
+    </header>
+  );
+};
+
 
 export default Header

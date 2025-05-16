@@ -18,3 +18,5 @@ export const fetchCheckToken = async () => {
         console.log(error)
     }
 }
+
+export const logout = () => postRequest('/logout'); // POST /logout 추가 

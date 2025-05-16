@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import Button from '../components/Button'
 import Modal from '../components/Modal'
@@ -28,6 +28,10 @@ const SKELETON_COUNT = 4
 
 const Search = () => {
     const navigate = useNavigate()
+    const outletContext = useOutletContext() //디폴트페이지에서 로그인컨텍스트 가져옴
+
+    const actualIsLoggedIn = outletContext?.isLoggedIn || false
+    const actualUserId = outletContext?.userId || null
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedPet, setSelectedPet] = useState('')
@@ -61,11 +65,9 @@ const Search = () => {
             return
         }
         try {
-            console.log('Sending request to /searchRecipe with body:', requestBody)
             const data = await postRequest('/searchRecipe', requestBody)
             setSearchResults(data.recipe || [])
         } catch (error) {
-            console.error('레시피 검색 중 오류:', error.message, error.response?.data)
             setSearchError(error.message)
             setSearchResults([])
         } finally {
@@ -150,21 +152,17 @@ const Search = () => {
     const renderPaginationItems = () => {
         if (totalPages <= 1) return null
         let items = []
-        const MAX_VISIBLE_PAGES = 5 // 한 번에 표시할 최대 페이지 수 (현재 페이지 기준 양옆으로)
+        const MAX_VISIBLE_PAGES = 5
         let startPage = Math.max(1, currentPage - Math.floor(MAX_VISIBLE_PAGES / 2))
         let endPage = Math.min(totalPages, startPage + MAX_VISIBLE_PAGES - 1)
 
-        // 페이지 범위 보정 (항상 MAX_VISIBLE_PAGES 개수만큼 보이도록, 전체 페이지 수가 충분할 경우)
         if (endPage - startPage + 1 < MAX_VISIBLE_PAGES && totalPages >= MAX_VISIBLE_PAGES) {
             startPage = Math.max(1, endPage - MAX_VISIBLE_PAGES + 1)
         }
 
-        // 이전 페이지 그룹이 있다면 Ellipsis 추가
         if (startPage > 1) {
-            items.push(<Pagination.Ellipsis key="start-ellipsis" />)
+            items.push(<Pagination.Ellipsis key="start-ellipsis" disabled />)
         }
-
-        // 실제 페이지 번호 아이템들
         for (let number = startPage; number <= endPage; number++) {
             items.push(
                 <Pagination.Item
@@ -176,9 +174,8 @@ const Search = () => {
                 </Pagination.Item>
             )
         }
-
         if (endPage < totalPages) {
-            items.push(<Pagination.Ellipsis key="end-ellipsis" />)
+            items.push(<Pagination.Ellipsis key="end-ellipsis" disabled />)
         }
 
         return (
@@ -187,7 +184,7 @@ const Search = () => {
                     onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
                 />
-                {items} 
+                {items}
                 <Pagination.Next
                     onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                     disabled={currentPage === totalPages}
@@ -206,7 +203,7 @@ const Search = () => {
                 onChange={handleSearchInputChange}
                 onSearch={triggerSearchFromBar}
                 mode="search"
-                placeholder="레시피 제목으로 검색"
+                placeholder="레시피 재료로 검색 (예: 닭가슴살)" // 플레이스홀더 수정
             />
 
             <h2 style={{ fontFamily: 'Goyang', marginTop: '15px' }}>검색 결과</h2>
@@ -232,13 +229,14 @@ const Search = () => {
                         <div className={styles.resultsList}>
                             {currentItemsOnPage.map((recipe) => (
                                 <RecipeCard
-                                    key={recipe.ID}
+                                    key={recipe.ID} // 백엔드 응답 필드명 확인 (ID가 맞음)
                                     imageSrc={recipe.MAIN_IMAGE_URL}
                                     title={recipe.TITLE}
-                                    recipeId={recipe.ID}
+                                    recipeId={recipe.ID} // recipeId로 ID 전달
                                     altText={recipe.TITLE || '레시피 이미지'}
-                                    isLoggedIn={false}
-                                    userId={null}
+                                    // 실제 로그인 상태와 사용자 ID를 전달
+                                    isLoggedIn={actualIsLoggedIn}
+                                    userId={actualUserId}
                                     onClick={() => navigate(`/recipe/${recipe.ID}`)}
                                 />
                             ))}
