@@ -1,16 +1,16 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import RecipeCard from './RecipeCard';
-import RecipeCardSkeleton from './RecipeCardSkeleton'; // 스켈레톤 컴포넌트 임포트
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import RecipeCard from './RecipeCard'
+import RecipeCardSkeleton from './RecipeCardSkeleton' // 스켈레톤 컴포넌트 임포트
 
-const CARD_MAX_WIDTH = '120px';
+const CARD_MAX_WIDTH = '120px'
 
-function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isLoggedIn, userId }) {
-    const spaceBetween = 16;
-    const slidesOffset = 16;
-    const slidesPerView = 'auto';
+function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isLoggedIn, userId }) {
+    const spaceBetween = 16
+    const slidesOffset = 16
+    const slidesPerView = 'auto'
 
     const swiperParams = {
         modules: [Pagination],
@@ -18,10 +18,10 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isLoggedIn, u
         spaceBetween: spaceBetween,
         slidesOffsetBefore: slidesOffset,
         slidesOffsetAfter: slidesOffset,
-        pagination: {
-            clickable: true,
-        },
-    };
+        // pagination: {
+        //     clickable: true,
+        // },
+    }
 
     return (
         <Swiper {...swiperParams}>
@@ -36,7 +36,7 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isLoggedIn, u
                     }}
                 >
                     {isSkeleton ? (
-                        <RecipeCardSkeleton />
+                        <RecipeCardSkeleton isReview={isReview} />
                     ) : (
                         <RecipeCard
                             recipeId={item.id} // item.id를 recipeId로 전달
@@ -51,7 +51,7 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isLoggedIn, u
                 </SwiperSlide>
             ))}
         </Swiper>
-    );
+    )
 }
 
-export default RecipeCardSwiper;
+export default RecipeCardSwiper

@@ -1,7 +1,25 @@
 import axios from 'axios'
-import { API_BASE_URL, API_POST_REQUEST_OPTIONS } from '../utils/apiConfig'
+import { API_BASE_URL, API_REQUEST_OPTIONS, API_POST_REQUEST_OPTIONS } from '../utils/apiConfig'
 
-axios.defaults.withCredentials = true
+export const getRequest = async (endpoint, params = {}) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}${endpoint}`, {
+            ...API_REQUEST_OPTIONS,
+            params: params,
+        })
+        return response.data
+    } catch (error) {
+        const message =
+            error.response?.data?.message ||
+            error.response?.data?.error ||
+            'GET 요청 처리 중 오류가 발생했습니다.'
+        console.error(
+            `GET ${API_BASE_URL}${endpoint} Error:`,
+            error.response?.data || error.message
+        )
+        throw new Error(message)
+    }
+}
 
 export const postRequest = async (endpoint, data) => {
     try {
