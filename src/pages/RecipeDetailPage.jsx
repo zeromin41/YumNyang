@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom'
 import { getRequest, postRequest } from '../apis/api'
 import RecipeStepCard from '../components/RecipeStepCard'
 import css from './RecipeDetailPage.module.css'
@@ -15,13 +15,12 @@ import Timer from '../components/Timer'
 import watchImg from '../assets/stopwatch-03.svg'
 
 const RecipeDetailPage = () => {
-    const { recipeId } = useParams();
+    const { recipeId } = useParams()
     const [recipeData, setRecipeData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0) // 탭 상태를 최상위 컴포넌트로 이동
     const [showTimer, setShowTimer] = useState(false)
-    
 
     // fetchData 함수 수정
     useEffect(() => {
@@ -70,7 +69,7 @@ const RecipeDetailPage = () => {
         }
     }, [recipeData, recipeId, loading, error]) // 의존성 배열 확인
 
-    //작성자,작성일,별점,좋아요
+    //작성자,작성일,별점,조회수
     const WriterInfo = () => (
         <div className={css.writerInfoContainer}>
             <div className={css.writerNicknameWrap}>
@@ -85,7 +84,7 @@ const RecipeDetailPage = () => {
             </div>
             <div className={css.likeWrap}>
                 <img src={heartImg} alt="하트" />
-                <span>{recipeData.recipe.FAVORITES_COUNT}</span>
+                <span>{recipeData.recipe.VIEW_COUNT}</span>
             </div>
         </div>
     )

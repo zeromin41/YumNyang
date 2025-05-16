@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import css from './Comment.module.css'
 import StarRating from './StarRating'
 import axios from 'axios'
+import { API_BASE_URL } from '../utils/apiConfig'
 
 const Comment = ({ recipeId }) => {
     const [reviewData, setReviewData] = useState(null)
@@ -10,30 +11,29 @@ const Comment = ({ recipeId }) => {
     const [rating, setRating] = useState(0)
 
     // 리뷰 데이터 가져오기
-    useEffect(() => {
-        const getReviewData = async () => {
-            try {
-                const response = await axios.get(
-                    `https://seungwoo.i234.me:3333/getReview/${recipeId}`
-                )
-                setReviewData(response.data)
-                console.log('리뷰데이터 받아오기 성공', response.data)
 
-                // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
-                if (response.data && response.data.review && response.data.review.length > 0) {
-                    // 중복 없이 고유한 USER_ID 추출
-                    const uniqueUserIds = [
-                        ...new Set(response.data.review.map((review) => review.USER_ID)),
-                    ]
+    const getReviewData = async () => {
+        try {
+            const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
+            setReviewData(response.data)
+            console.log('리뷰데이터 받아오기 성공', response.data)
 
-                    // 각 USER_ID에 대한 닉네임 가져오기
-                    fetchReviewerNicknames(uniqueUserIds)
-                }
-            } catch (error) {
-                console.error('리뷰 데이터 가져오기 실패:', error)
+            // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
+            if (response.data && response.data.review && response.data.review.length > 0) {
+                // 중복 없이 고유한 USER_ID 추출
+                const uniqueUserIds = [
+                    ...new Set(response.data.review.map((review) => review.USER_ID)),
+                ]
+
+                // 각 USER_ID에 대한 닉네임 가져오기
+                fetchReviewerNicknames(uniqueUserIds)
             }
+        } catch (error) {
+            console.error('리뷰 데이터 가져오기 실패:', error)
         }
+    }
 
+    useEffect(() => {
         if (recipeId) {
             getReviewData()
         }
@@ -83,8 +83,36 @@ const Comment = ({ recipeId }) => {
         }
     }
 
-    const handleSubmit = () => {
-        alert(`평점: ${rating}, 댓글: ${comment}`)
+    // 등록하기 버튼 (리뷰 작성)
+    const handleSubmit = async () => {
+        if (rating === (null || 0)) {
+            alert('평점을 선택해주세요')
+            return
+        }
+
+        if (comment === (null || '')) {
+            alert('내용을 작성해주세요')
+            return
+        }
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/addReview`, {
+                recipeId: parseInt(recipeId),
+                // 로그인되어있는 userid 가져와야함 현재 테스트용 id
+                userId: parseInt(277),
+                ratingScore: parseInt(rating),
+                commentText: comment,
+            })
+
+            console.log('리뷰 작성 성공', response.data)
+            alert('리뷰 작성 완료!')
+            setComment('')
+            setRating(0)
+            await getReviewData()
+        } catch (error) {
+            console.log('리뷰 작성 실패', error)
+            alert('리뷰 작성을 실패했습니다')
+        }
     }
 
     // 해당 USER_ID의 닉네임 가져오기 (없으면 "익명" 반환)
@@ -106,7 +134,7 @@ const Comment = ({ recipeId }) => {
 
             <div className={css.inputWrapper}>
                 <div className={css.userCon}>
-                    {/* 현재 로그인 중인 사람의 닉네임을 가져오거나 아예 빼도 어색하지 않을 듯함함 */}
+                    {/* 현재 로그인 중인 사람의 닉네임을 가져오거나 아예 빼도 어색하지 않을 듯함 */}
                     <span>작성자</span>
                 </div>
 
