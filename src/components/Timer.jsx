@@ -9,8 +9,6 @@ function Timer({ size = 500, strokeWidth = 12, onComplete }) {
     const [totalSeconds, setTotalSeconds] = useState(0)
     const circleRef = useRef(null)
 
-    // Fix radius calculation to account for the stroke width properly
-    const radius = (size - strokeWidth * 2) / 2
     const radius = (size - strokeWidth * 4) / 2
     const circumference = 2 * Math.PI * radius
 
@@ -76,7 +74,6 @@ function Timer({ size = 500, strokeWidth = 12, onComplete }) {
     return (
         <div className={style.timerWrapper}>
             <div className={style.circularTimer} style={{ width: size, height: size }}>
-                {/* Add viewBox to ensure SVG scales properly */}
                 <svg width={size} height={size}>
                     <circle
                         className={style.circularTimer__bg}
