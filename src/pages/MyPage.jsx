@@ -37,7 +37,6 @@ const MyPage = () => {
     const favoriteLoading = favoriteStatus === 'loading'
     const favoriteError = useSelector((state) => state.favorites.error)
 
-    console.log(favoriteRecipes)
     // userId 초기화
     useEffect(() => {
         const storedUserId = localStorage.getItem('userId')
@@ -51,7 +50,7 @@ const MyPage = () => {
         }
     }, [dispatch, userId])
 
-    // 내 레시피, 리뷰 데이터 fetch
+    // 내 레시피, 내 리뷰 데이터 fetch
     const loadMyPageData = useCallback(async () => {
         if (!userId) return
 
