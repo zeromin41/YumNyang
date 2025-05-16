@@ -23,7 +23,6 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isL
         //     clickable: true,
         // },
     }
-    console.log(isReview, data)
 
     return (
         <Swiper {...swiperParams}>
