@@ -9,6 +9,7 @@ import { fetchUserFavorites } from '../store/favoritesSlice'
 import { useNavigate } from 'react-router-dom'
 import { logout } from '../apis/auth'
 import Button from '../components/Button'
+import { mapRecipeData } from '../utils/mappingData'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -94,10 +95,6 @@ const MyPage = () => {
         setIsEditModalOpen(false)
     }
 
-    const handleCardClick = (recipeId) => {
-        alert(`클릭된 레시피 ID: ${recipeId}`)
-    }
-
     const handleLogout = async () => {
         try {
             await logout()
@@ -109,13 +106,7 @@ const MyPage = () => {
     }
 
     const renderRecipeSection = (title, data, isLoading, isReview = false) => {
-        const mappedData = Array.isArray(data)
-            ? data.map((item) => ({
-                  id: item.ID,
-                  imageSrc: item.MAIN_IMAGE_URL,
-                  title: item.TITLE,
-              }))
-            : []
+        const mappedData = mapRecipeData(data, isReview)
 
         return (
             <div className={css.myContentsWrapper}>
@@ -125,19 +116,17 @@ const MyPage = () => {
                 ) : mappedData.length > 0 ? (
                     <RecipeCardSwiper
                         data={mappedData}
-                        onCardClick={handleCardClick}
+                        onCardClick={(id) => navigate(`/recipe/${id}`)}
                         isReview={isReview}
                         isLoggedIn={isLoggedIn}
                         userId={userId}
                     />
                 ) : (
-                    <p>{`${title}가 없습니다.`}</p>
+                    <p>{favoriteError || `${title}가 없습니다.`}</p>
                 )}
             </div>
         )
     }
-
-    if (favoriteStatus === 'failed') return <div>에러 발생: {favoriteError}</div>
 
     return (
         <main className={css.myPageCon}>
@@ -156,7 +145,7 @@ const MyPage = () => {
 
             <section className={css.myContentsCon}>
                 {renderRecipeSection('찜한 레시피', favoriteRecipes, favoriteLoading)}
-                {renderRecipeSection('내가 작성한 레시피', myRecipes, isLoading.myRecipes)}
+                {renderRecipeSection('내가 작성한 레시피', myRecipes.recipe, isLoading.myRecipes)}
                 {renderRecipeSection(
                     '내가 작성한 리뷰',
                     myReviews?.reviews,
