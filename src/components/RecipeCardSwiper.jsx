@@ -26,9 +26,9 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isL
 
     return (
         <Swiper {...swiperParams}>
-            {data.map((item) => (
+            {data.map((item, index) => (
                 <SwiperSlide
-                    key={isSkeleton ? item.id : item.id} // 스켈레톤과 실제 데이터의 id 사용
+                    key={`${item.id}-${index}`}
                     style={{
                         width: CARD_MAX_WIDTH,
                         display: 'flex',
