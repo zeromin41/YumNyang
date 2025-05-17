@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import fullStar from '../assets/full-star.svg'
 import star from '../assets/star-02.svg'
-const StarRating = ({ totalStars = 5, onChange }) => {
-    const [rating, setRating] = useState(0)
-
+const StarRating = ({ totalStars = 5, rating = 0, onChange }) => {
     const handleStarClick = (index) => {
         const newRating = index + 1
-        setRating(newRating)
         onChange(newRating)
     }
 
