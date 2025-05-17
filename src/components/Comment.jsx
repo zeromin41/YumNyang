@@ -85,6 +85,11 @@ const Comment = ({ recipeId }) => {
 
     // 등록하기 버튼 (리뷰 작성)
     const handleSubmit = async () => {
+        if (localStorage.getItem('userId') === (null | undefined)) {
+            alert('로그인을 해주세요')
+            return
+        }
+
         if (rating === (null || 0)) {
             alert('평점을 선택해주세요')
             return
@@ -98,8 +103,7 @@ const Comment = ({ recipeId }) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/addReview`, {
                 recipeId: parseInt(recipeId),
-                // 로그인되어있는 userid 가져와야함 현재 테스트용 id
-                userId: parseInt(277),
+                userId: parseInt(localStorage.getItem('userId')),
                 ratingScore: parseInt(rating),
                 commentText: comment,
             })
@@ -141,7 +145,7 @@ const Comment = ({ recipeId }) => {
                 <div className={css.commentForm}>
                     <div className={css.ratingWrapper}>
                         <span>평점</span>
-                        <StarRating onChange={setRating} />
+                        <StarRating rating={rating} onChange={setRating} />
                     </div>
 
                     <textarea
@@ -161,6 +165,7 @@ const Comment = ({ recipeId }) => {
                             {/* 객체를 직접 렌더링하지 않고 문자열만 렌더링 */}
                             <span className={css.commentNickname}>{getNickname(data.USER_ID)}</span>
                         </div>
+
                         <div className={css.msgCon}>
                             <span className={css.commentMsg}>{data.COMMENT_TEXT}</span>
                         </div>
