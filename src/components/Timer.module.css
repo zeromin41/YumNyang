@@ -16,7 +16,7 @@
 }
 
 .circularTimer__bg {
-    fill: none;
+    fill: #fff;
     stroke: #eee;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
@@ -80,7 +80,20 @@
     line-height: 1;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1600px) {
+    .timerWrapper {
+        transform: scale(0.75);
+        transform-origin: bottom right;
+        bottom: 300px;
+        right: 70px;
+    }
+
+    .circularTimer__bg {
+        fill: none;
+    }
+}
+
+@media screen and (max-width: 1325px) {
     .timerWrapper {
         position: fixed;
         bottom: 400px;

@@ -3,20 +3,20 @@ import css from './Comment.module.css'
 import StarRating from './StarRating'
 import axios from 'axios'
 import { API_BASE_URL } from '../utils/apiConfig'
+import { getRequest } from './../apis/api'
 
 const Comment = ({ recipeId }) => {
     const [reviewData, setReviewData] = useState(null)
     const [reviewerNicknames, setReviewerNicknames] = useState({}) // 댓글 작성자들의 닉네임을 저장할 객체
     const [comment, setComment] = useState('')
     const [rating, setRating] = useState(0)
-
+    const [loggedInNickname, setLoggedInNickname] = useState('')
     // 리뷰 데이터 가져오기
 
     const getReviewData = async () => {
         try {
             const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
             setReviewData(response.data)
-            console.log('리뷰데이터 받아오기 성공', response.data)
 
             // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
             if (response.data && response.data.review && response.data.review.length > 0) {
@@ -36,6 +36,12 @@ const Comment = ({ recipeId }) => {
     useEffect(() => {
         if (recipeId) {
             getReviewData()
+            const getNickNameById = async () => {
+                const loggedInId = localStorage.getItem('userId')
+                const response = await getRequest(`/getUserNickname/${loggedInId}`)
+                setLoggedInNickname(response.nickname.NICKNAME)
+            }
+            getNickNameById()
         }
     }, [recipeId])
 
@@ -77,7 +83,6 @@ const Comment = ({ recipeId }) => {
             })
 
             setReviewerNicknames(nicknames)
-            console.log('닉네임 가져오기 성공', nicknames)
         } catch (error) {
             console.error('닉네임 가져오기 실패:', error)
         }
@@ -104,18 +109,17 @@ const Comment = ({ recipeId }) => {
             const response = await axios.post(`${API_BASE_URL}/addReview`, {
                 recipeId: parseInt(recipeId),
                 userId: parseInt(localStorage.getItem('userId')),
+                nickname: loggedInNickname,
                 ratingScore: parseInt(rating),
                 commentText: comment,
             })
-
-            console.log('리뷰 작성 성공', response.data)
             alert('리뷰 작성 완료!')
             setComment('')
             setRating(0)
             await getReviewData()
         } catch (error) {
             console.log('리뷰 작성 실패', error)
-            alert('리뷰 작성을 실패했습니다')
+            alert(`리뷰 작성을 실패했습니다${loggedInNickname}`)
         }
     }
 
@@ -153,7 +157,6 @@ const Comment = ({ recipeId }) => {
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="댓글을 입력하세요"
                     ></textarea>
-
                     <button onClick={handleSubmit}>📥 등록</button>
                 </div>
             </div>

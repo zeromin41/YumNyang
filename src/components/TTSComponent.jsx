@@ -22,7 +22,6 @@ const TTSComponent = ({ text, children, btnkey, playBtnImg }) => {
                     globalActiveButton = null
                     setIsActive(false)
                 }
-                console.log('tts 종료됨')
             }
         }
 
@@ -49,14 +48,11 @@ const TTSComponent = ({ text, children, btnkey, playBtnImg }) => {
             return
         }
 
-        console.log('현재 눌린 버튼 key', btnkey, '활성 상태:', isActive)
-
         // 이미 활성화된 버튼이면 비활성화
         if (isActive) {
             window.speechSynthesis.cancel()
             globalActiveButton = null
             setIsActive(false)
-            console.log('같은 버튼 - 재생 중지')
             return
         }
 
@@ -71,7 +67,6 @@ const TTSComponent = ({ text, children, btnkey, playBtnImg }) => {
         window.speechSynthesis.speak(utteranceRef.current)
         globalActiveButton = btnkey
         setIsActive(true)
-        console.log('새 버튼 재생 시작:', btnkey)
     }
 
     // 이 버튼의 활성화 상태 감지
