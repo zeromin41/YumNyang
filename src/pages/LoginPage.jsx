@@ -16,6 +16,8 @@ const LoginPage = () => {
     const [idError, setIdError] = useState('')
     const [passwordError, setPasswordError] = useState('')
 
+    const [isLoggingIn, setIsLoggingIn] = useState(false)
+
     const handleChange = (setter) => (e) => {
         setter(e.target.value)
     }
@@ -32,15 +34,19 @@ const LoginPage = () => {
                 email: id,
                 password,
             }
+            setIsLoggingIn(true)
             const data = await login(formData)
             const userId = data.number
             if (userId) localStorage.setItem('userId', userId)
 
             setIdError('')
             setPasswordError('')
+            setIsLoggingIn(false)
+
             navigate('/')
         } catch (err) {
             setPasswordError(err.message)
+            setIsLoggingIn(false)
         }
     }
     return (
@@ -67,7 +73,11 @@ const LoginPage = () => {
                 <Link to={'/signup'}>회원가입 하기</Link>
             </div>
             <div className={css.btnWrapper}>
-                <Button text="로그인" flex={2} onClick={handleLogin} />
+                <Button
+                    text={isLoggingIn ? '로그인 중...' : '로그인'}
+                    flex={2}
+                    onClick={handleLogin}
+                />
                 <Button text="나가기" color="default" flex={1} onClick={() => navigate('/')} />
             </div>
         </div>
