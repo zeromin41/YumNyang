@@ -17,7 +17,6 @@ const Comment = ({ recipeId }) => {
         try {
             const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
             setReviewData(response.data)
-            console.log('리뷰데이터 받아오기 성공', response.data)
 
             // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
             if (response.data && response.data.review && response.data.review.length > 0) {
@@ -41,7 +40,6 @@ const Comment = ({ recipeId }) => {
                 const loggedInId = localStorage.getItem('userId')
                 const response = await getRequest(`/getUserNickname/${loggedInId}`)
                 setLoggedInNickname(response.nickname.NICKNAME)
-                console.log('현재 접속되어 있는 유저 닉네임:', response.nickname.NICKNAME)
             }
             getNickNameById()
         }
@@ -85,7 +83,6 @@ const Comment = ({ recipeId }) => {
             })
 
             setReviewerNicknames(nicknames)
-            console.log('닉네임 가져오기 성공', nicknames)
         } catch (error) {
             console.error('닉네임 가져오기 실패:', error)
         }
@@ -116,16 +113,12 @@ const Comment = ({ recipeId }) => {
                 ratingScore: parseInt(rating),
                 commentText: comment,
             })
-
-            console.log('리뷰 작성 성공', response.data)
             alert('리뷰 작성 완료!')
             setComment('')
             setRating(0)
             await getReviewData()
         } catch (error) {
             console.log('리뷰 작성 실패', error)
-            console.log('전송한 닉네임', loggedInNickname)
-
             alert(`리뷰 작성을 실패했습니다${loggedInNickname}`)
         }
     }
