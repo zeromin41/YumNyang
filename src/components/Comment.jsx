@@ -3,13 +3,14 @@ import css from './Comment.module.css'
 import StarRating from './StarRating'
 import axios from 'axios'
 import { API_BASE_URL } from '../utils/apiConfig'
+import { getRequest } from './../apis/api'
 
 const Comment = ({ recipeId }) => {
     const [reviewData, setReviewData] = useState(null)
     const [reviewerNicknames, setReviewerNicknames] = useState({}) // 댓글 작성자들의 닉네임을 저장할 객체
     const [comment, setComment] = useState('')
     const [rating, setRating] = useState(0)
-
+    const [loggedInNickname, setLoggedInNickname] = useState('')
     // 리뷰 데이터 가져오기
 
     const getReviewData = async () => {
@@ -36,6 +37,13 @@ const Comment = ({ recipeId }) => {
     useEffect(() => {
         if (recipeId) {
             getReviewData()
+            const getNickNameById = async () => {
+                const loggedInId = localStorage.getItem('userId')
+                const response = await getRequest(`/getUserNickname/${loggedInId}`)
+                setLoggedInNickname(response.nickname.NICKNAME)
+                console.log('현재 접속되어 있는 유저 닉네임:', response.nickname.NICKNAME)
+            }
+            getNickNameById()
         }
     }, [recipeId])
 
@@ -104,6 +112,7 @@ const Comment = ({ recipeId }) => {
             const response = await axios.post(`${API_BASE_URL}/addReview`, {
                 recipeId: parseInt(recipeId),
                 userId: parseInt(localStorage.getItem('userId')),
+                nickname: loggedInNickname,
                 ratingScore: parseInt(rating),
                 commentText: comment,
             })
@@ -115,7 +124,9 @@ const Comment = ({ recipeId }) => {
             await getReviewData()
         } catch (error) {
             console.log('리뷰 작성 실패', error)
-            alert('리뷰 작성을 실패했습니다')
+            console.log('전송한 닉네임', loggedInNickname)
+
+            alert(`리뷰 작성을 실패했습니다${loggedInNickname}`)
         }
     }
 
@@ -153,7 +164,6 @@ const Comment = ({ recipeId }) => {
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="댓글을 입력하세요"
                     ></textarea>
-
                     <button onClick={handleSubmit}>📥 등록</button>
                 </div>
             </div>
