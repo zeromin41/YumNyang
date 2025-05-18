@@ -30,7 +30,10 @@ export const postRequest = async (endpoint, data) => {
         )
         return response.data
     } catch (error) {
+        const status = error.response?.status
         const message = error.response?.data?.message || error.response?.data?.error || '요청 실패'
-        throw new Error(message)
+        const customError = new Error(message)
+        customError.status = status
+        throw customError
     }
 }
