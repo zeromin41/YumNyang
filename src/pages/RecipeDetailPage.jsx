@@ -31,7 +31,7 @@ const RecipeDetailPage = () => {
             try {
                 const responseData = await getRequest(`/getRecipe/${recipeId}`)
                 setRecipeData(responseData)
-                console.log(`Recipe ${recipeId} 데이터 받아오기 성공`, responseData)
+                console.log('레시피 데이터 가져오기 성공', responseData)
             } catch (err) {
                 console.error(`Recipe ${recipeId} 데이터 받아오기 실패`, err.message)
                 setError(err.message || '데이터를 불러오는데 실패했습니다.')
@@ -73,7 +73,7 @@ const RecipeDetailPage = () => {
     const WriterInfo = () => (
         <div className={css.writerInfoContainer}>
             <div className={css.writerNicknameWrap}>
-                <span>작성자: 닉네임</span>
+                <span>작성자: {recipeData.recipe.NICKNAME}</span>
             </div>
             <div className={css.postDateWrap}>
                 <span>{formatDate(recipeData.recipe.CREATE_AT)}</span>
