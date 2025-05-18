@@ -31,9 +31,7 @@ const RecipeDetailPage = () => {
             try {
                 const responseData = await getRequest(`/getRecipe/${recipeId}`)
                 setRecipeData(responseData)
-                console.log('레시피 데이터 가져오기 성공', responseData)
             } catch (err) {
-                console.error(`Recipe ${recipeId} 데이터 받아오기 실패`, err.message)
                 setError(err.message || '데이터를 불러오는데 실패했습니다.')
             } finally {
                 setLoading(false)
