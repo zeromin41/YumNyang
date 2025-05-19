@@ -5,7 +5,6 @@
     align-items: center;
     justify-content: space-between; /* 요소들 사이에 공간 배분 */
     padding: var(--fs8) 0;
-    margin-bottom: var(--fs12);
     flex-wrap: nowrap;
 }
 
@@ -14,9 +13,9 @@
 .starWrap,
 .likeWrap {
     max-width: 480px;
+    font-size: 12px;
     display: flex;
     align-items: center;
-    position: relative;
     white-space: nowrap;
 }
 
@@ -63,8 +62,8 @@
 
 /* 별 이미지 스타일 */
 .starWrap img {
-    width: 30px;
-    height: 30px;
+    width: 30px !important;
+    height: 30px !important;
 }
 
 /* 좋아요 스타일 */
@@ -76,8 +75,8 @@
 
 /* 하트 이미지 스타일 */
 .likeWrap img {
-    width: 30px;
-    height: 30px;
+    width: 30px !important;
+    height: 30px !important;
 }
 
 /* 기본 정보 목록 */
@@ -86,17 +85,16 @@
     height: auto;
     margin: var(--fs12) 0;
     border-radius: 6px;
+    justify-content: center;
 }
 
 .infoListWrap ul {
     list-style-type: none;
-    padding: 0;
     margin: 0;
 }
 
 .infoListWrap li {
     font-size: var(--fs20);
-    margin-bottom: 8px;
     line-height: 1.5;
 }
 
@@ -138,4 +136,70 @@
     display: flex;
     white-space: nowrap;
     text-align: left;
+}
+
+@media screen and (max-width: 768px) {
+    .writerInfoContainer {
+        font-size: 13px;
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: auto auto;
+    }
+
+    .writerNicknameWrap {
+        grid-column: 1;
+        grid-row: 1;
+        display: flex;
+        align-items: center;
+        padding-left: 0;
+    }
+
+    .starWrap {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-left: 0;
+    }
+
+    .postDateWrap {
+        grid-column: 1;
+        grid-row: 2;
+        display: flex;
+        align-items: center;
+        position: static;
+        transform: none;
+        margin-left: 0;
+        color: #777;
+    }
+
+    .likeWrap {
+        grid-column: 2;
+        grid-row: 2;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        position: static;
+        right: auto;
+    }
+
+    .starWrap img,
+    .likeWrap img {
+        width: 30px !important;
+        height: 30px !important;
+        margin-right: 2px;
+    }
+
+    .starWrap span,
+    .likeWrap span {
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+    }
+
+    .postDateWrap::before,
+    .starWrap::before {
+        display: none;
+    }
 }
