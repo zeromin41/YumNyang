@@ -14,7 +14,7 @@ import { formatDate } from '../utils/feature'
 // 이미지 임포트
 import playImg from '../assets/play-03.svg'
 import starImg from '../assets/full-star.svg'
-import heartImg from '../assets/full-heart.svg'
+import heartImg from '../assets/view.svg'
 import watchImg from '../assets/stopwatch-03.svg'
 
 // 스타일 임포트
@@ -106,7 +106,7 @@ const RecipeDetailPage = () => {
                 </div>
                 <div className={css.likeWrap}>
                     <img src={heartImg} alt="하트" />
-                    <span>{recipeData.recipe.VIEW_COUNT}</span>
+                    <span>{recipeData.recipe.VIEW_COUNT || 0}</span>
                 </div>
             </div>
         )
@@ -115,7 +115,7 @@ const RecipeDetailPage = () => {
     const BasicInfoList = () =>
         recipeData && (
             <div className={css.infoListWrap}>
-                <ul style={{ marginTop: '12px' }}>
+                <ul>
                     <li>추천 대상: {recipeData.recipe?.TARGET_PET_TYPE || '정보없음'}</li>
                     <li>
                         조리 시간: {recipeData.recipe?.COOKING_TIME_LIMIT || '정보없음'} / 난이도:{' '}
@@ -136,7 +136,7 @@ const RecipeDetailPage = () => {
             <>
                 <span className={css.ingredentTitle}>🐾&nbsp;&nbsp;재료</span>
                 <div className={css.infoListWrap}>
-                    <ul style={{ marginTop: '12px' }}>
+                    <ul>
                         {recipeData.ingredient.map((data, index) => (
                             <li key={index}>
                                 {data.INGREDIENT_NAME}&nbsp;{data.QUANTITY_AMOUNT}
