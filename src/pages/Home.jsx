@@ -12,6 +12,7 @@ const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
 
 const Home = () => {
     const [recentRecipes, setRecentRecipes] = useState([])
+    const MAX_RECENT_RECIPES = 7
     const [popularRecipes, setPopularRecipes] = useState([])
 
     const [isLoadingRecent, setIsLoadingRecent] = useState(true)
@@ -22,7 +23,6 @@ const Home = () => {
     const currentUserId = outletContext?.userId || null
 
     const navigate = useNavigate()
-
 
     const fetchRecipeDetails = useCallback(async (entries, idFieldName = 'RECIPE_ID') => {
         if (!entries || entries.length === 0) return []
@@ -85,10 +85,12 @@ const Home = () => {
                     recentEntriesData.recentlyView &&
                     recentEntriesData.recentlyView.length > 0
                 ) {
-                    const detailedRecipes = await fetchRecipeDetails(
-                        recentEntriesData.recentlyView,
-                        'RECIPE_ID'
-                    )
+                    const entriesFromApi = recentEntriesData.recentlyView 
+                    const newestFirstEntries = [...entriesFromApi].reverse()
+                    // 최신순으로 정렬된 배열에서 최대 MAX_RECENT_RECIPES 개수만큼만 선택
+                    const recipesToFetch = newestFirstEntries.slice(0, MAX_RECENT_RECIPES)
+
+                    const detailedRecipes = await fetchRecipeDetails(recipesToFetch, 'RECIPE_ID')
                     setRecentRecipes(detailedRecipes)
                 } else {
                     setRecentRecipes([])
