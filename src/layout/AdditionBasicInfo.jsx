@@ -30,7 +30,6 @@ const AdditionBasicInfo = ({
     ingredient,
     setIngredient
 }) => {
-    const [targetType, setTargetType] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const fileInputRef = useRef(null)
@@ -92,18 +91,29 @@ const AdditionBasicInfo = ({
             <div className={style.section}>
                 <div className={style.subHeader}>권장 대상</div>
                 <div className={style.fieldRow}>
-                    <Input
-                        type="text"
-                        value={targetType}
-                        onChange={e => setTargetType(e.target.value)}
-                        placeholder="입력해주세요."
+                    <DropDown
+                        options={[
+                            { value: 'dog', label: '강아지' },
+                            { value: 'cat', label: '고양이' }
+                        ]}
+                        onSelect={e => setTarget(e.value)}
+                        placeholder='선택해주세요'
                     />
-                    <Button text="등록" size="sm" onClick={targetInput} />
                 </div>
-                <div className={style.tagList}>
-                    {target.map((e, idx) => (
-                        <Tag key={idx} text={e} onDelete={() => deleteTarget(idx)} />
-                    ))}
+                {/* 육류, 생선, 곡물, 간식, 기타 */}
+                <div className={style.subHeader}>권장 대상</div>
+                <div className={style.fieldRow}>
+                    <DropDown
+                        options={[
+                            { value: 'meat', label: '육류' },
+                            { value: 'fish', label: '생선' },
+                            { value: 'grain', label: '곡물' },
+                            { value: 'snack', label: '간식' },
+                            { value: 'others', label: '기타' },
+                        ]}
+                        onSelect={e => setTarget(e.value)}
+                        placeholder='선택해주세요'
+                    />
                 </div>
             </div>
 

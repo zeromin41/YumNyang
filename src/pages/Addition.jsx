@@ -11,7 +11,8 @@ import axios from 'axios';
 const Addition = () => {
     const [title, setTitle] = useState('');
     const [mainImage, setMainImage] = useState('');
-    const [target, setTarget] = useState([]);
+    const [target, setTarget] = useState('');
+    const [category, setCategory] = useState('');
     const [time, setTime] = useState(0);
     const [timeType, setTimeType] = useState('hour');
     const [level, setLevel] = useState('');
@@ -65,6 +66,8 @@ const Addition = () => {
                         setMainImage={setMainImage}
                         target={target}
                         setTarget={setTarget}
+                        category={category}
+                        setCategory={setCategory}
                         time={time}
                         setTime={setTime}
                         timeType={timeType}
