@@ -38,13 +38,10 @@ const MyPage = () => {
 
     const [logoutError, setLogoutError] = useState('')
 
-    const isLoggedIn = true // TODO: 실제 로그인 상태와 연동
-
     // Redux 상태
     const favoriteRecipes = useSelector((state) => state.favorites.items.recipes ?? [])
     const favoriteStatus = useSelector((state) => state.favorites.status)
     const favoriteLoading = favoriteStatus === 'loading'
-    const favoriteError = useSelector((state) => state.favorites.error)
 
     // userId 초기화
     useEffect(() => {
@@ -132,7 +129,7 @@ const MyPage = () => {
                         data={mappedData}
                         onCardClick={(id) => navigate(`/recipe/${id}`)}
                         isReview={isReview}
-                        isLoggedIn={isLoggedIn}
+                        isLoggedIn={true}
                         userId={userId}
                     />
                 ) : (
