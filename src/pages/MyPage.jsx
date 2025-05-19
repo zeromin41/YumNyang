@@ -146,8 +146,10 @@ const MyPage = () => {
             <section className={css.userInfo}>
                 <span className={css.nickname}>{nickname}</span>
                 <div className={css.petInfo}>
-                    <span>반려동물 정보: </span>
-                    <span>{petInfo.NAME}</span>
+                    <span>반려동물 정보:</span>
+                    <span>
+                        {`${petInfo.TYPE === 'dog' ? '🐶' : '🐱'} ${petInfo.NAME} ${petInfo.AGE ? `(${petInfo.AGE}세)` : ''}`}
+                    </span>
                 </div>
                 <div className={css.actionItem} onClick={() => setIsEditModalOpen(true)}>
                     정보 수정
