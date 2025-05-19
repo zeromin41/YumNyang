@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../apis/auth'
 import Button from '../components/Button'
 import { mapRecipeData } from '../utils/mappingData'
+import { updateNickname } from '../store/userSlice'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -91,10 +92,11 @@ const MyPage = () => {
         }
     }, [updateSuccessMsg])
 
-    const handleUpdate = (message) => {
-        loadMyPageData()
+    const handleUpdate = (message, newNickname) => {
         setUpdateSuccessMsg(message)
         setIsEditModalOpen(false)
+        if (newNickname) dispatch(updateNickname(newNickname))
+        loadMyPageData()
     }
 
     // 로그아웃
