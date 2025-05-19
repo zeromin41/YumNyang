@@ -137,11 +137,11 @@ function RecipeCard({ imageSrc, title, altText, onClick, recipeId, isLoggedIn, u
                 src={heartIconSrc}
                 alt={isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
                 style={{
-                    width: '20px',
-                    height: '20px',
+                    width: '35px',
+                    height: '35px',
                     position: 'absolute',
-                    bottom: '38px',
-                    right: '8px',
+                    bottom: '30px',
+                    right: '5px',
                     cursor: 'pointer',
                     zIndex: 10,
                     opacity: isLoadingHeart ? 0.5 : 1,
