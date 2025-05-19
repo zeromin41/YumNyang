@@ -8,7 +8,6 @@ import AdditionStep from '../layout/AdditionStep';
 import RecipeDetailLayout from '../layout/RecipeDetailLayout'
 import Input from '../components/Input';
 import axios from 'axios';
-import Comment from '../components/Comment';
 import Timer from '../components/Timer';
 import FloatingButton from '../components/FloatingButton';
 import watchImg from '../assets/stopwatch-03.svg'
