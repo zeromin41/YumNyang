@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Button from '../components/Button'
 import Tag from '../components/Tag'
 import Input from '../components/Input'
@@ -15,6 +15,8 @@ const AdditionBasicInfo = ({
     setMainImage,
     target,
     setTarget,
+    category,
+    setCategory,
     time,
     setTime,
     timeType,
@@ -32,6 +34,7 @@ const AdditionBasicInfo = ({
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
+    const [individualCal, setIndividualCal] = useState([])
     const fileInputRef = useRef(null)
 
     const inputMainImage = (e) => {
@@ -40,20 +43,23 @@ const AdditionBasicInfo = ({
         }
     }
 
-    const targetInput = () => {
-        if (targetType !== '') {
-            setTarget(prev => [...prev, targetType])
-            setTargetType('')
-        }
-    }
-
-    const deleteTarget = (index) => {
-        setTarget((prev) => prev.filter((item, idx) => idx !== index))
-    }
-
     const deleteIngredient = (item, index) => {
         setIngredient(prev => prev.filter((_, idx) => idx !== index))
     }
+
+    useEffect(() => {
+        setIndividualCal([])
+        ingredient.map((e) =>{
+            setIndividualCal((p) => [...p, 4 * e.crbQy + 4 * e.protQy + 9 * e.fatQy]) // 4 * 탄수화물 + 4 * 단백질 + 9 * 지방
+        })
+    }, [ingredient])
+
+    useEffect(() => {
+        const totalCalorie = individualCal.reduce((acc, curr) => {
+            return acc += curr
+        }, 0)
+        setCalorie(totalCalorie)
+    }, [individualCal])
 
     return (
         <div className={style.container}>
@@ -92,18 +98,20 @@ const AdditionBasicInfo = ({
                 <div className={style.subHeader}>권장 대상</div>
                 <div className={style.fieldRow}>
                     <DropDown
+                        value={target}
                         options={[
-                            { value: 'dog', label: '강아지' },
-                            { value: 'cat', label: '고양이' }
+                            { value: '강아지', label: '강아지' },
+                            { value: '고양이', label: '고양이' }
                         ]}
                         onSelect={e => setTarget(e.value)}
                         placeholder='선택해주세요'
                     />
                 </div>
                 {/* 육류, 생선, 곡물, 간식, 기타 */}
-                <div className={style.subHeader}>권장 대상</div>
+                <div className={style.subHeader}>카테고리</div>
                 <div className={style.fieldRow}>
                     <DropDown
+                        value={category}
                         options={[
                             { value: 'meat', label: '육류' },
                             { value: 'fish', label: '생선' },
@@ -111,7 +119,7 @@ const AdditionBasicInfo = ({
                             { value: 'snack', label: '간식' },
                             { value: 'others', label: '기타' },
                         ]}
-                        onSelect={e => setTarget(e.value)}
+                        onSelect={e => setCategory(e.value)}
                         placeholder='선택해주세요'
                     />
                 </div>
@@ -130,19 +138,21 @@ const AdditionBasicInfo = ({
                         placeholder="입력해주세요."
                     />
                     <DropDown
+                        value={timeType}
                         options={[
-                            { value: 'hour', label: '시간' },
-                            { value: 'min', label: '분' },
-                            { value: 'sec', label: '초' }
+                            { value: '시간', label: '시간' },
+                            { value: '분', label: '분' },
+                            { value: '초', label: '초' }
                         ]}
                         onSelect={e => setTimeType(e.value)}
                         placeholder="시간"
                     />
                     <DropDown
+                        value={level}
                         options={[
-                            { value: 'easy', label: '쉬움' },
-                            { value: 'normal', label: '보통' },
-                            { value: 'hard', label: '어려움' }
+                            { value: '쉬움', label: '쉬움' },
+                            { value: '보통', label: '보통' },
+                            { value: '어려움', label: '어려움' }
                         ]}
                         onSelect={e => setLevel(e.value)}
                         placeholder="난이도 선택"
@@ -157,8 +167,8 @@ const AdditionBasicInfo = ({
                         <Input
                             type="number"
                             value={calorie}
-                            onChange={e => setCalorie(e.target.value)}
-                            placeholder="입력해주세요."
+                            readOnly={false}
+                            placeholder="자동 계산 중"
                         />
                         <span>Kcal</span>
                     </div>
@@ -173,6 +183,7 @@ const AdditionBasicInfo = ({
                             placeholder="입력해주세요."
                         />
                         <DropDown
+                            value={rationType}
                             options={[
                                 { value: 'g', label: 'g' },
                                 { value: 'kg', label: 'kg' },
@@ -210,6 +221,7 @@ const AdditionBasicInfo = ({
                         ingredient={ingredient}
                         setIngredient={setIngredient}
                         setIsModalOpen={setIsModalOpen}
+                        setIndividualCal={setIndividualCal}
                     />
                 </Modal>
             )}

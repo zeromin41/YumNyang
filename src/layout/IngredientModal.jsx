@@ -8,7 +8,7 @@ import plus from '../assets/plus.svg';
 import { getRequest, postRequest } from '../apis/api';
 import deleteSvg from '../assets/delete.svg'
 
-function IngredientModal({ ingredient, setIngredient, setIsModalOpen }) {
+function IngredientModal({ ingredient, setIngredient, setIsModalOpen, setIndividualCal }) {
   const [category, setCategory] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [search, setSearch] = useState('');
@@ -56,15 +56,15 @@ function IngredientModal({ ingredient, setIngredient, setIsModalOpen }) {
 
         const volume = nutritionCheck.capacity * (nutritionCheck.capacityType === 'kg' || nutritionCheck.capacityType === 'L' ? 1000 : 1) / 100
 
-        nutritionCheck.mitrQy *= volume
-        nutritionCheck.protQy *= volume
-        nutritionCheck.clciQy *= volume
-        nutritionCheck.phphQy *= volume
-        nutritionCheck.fatQy *= volume
-        nutritionCheck.crbQy *= volume
-        nutritionCheck.totEdblfibrQy *= volume
-        nutritionCheck.naQy *= volume
-        nutritionCheck.ptssQy *= volume
+        nutritionCheck.mitrQy *= volume // 수분
+        nutritionCheck.protQy *= volume // 단백질
+        nutritionCheck.clciQy *= volume // 칼슘
+        nutritionCheck.phphQy *= volume // 인
+        nutritionCheck.fatQy *= volume // 지방
+        nutritionCheck.crbQy *= volume // 탄수화물
+        nutritionCheck.totEdblfibrQy *= volume // 총식이섬유
+        nutritionCheck.naQy *= volume // 나트륨
+        nutritionCheck.ptssQy *= volume // 칼륨
 
         return [...prev, nutritionCheck]
     });
@@ -85,7 +85,9 @@ function IngredientModal({ ingredient, setIngredient, setIsModalOpen }) {
     close()
   };
 
-  const close = () => setIsModalOpen(false);
+  const close = () =>{
+    setIsModalOpen(false)
+  };
 
   const removeIngredient = (index) => {
     setAddIngredient((prev) => prev.filter((_, idx) => index !== idx))

@@ -92,6 +92,7 @@ const Step = ({ count, item, inputDescription, inputImage, deleteDescription }) 
                     type="file"
                     accept="image/*"
                     className={style.hiddenInput}
+                    onClick={e => e.stopPropagation()}
                     onChange={e => inputImage(e, count)}
                   />
                 </div>

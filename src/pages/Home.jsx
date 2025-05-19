@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
 import CatCard from '../components/CatCard'
-import './Home.css'
+import './Home.module.css'
+import FloatingButton from '../components/FloatingButton'
+import plusIcon from '../assets/plus.svg'
 import { getRequest } from '../apis/api' // getRequest만 필요
+import { useSelector } from 'react-redux'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -12,15 +15,13 @@ const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
 
 const Home = () => {
     const [recentRecipes, setRecentRecipes] = useState([])
-    const MAX_RECENT_RECIPES = 7
+    const MAX_RECENT_RECIPES = 5
     const [popularRecipes, setPopularRecipes] = useState([])
 
     const [isLoadingRecent, setIsLoadingRecent] = useState(true)
     const [isLoadingPopular, setIsLoadingPopular] = useState(true)
 
-    const outletContext = useOutletContext()
-    const isUserLoggedIn = outletContext?.isLoggedIn || false
-    const currentUserId = outletContext?.userId || null
+    const { userId: currentUserId, isLoggedIn: isUserLoggedIn } = useSelector((state) => state.user)
 
     const navigate = useNavigate()
 
@@ -85,11 +86,10 @@ const Home = () => {
                     recentEntriesData.recentlyView &&
                     recentEntriesData.recentlyView.length > 0
                 ) {
-                    const entriesFromApi = recentEntriesData.recentlyView 
-                    const newestFirstEntries = [...entriesFromApi].reverse()
+                    const entriesFromApi = recentEntriesData.recentlyView
+                    const newestFirstEntries = [...entriesFromApi]
                     // 최신순으로 정렬된 배열에서 최대 MAX_RECENT_RECIPES 개수만큼만 선택
                     const recipesToFetch = newestFirstEntries.slice(0, MAX_RECENT_RECIPES)
-
                     const detailedRecipes = await fetchRecipeDetails(recipesToFetch, 'RECIPE_ID')
                     setRecentRecipes(detailedRecipes)
                 } else {
@@ -111,6 +111,16 @@ const Home = () => {
 
     const handleCardClick = (recipeId) => {
         navigate(`/recipe/${recipeId}`)
+    }
+
+    // FloatingButton 클릭 시 호출될 함수
+    const handleFloatingButtonClick = () => {
+        if (currentUserId && isUserLoggedIn) {
+            navigate('/Addition')
+        } else {
+            alert('레시피를 작성하기위해서 로그인을 먼저 해주세요.')
+            navigate('/login')
+        }
     }
 
     const renderSkeletonSwiper = () => (
@@ -165,6 +175,11 @@ const Home = () => {
             ) : (
                 <p className="no-recipes-message">인기 레시피가 없습니다.</p>
             )}
+            <FloatingButton
+                iconSrc={plusIcon} // import한 svg 아이콘
+                alt="새 레시피 작성"
+                onClick={handleFloatingButtonClick} // 클릭 핸들러 연결
+            />
         </div>
     )
 }

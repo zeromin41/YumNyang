@@ -136,7 +136,7 @@ const MyPage = () => {
                         userId={userId}
                     />
                 ) : (
-                    <p>{favoriteError || `${title}가 없습니다.`}</p>
+                    <p>{`${title}가 없습니다.`}</p>
                 )}
             </div>
         )

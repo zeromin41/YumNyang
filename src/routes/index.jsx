@@ -41,7 +41,12 @@ const router = createBrowserRouter([
             },
             {
                 path : '/Addition',
-                element : <Addition />
+                element : 
+                (
+                    <AuthGuard>
+                        <Addition />
+                    </AuthGuard>
+                )
             }
         ],
     },

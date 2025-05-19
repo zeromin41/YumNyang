@@ -5,7 +5,7 @@ const FloatingButton = ({ iconSrc, alt = 'icon', onClick }) => {
     return (
         <div className={css.floatingBtnWrapper}>
             <button className={css.floatingBtn} onClick={onClick}>
-                <img src={iconSrc} alt={alt} />
+                <img src={iconSrc} alt={alt} className={css.iconImage} />
             </button>
         </div>
     )
