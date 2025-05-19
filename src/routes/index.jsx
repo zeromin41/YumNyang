@@ -9,6 +9,7 @@ import catWithdrawImg from '../assets/고양이눈물.png'
 import AuthLayout from '../layout/AuthLayout'
 import LoginPage from '../pages/LoginPage'
 import WithDrawPage from '../pages/WithDrawPage'
+import Addition from '../pages/Addition'
 import RecipeDetailPage from '../pages/RecipeDetailPage'
 import AuthGuard from '../components/AuthGuard'
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
                 path: '/recipe/:recipeId',
                 element: <RecipeDetailPage />,
             },
+            {
+                path : '/Addition',
+                element : <Addition />
+            }
         ],
     },
     {

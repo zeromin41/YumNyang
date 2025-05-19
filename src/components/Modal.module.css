@@ -23,5 +23,5 @@
     background-color: var(--neutral-colors-white);
     padding: var(--fs20);
     font-size: var(--fs20);
-    overflow-y: auto;
+    overflow: auto;
 }
