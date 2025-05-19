@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
 import CatCard from '../components/CatCard'
 import './Home.css'
 import { getRequest } from '../apis/api' // getRequest만 필요
+import { useSelector } from 'react-redux'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -18,9 +19,7 @@ const Home = () => {
     const [isLoadingRecent, setIsLoadingRecent] = useState(true)
     const [isLoadingPopular, setIsLoadingPopular] = useState(true)
 
-    const outletContext = useOutletContext()
-    const isUserLoggedIn = outletContext?.isLoggedIn || false
-    const currentUserId = outletContext?.userId || null
+    const { userId: currentUserId, isLoggedIn: isUserLoggedIn } = useSelector((state) => state.user)
 
     const navigate = useNavigate()
 
@@ -79,14 +78,13 @@ const Home = () => {
         const fetchRecent = async () => {
             setIsLoadingRecent(true)
             try {
-            
                 const recentEntriesData = await getRequest(`/getRecentlyView/${currentUserId}`)
                 if (
                     recentEntriesData &&
                     recentEntriesData.recentlyView &&
                     recentEntriesData.recentlyView.length > 0
                 ) {
-                    const entriesFromApi = recentEntriesData.recentlyView 
+                    const entriesFromApi = recentEntriesData.recentlyView
                     const newestFirstEntries = [...entriesFromApi]
                     // 최신순으로 정렬된 배열에서 최대 MAX_RECENT_RECIPES 개수만큼만 선택
                     const recipesToFetch = newestFirstEntries.slice(0, MAX_RECENT_RECIPES)
