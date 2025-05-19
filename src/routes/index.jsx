@@ -10,6 +10,7 @@ import AuthLayout from '../layout/AuthLayout'
 import LoginPage from '../pages/LoginPage'
 import WithDrawPage from '../pages/WithDrawPage'
 import RecipeDetailPage from '../pages/RecipeDetailPage'
+import AuthGuard from '../components/AuthGuard'
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,12 @@ const router = createBrowserRouter([
             },
             {
                 path: '/mypage',
-                element: <MyPage />,
+
+                element: (
+                    <AuthGuard>
+                        <MyPage />
+                    </AuthGuard>
+                ),
             },
             {
                 path: '/recipe/:recipeId',

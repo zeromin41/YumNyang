@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../apis/auth'
 import Button from '../components/Button'
 import { mapRecipeData } from '../utils/mappingData'
+import { logoutUser, updateNickname } from '../store/userSlice'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -34,6 +35,8 @@ const MyPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
     const [updateSuccessMsg, setUpdateSuccessMsg] = useState('')
+
+    const [logoutError, setLogoutError] = useState('')
 
     const isLoggedIn = true // TODO: 실제 로그인 상태와 연동
 
@@ -89,19 +92,30 @@ const MyPage = () => {
         }
     }, [updateSuccessMsg])
 
-    const handleUpdate = (message) => {
-        loadMyPageData()
+    const handleUpdate = (message, newNickname) => {
         setUpdateSuccessMsg(message)
         setIsEditModalOpen(false)
+        if (newNickname) dispatch(updateNickname(newNickname))
+        loadMyPageData()
     }
 
+    // 로그아웃
     const handleLogout = async () => {
         try {
             await logout()
             localStorage.removeItem('userId')
+            dispatch(logoutUser())
             navigate('/')
         } catch (err) {
-            console.log(err.message)
+            if (err.status === 401) {
+                setIsLogoutModalOpen(false)
+                alert(err.message)
+                localStorage.removeItem('userId')
+                dispatch(logoutUser())
+                navigate('/')
+            } else {
+                setLogoutError(err.message)
+            }
         }
     }
 
@@ -187,6 +201,9 @@ const MyPage = () => {
                                 onClick={() => setIsLogoutModalOpen(false)}
                             />
                         </div>
+                        {logoutError && (
+                            <div className={`${css.msg} ${css.error}`}>{logoutError}</div>
+                        )}
                     </div>
                 </Modal>
             )}
