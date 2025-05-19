@@ -1,6 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import css from './MyPage.module.css'
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
+import Modal from '../components/Modal'
+import UserEditForm from '../components/UserEditForm'
+import { fetchMyPageData } from '../apis/myPage'
+import { fetchUserFavorites } from '../store/favoritesSlice'
+import { useNavigate } from 'react-router-dom'
+import { logout } from '../apis/auth'
+import Button from '../components/Button'
+import { mapRecipeData } from '../utils/mappingData'
+import { logoutUser, updateNickname } from '../store/userSlice'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -8,85 +18,195 @@ const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
 }))
 
 const MyPage = () => {
-    const [favoriteRecipes, setRecentRecipes] = useState([])
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [userId, setUserId] = useState(null)
+    const [nickname, setNickname] = useState('')
+    const [petInfo, setPetInfo] = useState({})
     const [myRecipes, setMyRecipes] = useState([])
     const [myReviews, setMyReviews] = useState([])
-    const [isLoadingFavorite, setIsLoadingFavorite] = useState(true)
-    const [isLoadingMyRecipes, setIsLoadingMyRecipes] = useState(true)
-    const [isLoadingMyReviews, setIsLoadingMyReviews] = useState(true)
 
-    const isLoggedIn = false // TODO: 실제 로그인 상태로 교체
-    const userId = 1
+    const [isLoading, setIsLoading] = useState({
+        myRecipes: true,
+        myReviews: true,
+    })
 
-    const handleCardClick = (recipeId) => {
-        alert('클릭된 레시피 ID (상세페이지로 이동):', recipeId)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+    const [updateSuccessMsg, setUpdateSuccessMsg] = useState('')
+
+    const [logoutError, setLogoutError] = useState('')
+
+    const isLoggedIn = true // TODO: 실제 로그인 상태와 연동
+
+    // Redux 상태
+    const favoriteRecipes = useSelector((state) => state.favorites.items.recipes ?? [])
+    const favoriteStatus = useSelector((state) => state.favorites.status)
+    const favoriteLoading = favoriteStatus === 'loading'
+    const favoriteError = useSelector((state) => state.favorites.error)
+
+    // userId 초기화
+    useEffect(() => {
+        const storedUserId = localStorage.getItem('userId')
+        if (storedUserId) setUserId(Number(storedUserId))
+    }, [])
+
+    // 즐겨찾기 데이터 fetch
+    useEffect(() => {
+        if (userId) {
+            dispatch(fetchUserFavorites(userId))
+        }
+    }, [dispatch, userId])
+
+    // 내 레시피, 내 리뷰 데이터 fetch
+    const loadMyPageData = useCallback(async () => {
+        if (!userId) {
+            setIsLoading({ myRecipes: false, myReviews: false })
+            return
+        }
+
+        try {
+            const { nickname, petInfo, myRecipes, myReviews } = await fetchMyPageData(userId)
+
+            setNickname(nickname?.nickname?.NICKNAME || '')
+            setPetInfo(petInfo?.pets?.[0] || {})
+            setMyRecipes(myRecipes)
+            setMyReviews(myReviews)
+        } catch (err) {
+            console.error(err.message)
+        } finally {
+            setIsLoading({ myRecipes: false, myReviews: false })
+        }
+    }, [userId])
+
+    useEffect(() => {
+        loadMyPageData()
+    }, [loadMyPageData])
+
+    // 정보 수정 성공 메시지 3초 후 자동 닫기
+    useEffect(() => {
+        if (updateSuccessMsg) {
+            const timer = setTimeout(() => setUpdateSuccessMsg(''), 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [updateSuccessMsg])
+
+    const handleUpdate = (message, newNickname) => {
+        setUpdateSuccessMsg(message)
+        setIsEditModalOpen(false)
+        if (newNickname) dispatch(updateNickname(newNickname))
+        loadMyPageData()
+    }
+
+    // 로그아웃
+    const handleLogout = async () => {
+        try {
+            await logout()
+            localStorage.removeItem('userId')
+            dispatch(logoutUser())
+            navigate('/')
+        } catch (err) {
+            if (err.status === 401) {
+                setIsLogoutModalOpen(false)
+                alert(err.message)
+                localStorage.removeItem('userId')
+                dispatch(logoutUser())
+                navigate('/')
+            } else {
+                setLogoutError(err.message)
+            }
+        }
+    }
+
+    const renderRecipeSection = (title, data, isLoading, isReview = false) => {
+        const mappedData = mapRecipeData(data, isReview)
+
+        return (
+            <div className={css.myContentsWrapper}>
+                <h2 className={css.title}>{title}</h2>
+                {isLoading ? (
+                    <RecipeCardSwiper data={dummySkeletonData} isSkeleton />
+                ) : mappedData.length > 0 ? (
+                    <RecipeCardSwiper
+                        data={mappedData}
+                        onCardClick={(id) => navigate(`/recipe/${id}`)}
+                        isReview={isReview}
+                        isLoggedIn={isLoggedIn}
+                        userId={userId}
+                    />
+                ) : (
+                    <p>{favoriteError || `${title}가 없습니다.`}</p>
+                )}
+            </div>
+        )
     }
 
     return (
         <main className={css.myPageCon}>
+            {updateSuccessMsg && <div className={css.updateSuccessMsg}>{updateSuccessMsg}</div>}
+
             <section className={css.userInfo}>
-                <span className={css.nickname}>{'사용자 닉네임'}</span>
+                <span className={css.nickname}>{nickname}</span>
                 <div className={css.petInfo}>
                     <span>반려동물 정보: </span>
-                    <span>뽀삐</span>
+                    <span>{petInfo.NAME}</span>
                 </div>
-                <div className={css.actionItem}>정보 수정</div>
+                <div className={css.actionItem} onClick={() => setIsEditModalOpen(true)}>
+                    정보 수정
+                </div>
             </section>
+
             <section className={css.myContentsCon}>
-                <div className={css.myContentsWrapper}>
-                    <h2 className={css.title}>찜한 레시피</h2>
-                    {isLoadingFavorite ? (
-                        <RecipeCardSwiper data={dummySkeletonData} isSkeleton={true} />
-                    ) : favoriteRecipes.length > 0 ? (
-                        <RecipeCardSwiper
-                            data={favoriteRecipes}
-                            onCardClick={handleCardClick}
-                            isLoggedIn={isLoggedIn}
-                            userId={userId}
-                        />
-                    ) : (
-                        <p>찜한 레시피가 없습니다.</p>
-                    )}
-                </div>
-                <div className={css.myContentsWrapper}>
-                    <h2 className={css.title}>내가 작성한 레시피</h2>
-                    {isLoadingMyRecipes ? (
-                        <RecipeCardSwiper data={dummySkeletonData} isSkeleton={true} />
-                    ) : myRecipes.length > 0 ? (
-                        <RecipeCardSwiper
-                            data={myRecipes}
-                            onCardClick={handleCardClick}
-                            isLoggedIn={isLoggedIn}
-                            userId={userId}
-                        />
-                    ) : (
-                        <p>내가 작성한 레시피가 없습니다.</p>
-                    )}
-                </div>
-                <div className={css.myContentsWrapper}>
-                    <h2 className={css.title}>내가 작성한 리뷰</h2>
-                    {isLoadingMyReviews ? (
-                        <RecipeCardSwiper
-                            data={dummySkeletonData}
-                            isSkeleton={true}
-                            isReview={true}
-                        />
-                    ) : myReviews.length > 0 ? (
-                        <RecipeCardSwiper
-                            data={myReviews}
-                            onCardClick={handleCardClick}
-                            isLoggedIn={isLoggedIn}
-                            userId={userId}
-                        />
-                    ) : (
-                        <p>찜한 레시피가 없습니다.</p>
-                    )}
-                </div>
+                {renderRecipeSection('찜한 레시피', favoriteRecipes, favoriteLoading)}
+                {renderRecipeSection('내가 작성한 레시피', myRecipes.recipe, isLoading.myRecipes)}
+                {renderRecipeSection(
+                    '내가 작성한 리뷰',
+                    myReviews?.reviews,
+                    isLoading.myReviews,
+                    true
+                )}
             </section>
+
             <section className={css.accountActions}>
-                <div className={css.actionItem}>로그아웃</div>
-                <div className={css.actionItem}>회원탈퇴</div>
+                <div className={css.actionItem} onClick={() => setIsLogoutModalOpen(true)}>
+                    로그아웃
+                </div>
+                <div className={css.actionItem} onClick={() => navigate('/withdraw')}>
+                    회원탈퇴
+                </div>
             </section>
+
+            {isEditModalOpen && (
+                <Modal>
+                    <UserEditForm
+                        userId={userId}
+                        nickname={nickname}
+                        petInfo={petInfo}
+                        onUpdate={handleUpdate}
+                        onClose={() => setIsEditModalOpen(false)}
+                    />
+                </Modal>
+            )}
+
+            {isLogoutModalOpen && (
+                <Modal>
+                    <div className={css.logoutModalContents}>
+                        <p>로그아웃 하시겠습니까?</p>
+                        <div className={css.btnWrapper}>
+                            <Button text="로그아웃" color="brown" onClick={handleLogout} />
+                            <Button
+                                text="닫기"
+                                color="default"
+                                onClick={() => setIsLogoutModalOpen(false)}
+                            />
+                        </div>
+                        {logoutError && (
+                            <div className={`${css.msg} ${css.error}`}>{logoutError}</div>
+                        )}
+                    </div>
+                </Modal>
+            )}
         </main>
     )
 }

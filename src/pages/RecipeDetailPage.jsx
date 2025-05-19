@@ -1,47 +1,77 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import { getRequest, postRequest } from '../apis/api'
 import RecipeStepCard from '../components/RecipeStepCard'
 import css from './RecipeDetailPage.module.css'
 import TTSComponent from '../components/TTSComponent'
 import playImg from '../assets/play-03.svg'
 import Comment from '../components/Comment'
 import Nutritional from './../components/Nutritional'
-import Header from '../components/Header'
 import starImg from '../assets/full-star.svg'
 import heartImg from '../assets/full-heart.svg'
 import { formatDate } from './../utils/feature'
-import Menu from '../components/Menu'
-
-const BASE_URL = 'https://seungwoo.i234.me:3333'
+import FloatingButton from '../components/FloatingButton'
+import Timer from '../components/Timer'
+import watchImg from '../assets/stopwatch-03.svg'
 
 const RecipeDetailPage = () => {
+    const { recipeId } = useParams()
     const [recipeData, setRecipeData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0) // 탭 상태를 최상위 컴포넌트로 이동
+    const [showTimer, setShowTimer] = useState(false)
 
+    // fetchData 함수 수정
     useEffect(() => {
         const fetchData = async () => {
+            if (!recipeId) return
+            setLoading(true)
+            setError(null)
             try {
-                setLoading(true)
-                const response = await axios.get(`${BASE_URL}/getRecipe/15`)
-                setRecipeData(response.data)
-                console.log('데이터 받아오기 성공', response.data)
-            } catch (error) {
-                console.log('데이터 받아오기 실패', error)
-                setError('데이터를 불러오는데 실패했습니다.')
+                const responseData = await getRequest(`/getRecipe/${recipeId}`)
+                setRecipeData(responseData)
+            } catch (err) {
+                setError(err.message || '데이터를 불러오는데 실패했습니다.')
             } finally {
                 setLoading(false)
             }
         }
         fetchData()
-    }, [])
+    }, [recipeId])
 
-    //작성자,작성일,별점,좋아요
+    // post 요청을 통해 최근 본 레시피 기록
+    useEffect(() => {
+        const recordRecentlyViewed = async () => {
+            const currentUserId = localStorage.getItem('userId')
+
+            if (currentUserId && recipeId && recipeData && !loading && !error) {
+                try {
+                    const responseMessage = await postRequest('/addRecentlyView', {
+                        userId: parseInt(currentUserId, 10),
+                        recipeId: parseInt(recipeId, 10),
+                    })
+                    console.log(
+                        responseMessage.message ||
+                            `최근 본 레시피 기록 성공: userId=<span class="math-inline">\{currentUserId\}, recipeId\=</span>{recipeId}`
+                    )
+                } catch (err) {
+                    console.error('최근 본 레시피 기록 API 오류:', err.message)
+                }
+            }
+        }
+
+        if (recipeData) {
+            // recipeData가 성공적으로 로드된 후에만 기록
+            recordRecentlyViewed()
+        }
+    }, [recipeData, recipeId, loading, error]) // 의존성 배열 확인
+
+    //작성자,작성일,별점,조회수
     const WriterInfo = () => (
         <div className={css.writerInfoContainer}>
             <div className={css.writerNicknameWrap}>
-                <span>작성자: {recipeData.recipe.USER_ID}</span>
+                <span>작성자: {recipeData.recipe.NICKNAME}</span>
             </div>
             <div className={css.postDateWrap}>
                 <span>{formatDate(recipeData.recipe.CREATE_AT)}</span>
@@ -52,7 +82,7 @@ const RecipeDetailPage = () => {
             </div>
             <div className={css.likeWrap}>
                 <img src={heartImg} alt="하트" />
-                <span>{recipeData.recipe.FAVORITES_COUNT}</span>
+                <span>{recipeData.recipe.VIEW_COUNT}</span>
             </div>
         </div>
     )
@@ -101,7 +131,7 @@ const RecipeDetailPage = () => {
             <BasicInfoList />
             <IngredientList />
             {/* 영양 정보 컴포넌트 */}
-            <Nutritional />
+            <Nutritional recipeData={recipeData} />
         </>
     )
 
@@ -158,7 +188,7 @@ const RecipeDetailPage = () => {
             {recipeData.description.map((step, index) => (
                 <RecipeStepCard
                     key={index}
-                    number={step.FLOW || index + 1}
+                    number={step.FLOW + 1}
                     instruction={step.DESCRIPTION}
                     image={step.IMAGE_URL}
                     btnkey={index}
@@ -166,6 +196,11 @@ const RecipeDetailPage = () => {
             ))}
         </>
     )
+
+    //플로팅 버튼(타이머)
+    const clickFloatingBtn = () => {
+        setShowTimer(!showTimer)
+    }
 
     return (
         <div className={css.recipeDetailContainer}>
@@ -179,10 +214,15 @@ const RecipeDetailPage = () => {
             <DetailTab />
 
             {/* 탭 내용 */}
-            <div className={css.tabContent}>{activeTab === 0 ? BasicInfo() : RecipeSteps()}</div>
+            <div className={css.tabContent}>
+                {activeTab === 0 ? <BasicInfo /> : <RecipeSteps />}
+            </div>
 
             {/* 댓글 섹션은 항상 표시 */}
-            <Comment />
+            {/* useParam으로 recipeId 로 수정  */}
+            <Comment recipeId={recipeId} />
+            <FloatingButton iconSrc={watchImg} onClick={clickFloatingBtn} />
+            {showTimer && <Timer />}
         </div>
     )
 }

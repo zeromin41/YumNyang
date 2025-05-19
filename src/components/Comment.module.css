@@ -1,25 +1,26 @@
 .commentCon {
-    display: flex;
     flex-direction: column;
     gap: var(--fs8);
+    font-weight: bold;
 }
-.commentCon > label {
-    font-size: var(--fs20);
+.commentLabel {
+    font-size: var(--fs26);
+    border-bottom: 1px solid #eae4dc;
 }
+
 .bar {
     border: 1px solid var(--neutral-colors-light-gray);
 }
-.commentWrapper {
+.inputWrapper {
     display: flex;
-    gap: var(--fs16);
     padding: var(--fs4) var(--fs12);
 }
 .userCon {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-self: center;
 }
-.userCon > p {
+.inputWrapper .userCon > span {
     font-size: var(--fs12);
 }
 .ratingWrapper {
@@ -54,10 +55,29 @@
 .commentForm > button:hover {
     scale: 1.1;
 }
-.commentList {
+/* 댓글쪽 스타일링 */
+.commentWrapper {
     display: flex;
-    flex-direction: column;
+    position: relative;
 }
-.commentMsg {
-    padding: var(--fs8) 0;
+
+.userCon {
+    width: 130px;
+}
+
+.msgCon {
+    width: 250px;
+    display: flex;
+    margin-left: var(--fs12);
+}
+
+.userCon::after {
+    content: '';
+    position: absolute;
+    left: 30%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px; /* 세로선 높이 */
+    width: 1px; /* 세로선 너비 */
+    background-color: var(--main-colors-pink); /* 세로선 색상 */
 }

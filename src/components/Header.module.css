@@ -16,3 +16,8 @@
     color: #333; /* 글씨 색상 */
     text-decoration: none; /* 링크 밑줄 제거 */
 }
+
+.nicknameText {
+    font-size: 1.2em;
+    color: var(--main-colors-accent); 
+}

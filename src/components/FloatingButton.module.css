@@ -1,7 +1,7 @@
 .floatingBtnWrapper {
     position: fixed;
-    bottom: var(--fs64);
-    right: var(--fs16);
+    bottom: 100px;
+    right: var(--fs33);
 }
 .floatingBtn {
     outline: none;

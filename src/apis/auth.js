@@ -1,4 +1,4 @@
-import { postRequest } from './api'
+import { getRequest, postRequest } from './api'
 
 export const checkId = (id) => postRequest('/checkId', { email: id })
 
@@ -10,11 +10,6 @@ export const login = (formData) => postRequest('/login', formData)
 
 export const withdraw = (formData) => postRequest('/withdraw', formData)
 
-export const fetchCheckToken = async () => {
-    try {
-        const response = await axios.get(`${API_BASE_URL}/checkToken`, API_REQUEST_OPTIONS)
-        return response.data
-    } catch (error) {
-        console.log(error)
-    }
-}
+export const checkToken = () => getRequest('/checkToken')
+
+export const logout = () => postRequest('/logout')

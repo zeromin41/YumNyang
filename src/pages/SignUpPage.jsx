@@ -30,6 +30,7 @@ const SignupPage = () => {
     const [isIdChecked, setIsIdChecked] = useState(false)
     const [isNicknameChecked, setIsNicknameChecked] = useState(false)
 
+    const [isSigningUp, setIsSigningUp] = useState(false)
     const [generalError, setGeneralError] = useState('')
 
     const handleChange = (key) => (e) => {
@@ -111,15 +112,18 @@ const SignupPage = () => {
                 type: form.petType,
                 age: form.petAge,
             }
+            setIsSigningUp(true)
             await signUp(formData)
             setGeneralError('')
             setErrors(initialErrorState)
             setSuccess(initialSuccessState)
+            setIsSigningUp(false)
             navigate('/login')
         } catch (err) {
             setGeneralError(err.message)
             setErrors(initialErrorState)
             setSuccess(initialSuccessState)
+            setIsSigningUp(false)
         }
     }
 
@@ -140,7 +144,7 @@ const SignupPage = () => {
                             text="중복확인"
                             size="sm"
                             onClick={handleCheckId}
-                            disabled={isEmpty(form.id) || !isValidId(form.id)}
+                            disabled={isEmpty(form.id) || !isValidId(form.id) || isIdChecked}
                         />
                     }
                 />
@@ -159,7 +163,11 @@ const SignupPage = () => {
                             text="중복확인"
                             size="sm"
                             onClick={handleCheckNickname}
-                            disabled={isEmpty(form.nickname) || !isValidNickname(form.nickname)}
+                            disabled={
+                                isEmpty(form.nickname) ||
+                                !isValidNickname(form.nickname) ||
+                                isNicknameChecked
+                            }
                         />
                     }
                 />
@@ -217,7 +225,11 @@ const SignupPage = () => {
                 />
             </form>
             <div className={css.btnWrapper}>
-                <Button text="가입하기" flex={2} onClick={handleSignUp} />
+                <Button
+                    text={isSigningUp ? '회원가입 중...' : '가입하기'}
+                    flex={2}
+                    onClick={handleSignUp}
+                />
                 <Button text="나가기" color="default" flex={1} onClick={() => navigate('/')} />
             </div>
             {generalError && <span className={css.error}>{generalError}</span>}
