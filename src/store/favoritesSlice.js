@@ -66,7 +66,7 @@ const initialState = {
 const favoritesSlice = createSlice({
     name: 'favorites',
     initialState,
-    reducers: {},
+    reducers: {}, // 변경 없음
     extraReducers: (builder) => {
         builder
             .addCase(fetchUserFavorites.pending, (state) => {
@@ -75,19 +75,33 @@ const favoritesSlice = createSlice({
             })
             .addCase(fetchUserFavorites.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.items = action.payload
+                if (action.payload) {
+                    state.items.favorites = Array.isArray(action.payload.favorites)
+                        ? action.payload.favorites
+                        : []
+                    state.items.recipes = Array.isArray(action.payload.recipes)
+                        ? action.payload.recipes
+                        : []
+                } else {
+                    console.warn(
+                        'fetchUserFavorites.fulfilled: action.payload is null or undefined'
+                    )
+                    state.items.favorites = []
+                    state.items.recipes = []
+                }
                 state.error = null
             })
             .addCase(fetchUserFavorites.rejected, (state, action) => {
                 state.status = 'failed'
                 state.error = action.payload
+                state.items.favorites = []
+                state.items.recipes = []
             })
             .addCase(addFavoriteToServer.pending, (state) => {
-                state.status = 'loading' // 전체 상태를 loading으로 할 수도 있고, 개별 아이템 로딩 상태를 관리할 수도 있습니다.
+                state.status = 'loading'
                 state.error = null
             })
             .addCase(addFavoriteToServer.fulfilled, (state) => {
-                // 목록이 fetchUserFavorites를 통해 갱신되므로 여기서는 status만 변경
                 state.status = 'succeeded'
                 state.error = null
             })
