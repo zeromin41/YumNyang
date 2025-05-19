@@ -73,7 +73,7 @@
 
 /* Make text input take up most space */
 .fieldRow input[type="text"] {
-  flex: 3;
+  flex: 4;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -81,7 +81,7 @@
 
 /* Fixed-size number input */
 .fieldRow input[type="number"] {
-    flex: 1;
+    flex: 3;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
