@@ -47,16 +47,27 @@ const Addition = () => {
         setPage((prev) => prev + 1)
     }
 
+    const test = () => {
+        const formData = new FormData()
+        const descriptionData = []
+            description.map((e) => (
+                descriptionData.push(e.description)
+            ))
+        formData.append('description', descriptionData)
+        console.log(descriptionData)
+        console.log(formData.get('description'))
+    }
+
     const uploadRecipes = async () => {
         try {
             const formData = new FormData()
             formData.append('userId', userId)
             formData.append('nickname', nickname)
             formData.append('title', title)
-            const descriptionData = description.map((e) => (
-                e.description
-            ))
-            formData.append('description', descriptionData)
+
+            const descriptionData = description.map(e => e.description);
+            formData.append('descriptionJSON', JSON.stringify(descriptionData));
+
             formData.append('targetPetType', target)
             formData.append('foodCategory', category)
             formData.append('cookingTimeLimit', time + timeType)
@@ -87,9 +98,9 @@ const Addition = () => {
             formData.append('fiber', fiber) // 식이섬유
             formData.append('nacl', nacl) // 나트륨
             formData.append('ptss', ptss) // 칼륨
-            formData.append('ingredientsName', ingredientsName)
-            formData.append('ingredientsAmount', ingredientsAmount)
-            formData.append('ingredientsUnit', ingredientsUnit)
+            formData.append('ingredientsNameJSON', JSON.stringify(ingredientsName))
+            formData.append('ingredientsAmountJSON', JSON.stringify(ingredientsAmount))
+            formData.append('ingredientsUnitJSON', JSON.stringify(ingredientsUnit))
 
             if (mainImage) {
                 formData.append('images', mainImage)
