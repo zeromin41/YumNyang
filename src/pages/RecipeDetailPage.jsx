@@ -108,7 +108,11 @@ const RecipeDetailPage = () => {
 
     // 로딩 중 표시
     if (loading) {
-        return <div>로딩 중...</div>
+        return (
+            <div className={css.loadingWrapper}>
+                레시피 <span className={css.loadingDots}>불러오는 중</span>
+            </div>
+        )
     }
 
     // 에러 표시
