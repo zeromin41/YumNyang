@@ -18,7 +18,7 @@ const userSlice = createSlice({
         updateNickname(state, action) {
             state.nickname = action.payload
         },
-        logout(state) {
+        logoutUser(state) {
             state.isLoggedIn = false
             state.userId = null
             state.nickname = ''
@@ -26,5 +26,5 @@ const userSlice = createSlice({
     },
 })
 
-export const { setUser, updateNickname, logout } = userSlice.actions
+export const { setUser, updateNickname, logoutUser } = userSlice.actions
 export default userSlice.reducer

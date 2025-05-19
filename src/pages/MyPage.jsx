@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../apis/auth'
 import Button from '../components/Button'
 import { mapRecipeData } from '../utils/mappingData'
-import { updateNickname } from '../store/userSlice'
+import { logoutUser, updateNickname } from '../store/userSlice'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -104,12 +104,14 @@ const MyPage = () => {
         try {
             await logout()
             localStorage.removeItem('userId')
+            dispatch(logoutUser())
             navigate('/')
         } catch (err) {
             if (err.status === 401) {
                 setIsLogoutModalOpen(false)
                 alert(err.message)
                 localStorage.removeItem('userId')
+                dispatch(logoutUser())
                 navigate('/')
             } else {
                 setLogoutError(err.message)
