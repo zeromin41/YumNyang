@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
 import CatCard from '../components/CatCard'
 import './Home.module.css'
 import FloatingButton from '../components/FloatingButton'
 import plusIcon from '../assets/plus.svg'
 import { getRequest } from '../apis/api' // getRequest만 필요
+import { useSelector } from 'react-redux'
 
 const SKELETON_COUNT = 4
 const dummySkeletonData = Array.from({ length: SKELETON_COUNT }, (_, i) => ({
@@ -20,9 +21,7 @@ const Home = () => {
     const [isLoadingRecent, setIsLoadingRecent] = useState(true)
     const [isLoadingPopular, setIsLoadingPopular] = useState(true)
 
-    const outletContext = useOutletContext()
-    const isUserLoggedIn = outletContext?.isLoggedIn || false
-    const currentUserId = outletContext?.userId || null
+    const { userId: currentUserId, isLoggedIn: isUserLoggedIn } = useSelector((state) => state.user)
 
     const navigate = useNavigate()
 
