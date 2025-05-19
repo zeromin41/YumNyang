@@ -1,30 +1,37 @@
-import React, { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { checkToken } from '../apis/auth'
 
 const AuthGuard = ({ children }) => {
     const navigate = useNavigate()
 
+    const [isVerifying, setIsVerifying] = useState(true)
+    const hasVerified = useRef(false)
+
     useEffect(() => {
+        if (hasVerified.current) return
+        hasVerified.current = true
+
         const verifyAuth = async () => {
             try {
-                const token = await checkToken()
+                await checkToken()
                 const userId = localStorage.getItem('userId')
 
-                if (!token && !userId) {
-                    localStorage.removeItem('userId')
+                if (!userId) {
                     navigate('/login', { replace: true })
                 }
             } catch (err) {
-                console.log(err.message)
                 localStorage.removeItem('userId')
                 navigate('/login', { replace: true })
+            } finally {
+                setIsVerifying(false)
             }
         }
 
         verifyAuth()
     }, [])
 
+    if (isVerifying) return null
     return children
 }
 
