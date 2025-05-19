@@ -72,6 +72,15 @@
     display: flex;
     gap: var(--fs12);
 }
+.msg {
+    font-size: var(--fs12);
+}
+.error {
+    color: var(--service-colors-errors);
+}
+.success {
+    color: var(--service-colors-success);
+}
 
 .updateSuccessMsg {
     position: fixed;

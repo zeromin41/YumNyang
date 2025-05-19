@@ -35,6 +35,8 @@ const MyPage = () => {
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
     const [updateSuccessMsg, setUpdateSuccessMsg] = useState('')
 
+    const [logoutError, setLogoutError] = useState('')
+
     const isLoggedIn = true // TODO: 실제 로그인 상태와 연동
 
     // Redux 상태
@@ -95,13 +97,21 @@ const MyPage = () => {
         setIsEditModalOpen(false)
     }
 
+    // 로그아웃
     const handleLogout = async () => {
         try {
             await logout()
             localStorage.removeItem('userId')
             navigate('/')
         } catch (err) {
-            console.log(err.message)
+            if (err.status === 401) {
+                setIsLogoutModalOpen(false)
+                alert(err.message)
+                localStorage.removeItem('userId')
+                navigate('/')
+            } else {
+                setLogoutError(err.message)
+            }
         }
     }
 
@@ -187,6 +197,9 @@ const MyPage = () => {
                                 onClick={() => setIsLogoutModalOpen(false)}
                             />
                         </div>
+                        {logoutError && (
+                            <div className={`${css.msg} ${css.error}`}>{logoutError}</div>
+                        )}
                     </div>
                 </Modal>
             )}
