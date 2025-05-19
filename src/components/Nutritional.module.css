@@ -9,7 +9,7 @@
 .titleRow img {
     margin: 0;
     padding: 0;
-    width: 30px;
+    width: 32px !important;
     height: auto;
     display: block;
 }
@@ -32,6 +32,7 @@
     width: 4em;
     flex-shrink: 0;
     text-align: right;
+    font-size: 22px;
 }
 
 .progressContainer {
@@ -39,6 +40,7 @@
     display: inline-block;
     display: flex;
     text-align: center;
+    overflow: hidden;
 }
 
 .progress {
@@ -58,7 +60,7 @@
 }
 .progressText {
     position: absolute;
-    font-size: 16px;
+    font-size: 14px;
     top: 50%;
     left: 0;
     margin-left: 0.7em;
