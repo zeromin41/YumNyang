@@ -152,19 +152,18 @@ const UserEditForm = ({ userId, nickname, petInfo, onUpdate, onClose }) => {
                                 )
                             }
                         />
-                        <div>
-                            <Button
-                                text="중복확인"
-                                size="md"
-                                color="accent"
-                                onClick={handleCheckNickname}
-                                disabled={
-                                    isEmpty(form.nickname) ||
-                                    !isValidNickname(form.nickname) ||
-                                    isNicknameChecked
-                                }
-                            />
-                        </div>
+
+                        <Button
+                            text="중복확인"
+                            size="sm"
+                            color="accent"
+                            onClick={handleCheckNickname}
+                            disabled={
+                                isEmpty(form.nickname) ||
+                                !isValidNickname(form.nickname) ||
+                                isNicknameChecked
+                            }
+                        />
                     </div>
                     {errors.nickname && (
                         <span className={`${css.msg} ${css.error}`}>{errors.nickname}</span>
