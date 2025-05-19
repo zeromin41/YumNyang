@@ -28,6 +28,7 @@ const RecipeDetailPage = () => {
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0)
     const [showTimer, setShowTimer] = useState(false)
+    const [starAverage, setStarAverage] = useState(0)
 
     // 데이터 가져오기
     useEffect(() => {
@@ -102,7 +103,7 @@ const RecipeDetailPage = () => {
                 </div>
                 <div className={css.starWrap}>
                     <img src={starImg} alt="별" />
-                    <span>4.5</span>
+                    <span>{starAverage.toFixed(2)}</span>
                 </div>
                 <div className={css.likeWrap}>
                     <img src={heartImg} alt="하트" />
@@ -212,7 +213,7 @@ const RecipeDetailPage = () => {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             tabContent={tabContent}
-            footerContent={<Comment recipeId={recipeId} />}
+            footerContent={<Comment recipeId={recipeId} setStarAverage={setStarAverage} />}
             floatingButton={floatingButtonElement}
             isLoading={loading}
             error={error}
