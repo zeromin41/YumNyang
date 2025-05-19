@@ -5,7 +5,6 @@ import './CatCard.css'
 // 로컬 이미지 임포트
 import catImageDwinggul from '../assets/고양이뒹굴.png'
 import catImageBaebbang from '../assets/고양이배빵빵.png'
-import catImageBook from '../assets/고양이측면책.png'
 import catImageSleep from '../assets/고양이쿨쿨.png'
 import catImageDance from '../assets/고양이댄스.png'
 import catImageGame from '../assets/고양이게임.png'
@@ -19,7 +18,6 @@ import churuEndsImg from '../assets/churu-ends.svg'
 const catVariations = [
     { image: catImageBaebbang, text: '배빵빵~', alt: '배가 빵빵한 고양이' },
     { image: catImageDwinggul, text: '뒹굴뒹굴~', alt: '뒹구는 고양이' },
-    { image: catImageBook, text: '독서 시간!', alt: '책 옆에 있는 고양이' },
     { image: catImageSleep, text: '흠냥 흠냥~', alt: '잠자는 고양이' },
     { image: catImageDance, text: '신난다~!', alt: '춤추는 고양이' },
     { image: catImageGame, text: '게임 중~!', alt: '게임하는 고양이' },
