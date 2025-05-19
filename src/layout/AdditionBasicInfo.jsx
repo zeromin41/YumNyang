@@ -100,8 +100,8 @@ const AdditionBasicInfo = ({
                     <DropDown
                         value={target}
                         options={[
-                            { value: 'dog', label: '강아지' },
-                            { value: 'cat', label: '고양이' }
+                            { value: '강아지', label: '강아지' },
+                            { value: '고양이', label: '고양이' }
                         ]}
                         onSelect={e => setTarget(e.value)}
                         placeholder='선택해주세요'
