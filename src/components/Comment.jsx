@@ -90,36 +90,36 @@ const Comment = ({ recipeId }) => {
 
     // 등록하기 버튼 (리뷰 작성)
     const handleSubmit = async () => {
-        if (localStorage.getItem('userId') === (null | undefined)) {
-            alert('로그인을 해주세요')
+        if (localStorage.getItem('userId') == null) {
+            alert('로그인 해주세요')
             return
-        }
+        } else {
+            if (rating === (null || 0)) {
+                alert('평점을 선택해주세요')
+                return
+            }
 
-        if (rating === (null || 0)) {
-            alert('평점을 선택해주세요')
-            return
-        }
+            if (comment === (null || '')) {
+                alert('내용을 작성해주세요')
+                return
+            }
 
-        if (comment === (null || '')) {
-            alert('내용을 작성해주세요')
-            return
-        }
-
-        try {
-            const response = await axios.post(`${API_BASE_URL}/addReview`, {
-                recipeId: parseInt(recipeId),
-                userId: parseInt(localStorage.getItem('userId')),
-                nickname: loggedInNickname,
-                ratingScore: parseInt(rating),
-                commentText: comment,
-            })
-            alert('리뷰 작성 완료!')
-            setComment('')
-            setRating(0)
-            await getReviewData()
-        } catch (error) {
-            console.log('리뷰 작성 실패', error)
-            alert(`리뷰 작성을 실패했습니다${loggedInNickname}`)
+            try {
+                const response = await axios.post(`${API_BASE_URL}/addReview`, {
+                    recipeId: parseInt(recipeId),
+                    userId: parseInt(localStorage.getItem('userId')),
+                    nickname: loggedInNickname,
+                    ratingScore: parseInt(rating),
+                    commentText: comment,
+                })
+                alert('리뷰 작성 완료!')
+                setComment('')
+                setRating(0)
+                await getReviewData()
+            } catch (error) {
+                console.log('리뷰 작성 실패', error)
+                alert(`리뷰 작성을 실패했습니다${loggedInNickname}`)
+            }
         }
     }
 
