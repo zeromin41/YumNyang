@@ -13,7 +13,9 @@ const Modal = ({ children }) => {
 
     return (
         <div className={css.modal}>
-            <div className={css.modalCon}>{children}</div>
+            <div className={css.modalCon}>
+                <div className={css.scrollArea}>{children}</div>
+            </div>
         </div>
     )
 }

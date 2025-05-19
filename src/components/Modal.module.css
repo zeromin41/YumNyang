@@ -23,5 +23,11 @@
     background-color: var(--neutral-colors-white);
     padding: var(--fs20);
     font-size: var(--fs20);
-    overflow: auto;
+    overflow: hidden;
+}
+
+.scrollArea {
+    overflow-y: auto;
+    max-height: 100%;
+    padding: 0 var(--fs16);
 }
