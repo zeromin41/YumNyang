@@ -141,11 +141,6 @@ const Comment = ({ recipeId }) => {
             </div>
 
             <div className={css.inputWrapper}>
-                <div className={css.userCon}>
-                    {/* 현재 로그인 중인 사람의 닉네임을 가져오거나 아예 빼도 어색하지 않을 듯함 */}
-                    <span>작성자</span>
-                </div>
-
                 <div className={css.commentForm}>
                     <div className={css.ratingWrapper}>
                         <span>평점</span>
