@@ -62,6 +62,8 @@
 }
 
 .userCon {
+    display: flex;
+    align-items: center;
     width: 120px;
 }
 
@@ -80,4 +82,18 @@
     height: 20px; /* 세로선 높이 */
     width: 1px; /* 세로선 너비 */
     background-color: var(--main-colors-accent); /* 세로선 색상 */
+}
+
+.deleteBtn {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-left: 8px;
+    padding: 2px 5px;
+}
+
+.deleteBtn:hover {
+    text-decoration: underline;
 }
