@@ -1,82 +1,4 @@
-.recipeDetailContainer img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.imgContainer {
-    margin-bottom: var(--fs16);
-}
-
-.tabBtn {
-    display: flex;
-    width: 100%;
-    margin-bottom: var(--fs12);
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.tabBtn button {
-    flex: 1;
-    padding: var(--fs8) 0;
-    text-align: center;
-    background-color: #f5f5f5;
-    border: none;
-    cursor: pointer;
-    font-size: var(--fs20);
-    transition: background-color 0.3s;
-}
-
-.tabBtn button.active {
-    background-color: var(--neutral-colors-light-gray);
-    font-weight: bold;
-}
-
-.infoListWrap {
-    background: var(--neutral-colors-cream-beige);
-    height: auto;
-    margin: var(--fs12) 0;
-    border-radius: 6px;
-}
-
-.ingredentTitle {
-    font-size: var(--fs26);
-    font-weight: bold;
-}
-
-li {
-    font-size: var(--fs20);
-}
-
-.ttsWrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: var(--fs8) 0;
-    background-color: var(--neutral-colors-cream-beige);
-    padding: var(--fs8) var(--fs12);
-    border-radius: 6px;
-    position: relative;
-    min-height: 50px;
-}
-
-.ttsWrap :global(button) {
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.btnTitle {
-    display: flex;
-    white-space: nowrap;
-    text-align: left;
-}
-
-/* 작성자 정보 컨테이너 수정 */
+/* 작성자 정보 컨테이너 */
 .writerInfoContainer {
     width: 100%;
     display: flex;
@@ -119,7 +41,6 @@ li {
     transform: translateY(-50%);
     height: 20px; /* 세로선 높이 */
     width: 1px; /* 세로선 너비 */
-    background-color: var(--main-colors-pink); /* 세로선 색상 */
 }
 
 /* 닉네임 스타일 */
@@ -159,8 +80,62 @@ li {
     height: 30px;
 }
 
-.recipeTitle {
-    font-family: var(--font-goyang);
-    font-size: 30px;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
+/* 기본 정보 목록 */
+.infoListWrap {
+    background: var(--neutral-colors-cream-beige);
+    height: auto;
+    margin: var(--fs12) 0;
+    border-radius: 6px;
+}
+
+.infoListWrap ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.infoListWrap li {
+    font-size: var(--fs20);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.infoListWrap li:last-child {
+    margin-bottom: 0;
+}
+
+.ingredentTitle {
+    font-size: var(--fs26);
+    font-weight: bold;
+    display: block;
+    margin: 24px 0 12px;
+}
+
+/* TTS 컴포넌트 */
+.ttsWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--fs8) 0;
+    background-color: var(--neutral-colors-cream-beige);
+    padding: var(--fs8) var(--fs12);
+    border-radius: 6px;
+    position: relative;
+    min-height: 50px;
+}
+
+.ttsWrap :global(button) {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnTitle {
+    display: flex;
+    white-space: nowrap;
+    text-align: left;
 }
