@@ -22,6 +22,10 @@
     filter: brightness(90%);
 }
 
+.iconImage {
+  filter: brightness(0) invert(1);
+}
+
 @media (max-width: 480px) {
     .floatingBtnWrapper {
         right: var(--fs33);
