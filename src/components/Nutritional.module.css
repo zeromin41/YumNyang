@@ -1,4 +1,3 @@
-
 .titleRow {
     list-style: none;
     margin: 0 0 1em 0;
@@ -10,7 +9,7 @@
 .titleRow img {
     margin: 0;
     padding: 0;
-    width: 1.5em;
+    width: 30px;
     height: auto;
     display: block;
 }
@@ -42,7 +41,7 @@
     text-align: center;
 }
 
-.progress{
+.progress {
     -webkit-appearance: none;
     appearance: none;
     border-radius: 10px;
