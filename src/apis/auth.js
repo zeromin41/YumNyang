@@ -12,4 +12,4 @@ export const withdraw = (formData) => postRequest('/withdraw', formData)
 
 export const checkToken = () => getRequest('/checkToken')
 
-export const logout = () => postRequest('/logout') // POST /logout 추가
+export const logout = () => postRequest('/logout')
