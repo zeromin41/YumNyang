@@ -5,10 +5,13 @@ import 'swiper/css/pagination'
 import RecipeCard from './RecipeCard'
 import RecipeCardSkeleton from './RecipeCardSkeleton' // 스켈레톤 컴포넌트 임포트
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate } from 'react-router-dom'
 
 const CARD_MAX_WIDTH = '120px'
 
 function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isLoggedIn, userId }) {
+    const navigate = useNavigate()
+
     const spaceBetween = 16
     const slidesOffset = 16
     const slidesPerView = 'auto'
@@ -40,6 +43,7 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isL
                         <RecipeCardSkeleton isReview={isReview} />
                     ) : isReview ? (
                         <div
+                            onClick={() => navigate(`/recipe/${item.RECIPE_ID}`)}
                             style={{
                                 padding: '10px 15px',
                                 width: '100%',
