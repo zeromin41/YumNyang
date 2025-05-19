@@ -37,7 +37,6 @@ const RecipeDetailPage = () => {
 
             setLoading(true)
             setError(null)
-
             try {
                 const responseData = await getRequest(`/getRecipe/${recipeId}`)
                 setRecipeData(responseData)
@@ -62,7 +61,6 @@ const RecipeDetailPage = () => {
                         userId: parseInt(currentUserId, 10),
                         recipeId: parseInt(recipeId, 10),
                     })
-                    console.log(responseMessage.message || `최근 본 레시피 기록 성공`)
                 } catch (err) {
                     console.error('최근 본 레시피 기록 API 오류:', err.message)
                 }

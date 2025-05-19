@@ -19,7 +19,7 @@ const Comment = ({ recipeId, setStarAverage }) => {
         try {
             const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
             setReviewData(response.data)
-            console.log(response.data)
+
             //리뷰 별점값 가져오기
 
             // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
