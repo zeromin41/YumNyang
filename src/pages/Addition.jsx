@@ -18,6 +18,7 @@ import playImg from '../assets/play-03.svg'
 import RecipeStepCard from '../components/RecipeStepCard';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { checkToken } from '../apis/auth';
 
 const Addition = () => {
     const {userId, nickname} = useSelector(state => state.user)
@@ -49,14 +50,16 @@ const Addition = () => {
 
     const uploadRecipes = async () => {
         try {
+            await checkToken()
+
             const formData = new FormData()
             formData.append('userId', userId)
             formData.append('nickname', nickname)
             formData.append('title', title)
-            const descriptionData = description.map((e) => (
-                e.description
-            ))
-            formData.append('description', descriptionData)
+
+            const descriptionData = description.map(e => e.description);
+            formData.append('descriptionJSON', JSON.stringify(descriptionData));
+
             formData.append('targetPetType', target)
             formData.append('foodCategory', category)
             formData.append('cookingTimeLimit', time + timeType)
@@ -87,9 +90,9 @@ const Addition = () => {
             formData.append('fiber', fiber) // 식이섬유
             formData.append('nacl', nacl) // 나트륨
             formData.append('ptss', ptss) // 칼륨
-            formData.append('ingredientsName', ingredientsName)
-            formData.append('ingredientsAmount', ingredientsAmount)
-            formData.append('ingredientsUnit', ingredientsUnit)
+            formData.append('ingredientsNameJSON', JSON.stringify(ingredientsName))
+            formData.append('ingredientsAmountJSON', JSON.stringify(ingredientsAmount))
+            formData.append('ingredientsUnitJSON', JSON.stringify(ingredientsUnit))
 
             if (mainImage) {
                 formData.append('images', mainImage)
@@ -104,7 +107,8 @@ const Addition = () => {
 
             navigate('/')
         } catch (error) {
-            alert(error)
+            console.error(error)
+            alert("저장 중에 문제가 발생했습니다.")
         }
     }
 
@@ -173,18 +177,15 @@ const Addition = () => {
 
     const RecipeSteps = () => {
 
-        // 전체 레시피 텍스트
         const allDescriptions = description.map((step) => step.description)
 
         return (
             <>
-                {/* 내용 전체재생 */}
                 <div className={css.ttsWrap}>
                     <TTSComponent text={allDescriptions} playBtnImg={playImg} />
                     <span className={css.btnTitle}>전체레시피 읽어주기</span>
                 </div>
 
-                {/* 레시피 단계별 카드 */}
                 {description.map((step, index) => (
                     <RecipeStepCard
                         key={index}
@@ -198,24 +199,15 @@ const Addition = () => {
         )
     }
 
-    // 타이머 플로팅 버튼 클릭 핸들러
     const handleTimerButtonClick = () => {
         setShowTimer((prev) => !prev)
     }
-
-    // 플로팅 버튼 (타이머)
+    
     const floatingButtonElement = (
         <>
             <FloatingButton iconSrc={watchImg} onClick={handleTimerButtonClick} />
             {showTimer && <Timer />}
         </>
-    )
-
-    // 로딩 상태의 텍스트 컴포넌트
-    const loadingComponent = (
-        <div className={css.loadingWrapper}>
-            레시피 <span className={css.loadingDots}>불러오는 중</span>
-        </div>
     )
 
     return (
@@ -273,20 +265,20 @@ const Addition = () => {
                         floatingButton={floatingButtonElement}
                         isLoading={false}
                         error={null}
-                        loadingComponent={loadingComponent}
+                        loadingComponent={null}
                     />
                 )}
             </div>
             <div className={style.navigation}>
                 {
-                    page === 1 ? <button style={{display : 'hidden'}}></button> : page === 3 ? '' :
-                    <button onClick={pageLeft}>
+                    page === 1 ? <button className={style.nav} style={{display : 'hidden'}}></button> : page === 3 ? '' :
+                    <button className={style.nav} onClick={pageLeft}>
                         <img src={arrowLeft} alt="Previous"/>
                     </button>
                 }
                 {
                     page === 3 ? "" :
-                    <button onClick={pageRight}>
+                    <button className={style.nav} onClick={pageRight}>
                         <img src={arrowRight} alt="Next"/>
                     </button>
                 }
@@ -296,13 +288,13 @@ const Addition = () => {
                             <Button
                                 text='이전'
                                 color="sandBrown"
-                                size='sm'
+                                size='md'
                                 onClick={() => setPage(2)}
                             />
                             <Button
                                 text="등록하기"
                                 color="brown"
-                                size='sm'
+                                size='md'
                                 onClick={uploadRecipes}
                             />
                         </>

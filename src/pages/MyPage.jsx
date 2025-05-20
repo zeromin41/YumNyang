@@ -38,13 +38,10 @@ const MyPage = () => {
 
     const [logoutError, setLogoutError] = useState('')
 
-    const isLoggedIn = true // TODO: 실제 로그인 상태와 연동
-
     // Redux 상태
     const favoriteRecipes = useSelector((state) => state.favorites.items.recipes ?? [])
     const favoriteStatus = useSelector((state) => state.favorites.status)
     const favoriteLoading = favoriteStatus === 'loading'
-    const favoriteError = useSelector((state) => state.favorites.error)
 
     // userId 초기화
     useEffect(() => {
@@ -105,7 +102,7 @@ const MyPage = () => {
             await logout()
             localStorage.removeItem('userId')
             dispatch(logoutUser())
-            navigate('/')
+            navigate('/', { state: { message: '로그아웃 되었습니다.' } })
         } catch (err) {
             if (err.status === 401) {
                 setIsLogoutModalOpen(false)
@@ -132,7 +129,7 @@ const MyPage = () => {
                         data={mappedData}
                         onCardClick={(id) => navigate(`/recipe/${id}`)}
                         isReview={isReview}
-                        isLoggedIn={isLoggedIn}
+                        isLoggedIn={true}
                         userId={userId}
                     />
                 ) : (
@@ -149,8 +146,10 @@ const MyPage = () => {
             <section className={css.userInfo}>
                 <span className={css.nickname}>{nickname}</span>
                 <div className={css.petInfo}>
-                    <span>반려동물 정보: </span>
-                    <span>{petInfo.NAME}</span>
+                    <span>반려동물 정보:</span>
+                    <span>
+                        {`${petInfo.TYPE === 'dog' ? '🐶' : petInfo.TYPE === 'cat' ? '🐱' : '없음'} ${petInfo.NAME ? petInfo.NAME : ''} ${petInfo.AGE ? `(${petInfo.AGE}세)` : ''}`}
+                    </span>
                 </div>
                 <div className={css.actionItem} onClick={() => setIsEditModalOpen(true)}>
                     정보 수정
