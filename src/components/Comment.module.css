@@ -68,7 +68,7 @@
 }
 
 .msgCon {
-    width: 250px;
+    width: 200px;
     display: flex;
     margin-left: var(--fs12);
 }
@@ -85,12 +85,16 @@
 }
 
 .deleteBtn {
+    position: absolute;
+    transform: translateY(-50%);
+    margin-top: 22px;
+    left: 85%;
+    display: flex;
     background: none;
     border: none;
     color: #ff6b6b;
     cursor: pointer;
     font-size: 0.8rem;
-    margin-left: 8px;
     padding: 2px 5px;
 }
 
