@@ -32,8 +32,7 @@ const Nutritional = ({ recipeData }) => {
         <div>
             <h3>
                 <li className={style.titleRow}>
-                    <img src={chartImg} />
-                    <span>영양 정보</span>
+                    <span>📊&nbsp;영양 정보</span>
                 </li>
                 {ingredientName.map((t, index) => (
                     <ProgressBar key={index} title={t} rating={amount[index]} />
