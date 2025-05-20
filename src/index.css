@@ -52,10 +52,12 @@
 html,
 body {
     height: 100%;
+    padding: 0;
 }
 
 #root {
     max-width: 480px;
     margin: auto;
     min-height: 100vh;
+    padding: 0;
 }

@@ -6,8 +6,11 @@ import Button from '../components/Button'
 import { isEmpty, isValidPasswordConfirm } from '../utils/validator'
 import { VALIDATION_MESSAGES } from '../constants/messages'
 import { withdraw } from '../apis/auth'
+import { logoutUser } from '../store/userSlice'
+import { useDispatch } from 'react-redux'
 
 const WithDrawPage = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const [id, setId] = useState('')
@@ -17,6 +20,8 @@ const WithDrawPage = () => {
     const [idError, setIdError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [passwordConfirmError, setPasswordConfirmError] = useState('')
+
+    const [isWithdrawing, setIsWithdrawing] = useState(false)
 
     const handleChange = (setter) => (e) => {
         setter(e.target.value)
@@ -49,10 +54,13 @@ const WithDrawPage = () => {
                 email: id,
                 password,
             }
+            setIsWithdrawing(true)
             const res = await withdraw(formData)
             alert(res.message)
 
             localStorage.removeItem('userId')
+            dispatch(logoutUser())
+            setIsWithdrawing(false)
             setIdError('')
             setPasswordError('')
             setPasswordConfirmError('')
@@ -91,7 +99,12 @@ const WithDrawPage = () => {
                 />
             </form>
             <div className={css.btnWrapper}>
-                <Button text="탈퇴하기" color="red" flex={1} onClick={handleWithdraw} />
+                <Button
+                    text={isWithdrawing ? '회원탈퇴 중...' : '탈퇴하기'}
+                    color="red"
+                    flex={1}
+                    onClick={handleWithdraw}
+                />
                 <Button text="나가기" color="default" flex={2} onClick={() => navigate('/')} />
             </div>
         </div>

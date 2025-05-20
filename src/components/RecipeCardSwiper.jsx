@@ -49,6 +49,7 @@ function RecipeCardSwiper({ data, onCardClick, isSkeleton = false, isReview, isL
                                 whiteSpace: 'nowrap',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
+                                cursor: 'pointer',
                             }}
                         >
                             {item.COMMENT_TEXT}

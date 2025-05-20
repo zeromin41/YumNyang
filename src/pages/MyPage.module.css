@@ -14,8 +14,11 @@
 }
 .nickname {
     font-size: var(--fs20);
+    font-family: var(--font-goyang);
 }
-
+.petInfo {
+    font-family: var(--font-goyang);
+}
 .petInfo > span:nth-of-type(1) {
     color: var(--neutral-colors-maroon);
 }
@@ -45,7 +48,6 @@
 }
 .myContentsWrapper > p {
     text-align: center;
-    font-family: var(--font-goyang);
     color: #888;
     margin: 55px 0;
 }

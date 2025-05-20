@@ -7,8 +7,10 @@
     box-sizing: border-box;
     position: fixed;
     bottom: 0;
-    z-index: 9998;  /*모달에안보이게*/
+    z-index: 9998; /*모달에안보이게*/
     background-color: var(--neutral-colors-white);
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .normal {

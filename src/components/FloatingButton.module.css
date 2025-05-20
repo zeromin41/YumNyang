@@ -1,7 +1,8 @@
 .floatingBtnWrapper {
     position: fixed;
-    bottom: 100px;
-    right: var(--fs33);
+    bottom: 90px;
+    right: calc((100vw - 480px) / 2 + var(--fs33));
+    z-index: 9998;
 }
 .floatingBtn {
     outline: none;
@@ -19,4 +20,14 @@
 }
 .floatingBtn:hover {
     filter: brightness(90%);
+}
+
+.iconImage {
+  filter: brightness(0) invert(1);
+}
+
+@media (max-width: 480px) {
+    .floatingBtnWrapper {
+        right: var(--fs33);
+    }
 }
