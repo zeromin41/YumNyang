@@ -1,6 +1,6 @@
-import React from 'react'
 import style from './Nutritional.module.css'
 import chartImg from '../assets/chart.svg'
+
 const Nutritional = ({ recipeData }) => {
     // 영양소 명, 이전 변수명 : title
     const ingredientName = [
@@ -44,17 +44,27 @@ const Nutritional = ({ recipeData }) => {
 }
 
 const ProgressBar = ({ title, rating }) => {
+    const percent = rating.toFixed(2) > 100.0 ? 100.0 : rating.toFixed(2)
+
     return (
-        <div className={style.progressRow}>
-            <span className={style.progressTitle}>{title}</span>
-            <div className={style.progressContainer}>
-                <progress className={style.progress} value={rating} max="100"></progress>
-                <span
-                    className={style.progressText}
-                    style={{ left: `${rating > 100 ? 100 : rating}%` }}
-                >
-                    {rating.toFixed(2)}%
-                </span>
+        <div>
+            <div className={style.progressRow}>
+                <span className={style.progressTitle}>{title}</span>
+                <div className={`progress`} style={{ flex: '1', height: '16px', padding: '0' }}>
+                    <div
+                        // className={`progress-bar progress-bar-striped progress-bar-animated `}
+                        className={
+                            rating == 0.0
+                                ? `progress-bar progress-bar-striped progress-bar-animated is-zero`
+                                : `progress-bar progress-bar-striped progress-bar-animated`
+                        }
+                        role={`progressbar`}
+                        style={{ width: `${percent}%`, marginRight: '5px' }}
+                        aria-valuenow={percent}
+                        aria-valuemax={'100'}
+                    ></div>
+                    <span className={style.progressRating}>{percent}%</span>
+                </div>
             </div>
         </div>
     )
