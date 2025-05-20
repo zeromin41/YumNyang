@@ -23,22 +23,22 @@ const WithDrawPage = () => {
 
     const [isWithdrawing, setIsWithdrawing] = useState(false)
 
-    const handleChange = (setter) => (e) => {
+    const handleChange = (setter, errorSetter) => (e) => {
         setter(e.target.value)
+        errorSetter('')
     }
 
     const handleWithdraw = async () => {
-        // 빈 값 검증
-        setIdError(!isEmpty(id) ? '' : VALIDATION_MESSAGES.EMPTY_ID)
-        setPasswordError(!isEmpty(password) ? '' : VALIDATION_MESSAGES.EMPTY_PASSWORD)
-        // 비밀번호 일치 검증
-        setPasswordConfirmError(
-            isValidPasswordConfirm(password, passwordConfirm)
-                ? ''
-                : VALIDATION_MESSAGES.PASSWORD_CONFIRM
-        )
+        // 검증
+        const isIdValid = !isEmpty(id)
+        const isPasswordValid = !isEmpty(password)
+        const isPasswordConfirmValid = isValidPasswordConfirm(password, passwordConfirm)
 
-        if (idError || passwordError || passwordConfirmError) return
+        setIdError(isIdValid ? '' : VALIDATION_MESSAGES.EMPTY_ID)
+        setPasswordError(isPasswordValid ? '' : VALIDATION_MESSAGES.EMPTY_PASSWORD)
+        setPasswordConfirmError(isPasswordConfirmValid ? '' : VALIDATION_MESSAGES.PASSWORD_CONFIRM)
+
+        if (!isIdValid || !isPasswordValid || !isPasswordConfirmValid) return
 
         // 회원탈퇴
         try {
@@ -68,6 +68,7 @@ const WithDrawPage = () => {
             navigate('/')
         } catch (err) {
             setPasswordConfirmError(err.message)
+            setIsWithdrawing(false)
         }
     }
 
@@ -78,7 +79,7 @@ const WithDrawPage = () => {
                     label="기존 아이디"
                     id="id"
                     value={id}
-                    onChange={handleChange(setId)}
+                    onChange={handleChange(setId, setIdError)}
                     errorMsg={idError}
                 />
                 <InputField
@@ -86,7 +87,7 @@ const WithDrawPage = () => {
                     id="password"
                     value={password}
                     type="password"
-                    onChange={handleChange(setPassword)}
+                    onChange={handleChange(setPassword, setPasswordError)}
                     errorMsg={passwordError}
                 />
                 <InputField
@@ -94,7 +95,7 @@ const WithDrawPage = () => {
                     id="passwordConfirm"
                     value={passwordConfirm}
                     type="password"
-                    onChange={handleChange(setPasswordConfirm)}
+                    onChange={handleChange(setPasswordConfirm, setPasswordConfirmError)}
                     errorMsg={passwordConfirmError}
                 />
             </form>

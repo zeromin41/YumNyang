@@ -18,15 +18,20 @@ const LoginPage = () => {
 
     const [isLoggingIn, setIsLoggingIn] = useState(false)
 
-    const handleChange = (setter) => (e) => {
+    const handleChange = (setter, errorSetter) => (e) => {
         setter(e.target.value)
+        errorSetter('')
     }
 
     const handleLogin = async () => {
-        // 빈 값 검증
-        setIdError(!isEmpty(id) ? '' : VALIDATION_MESSAGES.EMPTY_ID)
-        setPasswordError(!isEmpty(password) ? '' : VALIDATION_MESSAGES.EMPTY_PASSWORD)
-        if (idError || passwordError) return
+        // 검증
+        const idValidationError = isEmpty(id) ? VALIDATION_MESSAGES.EMPTY_ID : ''
+        const passwordValidationError = isEmpty(password) ? VALIDATION_MESSAGES.EMPTY_PASSWORD : ''
+
+        setIdError(idValidationError)
+        setPasswordError(passwordValidationError)
+
+        if (idValidationError || passwordValidationError) return
 
         // 로그인
         try {
@@ -56,7 +61,7 @@ const LoginPage = () => {
                     label="아이디"
                     id="id"
                     value={id}
-                    onChange={handleChange(setId)}
+                    onChange={handleChange(setId, setIdError)}
                     errorMsg={idError}
                 />
                 <InputField
@@ -64,7 +69,7 @@ const LoginPage = () => {
                     id="password"
                     type="password"
                     value={password}
-                    onChange={handleChange(setPassword)}
+                    onChange={handleChange(setPassword, setPasswordError)}
                     errorMsg={passwordError}
                 />
             </form>

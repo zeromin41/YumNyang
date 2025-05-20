@@ -148,7 +148,7 @@ const MyPage = () => {
                 <div className={css.petInfo}>
                     <span>반려동물 정보:</span>
                     <span>
-                        {`${petInfo.TYPE === 'dog' ? '🐶' : '🐱'} ${petInfo.NAME} ${petInfo.AGE ? `(${petInfo.AGE}세)` : ''}`}
+                        {`${petInfo.TYPE === 'dog' ? '🐶' : petInfo.TYPE === 'cat' ? '🐱' : '없음'} ${petInfo.NAME ? petInfo.NAME : ''} ${petInfo.AGE ? `(${petInfo.AGE}세)` : ''}`}
                     </span>
                 </div>
                 <div className={css.actionItem} onClick={() => setIsEditModalOpen(true)}>
