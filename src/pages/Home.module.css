@@ -28,6 +28,7 @@
     left: 50%;
     transform: translateX(-50%) translateY(-100%);
     color: var(--service-colors-success);
+    font-size: 14px;
     padding: var(--fs12) 0;
     text-align: center;
     animation: slideDownFade 3s ease forwards;
