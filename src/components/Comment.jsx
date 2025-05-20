@@ -151,11 +151,10 @@ const Comment = ({ recipeId, setStarAverage }) => {
         }
 
         try {
-            await postRequest(`/upDateReview`, {
+            const response = await postRequest(`/upDateReview`, {
                 id: reviewId,
                 type: 'delete',
             })
-
             alert('댓글이 삭제되었습니다')
             await getReviewData()
         } catch (error) {
@@ -178,7 +177,7 @@ const Comment = ({ recipeId, setStarAverage }) => {
     return (
         <div className={css.commentCon}>
             <div className={css.commentLabel}>
-                <span>💬 댓글</span>
+                <span>💬&nbsp;댓글</span>
             </div>
 
             <div className={css.inputWrapper}>
@@ -193,7 +192,7 @@ const Comment = ({ recipeId, setStarAverage }) => {
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="댓글을 입력하세요"
                     ></textarea>
-                    <button onClick={handleSubmit}>📥 등록</button>
+                    <button onClick={handleSubmit}>📥&nbsp;등록</button>
                 </div>
             </div>
 

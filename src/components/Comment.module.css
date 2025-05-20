@@ -70,7 +70,6 @@
 .msgCon {
     width: 200px;
     display: flex;
-    margin-left: var(--fs12);
 }
 
 .userCon::after {
@@ -100,4 +99,21 @@
 
 .deleteBtn:hover {
     text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    .userCon::after {
+        content: '';
+        position: absolute;
+        left: 35%;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 20px; /* 세로선 높이 */
+        width: 1px; /* 세로선 너비 */
+        background-color: var(--main-colors-accent); /* 세로선 색상 */
+    }
+
+    .msgCon {
+        width: 177px;
+    }
 }
