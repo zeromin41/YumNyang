@@ -290,14 +290,14 @@ const Addition = () => {
             </div>
             <div className={style.navigation}>
                 {
-                    page === 1 ? <button style={{display : 'hidden'}}></button> : page === 3 ? '' :
-                    <button onClick={pageLeft}>
+                    page === 1 ? <button className={style.nav} style={{display : 'hidden'}}></button> : page === 3 ? '' :
+                    <button className={style.nav} onClick={pageLeft}>
                         <img src={arrowLeft} alt="Previous"/>
                     </button>
                 }
                 {
                     page === 3 ? "" :
-                    <button onClick={pageRight}>
+                    <button className={style.nav} onClick={pageRight}>
                         <img src={arrowRight} alt="Next"/>
                     </button>
                 }
@@ -307,13 +307,13 @@ const Addition = () => {
                             <Button
                                 text='이전'
                                 color="sandBrown"
-                                size='sm'
+                                size='md'
                                 onClick={() => setPage(2)}
                             />
                             <Button
                                 text="등록하기"
                                 color="brown"
-                                size='sm'
+                                size='md'
                                 onClick={uploadRecipes}
                             />
                         </>

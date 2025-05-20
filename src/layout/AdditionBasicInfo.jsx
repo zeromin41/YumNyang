@@ -50,7 +50,10 @@ const AdditionBasicInfo = ({
     useEffect(() => {
         setIndividualCal([])
         ingredient.map((e) =>{
-            setIndividualCal((p) => [...p, 4 * e.crbQy + 4 * e.protQy + 9 * e.fatQy]) // 4 * 탄수화물 + 4 * 단백질 + 9 * 지방
+            const crbQy = e.crbQy > 0 ? e.crbQy : 0
+            const protQy = e.protQy > 0 ? e.protQy : 0
+            const fatQy = e.fatQy > 0 ? e.fatQy : 0
+            setIndividualCal((p) => [...p, 4 * crbQy + 4 * protQy + 9 * fatQy]) // 4 * 탄수화물 + 4 * 단백질 + 9 * 지방
         })
     }, [ingredient])
 
@@ -166,7 +169,7 @@ const AdditionBasicInfo = ({
                     <div className={style.fieldRow}>
                         <Input
                             type="number"
-                            value={calorie}
+                            value={Math.floor(calorie * 100) / 100}
                             readOnly={false}
                             placeholder="자동 계산 중"
                         />
