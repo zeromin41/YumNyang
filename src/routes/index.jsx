@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import Default from '../Default'
 import Home from '../pages/Home'
 import Search from '../pages/Search'
@@ -13,7 +13,7 @@ import Addition from '../pages/Addition'
 import RecipeDetailPage from '../pages/RecipeDetailPage'
 import AuthGuard from '../components/AuthGuard'
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         element: <Default />,
         children: [
