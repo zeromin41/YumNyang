@@ -55,8 +55,10 @@
 }
 
 .progressRating {
+    font-size: 0.75rem;
     padding: 0;
     font-weight: bold;
+    /* position: absolute; */
 }
 
 :global(.progress-bar.is-zero) {
