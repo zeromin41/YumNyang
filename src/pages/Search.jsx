@@ -11,8 +11,8 @@ import styles from './Search.module.css'
 import { postRequest } from '../apis/api.js'
 
 const petOptions = [
-    { id: 'dog', name: '강아지' },
-    { id: 'cat', name: '고양이' },
+    { id: '강아지', name: '강아지' },
+    { id: '고양이', name: '고양이' },
 ]
 
 const foodFilterOptions = [
