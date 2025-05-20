@@ -27,32 +27,32 @@
 |레시피 작성 - 1| 레시피 작성 - 2| 레시피 작성 기본 정보 입력|
 |:---:|:---:|:---:|
 |<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 1" src="https://github.com/user-attachments/assets/3c9c5e12-6dba-40ea-af39-29a8aafaa149" />|<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 2" src="https://github.com/user-attachments/assets/c2ff8a5e-ce10-496b-a132-b998835d39dd" />|<img width="340" alt="레시피 작성 - 기본 정보  1" src="https://github.com/user-attachments/assets/c6ae08bf-15ed-4602-bb52-9e480931462e" />|
-|내용1|내용2|내용3|
+|제목, 대표 사진, 권장 대상, 카테고리 필드가 보여집니다.|요리시간, 칼로리, 1회 급여량, 재료 검색 필드가 보여집니다.|레시피 기본 정보를 입력할 수 있습니다.|
 
 |레시피 작성 재료 검색|재료 추가|재료 직접 추가|
 |:---:|:---:|:---:|
 |<img width="340" alt="레시피 작성 - 재료 검색" src="https://github.com/user-attachments/assets/1ca53e28-8172-43c7-b194-6ecd8e294bd3" />|<img width="340" alt="레시피 작성 - 재료 추가" src="https://github.com/user-attachments/assets/0ee6637c-fae0-484f-866d-84f9ac8cd1cc" />|<img width="340" alt="레시피 작성 - 재료 직접 추가하기" src="https://github.com/user-attachments/assets/4af7c645-739b-430d-8878-26b09e16791f" />|
-|내용1|내용2|내용3|
+|재료 검색 시 모달 창이 띄워지며, <br/>카테고리를 선택하여 재료를 검색할 수 있습니다.|재료가 추가되면 해당 정보가 보여집니다.|재료 검색이 안되는 경우, <br/>직접 추가를 통해 입력할 수 있습니다. |
 
 |조리법 작성|조리법 내용 입력|다음 단계 추가|
 |:---:|:---:|:---:|
 |<img width="341" alt="레피시 작성 - 세부 레시피 초기 화면" src="https://github.com/user-attachments/assets/f0b336eb-4ce9-4d30-b337-591d32dad389" />|<img width="340" alt="레시피 작성 - 세부 레시피 입력" src="https://github.com/user-attachments/assets/cdaf3786-44bb-4eee-9bf1-25c9825c106e" />|<img width="339" alt="레시피 작성 - 세부 레피시 다음 단계 추가" src="https://github.com/user-attachments/assets/1409d390-76dd-466c-8367-23f2edc3775c" />|
-|내용1|내용2|내용3|
+|조리법에는 단계에 따라 사진과 내용 입력이 가능합니다.|사진과 내용을 입력한 화면입니다.|다음 단계 추가 버튼을 통해 <br/>다음 단계를 입력할 수 있습니다.|
 
-|세부 조리법 9단계까지 입력 가능|작성한 기본 정보 미리보기|작성한 조리법 미리보기|
+|조리법 9단계까지 입력 가능|작성한 기본 정보 미리보기|작성한 조리법 미리보기|
 |:---:|:---:|:---:|
 |<img width="340" alt="레시피 작성 - 세부 레시피 9단계" src="https://github.com/user-attachments/assets/0f73a105-ae6c-41e7-8800-f0acb7bb239a" />|<img width="340" alt="레시피 작성 - 미리보기 1" src="https://github.com/user-attachments/assets/1f8bcbed-5c3b-4c98-b0e7-800d81a47869" />|<img width="340" alt="레시피 작성 - 미리보기 3" src="https://github.com/user-attachments/assets/df9d2e03-3a99-41a8-8b64-583206110f29" />|
-|내용1|내용2|내용3|
+|조리법은 9단계까지만 추가가 가능합니다.|작성한 기본 정보를 미리볼 수 있습니다.|작성한 조리법을 미리볼 수 있습니다.|
 
 |마이페이지 - 1|마이페이지 - 2|사용자 정보 수정|
 |:---:|:---:|:---:|
 |<img width="323" alt="마이페이지 - 1" src="https://github.com/user-attachments/assets/000aac81-0143-4130-9431-5ce7f1fe4c5b" />|<img width="323" alt="마이페이지 - 2" src="https://github.com/user-attachments/assets/c93ffa4a-05d0-4d60-a7a3-6a2b39a00e9e" />|<img width="322" alt="정보 수정 - 1" src="https://github.com/user-attachments/assets/e6ab54d5-6c2d-49d7-a51f-ce1402b97301" />|
-|사용자 정보, 정보 수정, 내가 찜한 레시피, <br/>내가 작성한 레시피가 보여집니다.|내가 작성한 리뷰, 로그아웃, 회원탈퇴가 <br/>보여집니다.|정보 수정 버튼을 누르면 모달에서 <br/>수정이 가능하며, 기본 정보들이 채워져있습니다.|
+|사용자 정보, 정보 수정, 내가 찜한 레시피, 내가 작성한 레시피가 보여집니다.|내가 작성한 리뷰, 로그아웃, 회원탈퇴가 보여집니다.|정보 수정 버튼을 누르면 모달에서 수정이 가능하며, 기본 정보들이 채워져있습니다.|
 
 |닉네임 정보 수정|비밀번호 정보 수정|반려동물 정보 수정|
 |:---:|:---:|:---:|
 |<img width="322" alt="닉네임 정보 수정" src="https://github.com/user-attachments/assets/671274e6-c3b5-4af8-b214-4ddf9ca532e4" />|<img width="324" alt="비밀번호 정보 수정" src="https://github.com/user-attachments/assets/668095f5-bf73-4c98-a841-d69715b325a2" />|<img width="322" alt="반려동물 정보 수정" src="https://github.com/user-attachments/assets/875cd4db-ecd9-4d86-9fee-d8b3bfa1eeca" />|
-|닉네임 중복 확인을 통해 <br/>닉네임을 수정할 수 있습니다.|비밀번호 유효성 검증을 통과해야 <br/>비밀번호를 수정할 수 있습니다.|반려동물 정보를 수정할 수 있습니다. <br/>반려동물 정보 중 하나라도 수정된 경우 <br/>반려동물 종류와 이름이 필수입니다.|
+|닉네임 중복 확인을 통해 닉네임을 수정할 수 있습니다.|비밀번호 유효성 검증을 통과해야 비밀번호를 수정할 수 있습니다.|반려동물 정보를 수정할 수 있습니다. <br/>반려동물 정보 중 하나라도 수정된 경우 반려동물 종류와 이름이 필수입니다.|
 
 |정보 수정 완료|
 |:---:|
@@ -62,7 +62,7 @@
 | 회원가입 - 1 | 회원가입 - 2 | 회원가입 입력 필드 유효성 검사 |
 |:---:|:---:|:---:|
 |<img width="324" alt="회원가입 - 1" src="https://github.com/user-attachments/assets/d0fab31b-4fa4-4529-ae46-8152f73a46e6" />|<img width="323" alt="회원가입 - 2" src="https://github.com/user-attachments/assets/5ae3bbd7-3259-4ac9-8de4-3b9844685af3" />|<img width="323" alt="회원가입 입력 필드 유효성 검사" src="https://github.com/user-attachments/assets/b0cc7c80-c581-4d29-bf41-14c695f7b31d" />|
-| 아이디, 닉네임, 비밀번호, 비밀번호 확인 <br/>필드가 보여집니다. | 반려동물 종류, 이름, 나이 입력 및 버튼이 <br/>보여집니다. | 모든 필드에 대해 유효성 검사를 진행합니다. <br/>단, 반려동물 입력은 선택이며 하나라도 <br/>입력한 경우 종류와 이름은 필수입니다. |
+| 아이디, 닉네임, 비밀번호, 비밀번호 확인 필드가 보여집니다. | 반려동물 종류, 이름, 나이 입력 및 버튼이 보여집니다. | 모든 필드에 대해 유효성 검사를 진행합니다. <br/>단, 반려동물 입력은 선택이며 하나라도 입력한 경우 종류와 이름은 필수입니다. |
 
 
 | 중복 미확인 | 중복된 경우 | 중복 확인 성공 |
