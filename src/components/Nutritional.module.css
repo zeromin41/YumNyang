@@ -6,6 +6,7 @@
     align-items: center;
     gap: 0.5em;
 }
+
 .titleRow img {
     margin: 0;
     padding: 0;
@@ -16,7 +17,7 @@
 .titleRow span {
     margin: 0;
     padding: 0;
-    font-size: var(--fs26);
+    font-size: 24px;
     font-weight: bold;
     color: var(--neutral-colors-black);
 }
@@ -32,7 +33,7 @@
     width: 4em;
     flex-shrink: 0;
     text-align: right;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .progressContainer {

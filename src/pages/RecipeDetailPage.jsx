@@ -115,14 +115,17 @@ const RecipeDetailPage = () => {
         recipeData && (
             <div className={css.infoListWrap}>
                 <ul>
-                    <li>추천 대상: {recipeData.recipe?.TARGET_PET_TYPE || '정보없음'}</li>
                     <li>
-                        조리 시간: {recipeData.recipe?.COOKING_TIME_LIMIT || '정보없음'} / 난이도:{' '}
+                        <span>추천 대상:</span> {recipeData.recipe?.TARGET_PET_TYPE || '정보없음'}
+                    </li>
+                    <li>
+                        <span>조리 시간:</span>{' '}
+                        {recipeData.recipe?.COOKING_TIME_LIMIT || '정보없음'} / <span>난이도</span>:{' '}
                         {recipeData.recipe?.LEVEL || '정보없음'}
                     </li>
                     <li>
-                        칼로리: {recipeData.recipe?.CALORIES_PER_SERVING || '정보없음'}kcal / 1회
-                        급여량: {recipeData.ingredient[0]?.QUANTITY_AMOUNT}
+                        <span>칼로리</span>: {recipeData.recipe?.CALORIES_PER_SERVING || '정보없음'}
+                        kcal /<span>1회 급여량</span>: {recipeData.ingredient[0]?.QUANTITY_AMOUNT}
                         {recipeData.ingredient[0]?.QUANTITY_UNIT}
                     </li>
                 </ul>
@@ -138,8 +141,9 @@ const RecipeDetailPage = () => {
                     <ul>
                         {recipeData.ingredient.map((data, index) => (
                             <li key={index}>
-                                {data.INGREDIENT_NAME}&nbsp;{data.QUANTITY_AMOUNT}
-                                {data.QUANTITY_UNIT}{' '}
+                                &nbsp;{data.INGREDIENT_NAME}&nbsp;
+                                {data.QUANTITY_AMOUNT}
+                                {data.QUANTITY_UNIT}
                             </li>
                         ))}
                     </ul>

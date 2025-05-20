@@ -94,8 +94,12 @@
 }
 
 .infoListWrap li {
-    font-size: var(--fs20);
+    font-size: var(--fs16);
     line-height: 1.5;
+}
+
+.infoListWrap span {
+    font-weight: bold;
 }
 
 .infoListWrap li:last-child {
@@ -103,7 +107,7 @@
 }
 
 .ingredentTitle {
-    font-size: var(--fs26);
+    font-size: 24px;
     font-weight: bold;
     display: block;
     margin: 24px 0 12px;
