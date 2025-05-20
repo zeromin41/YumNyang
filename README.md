@@ -19,16 +19,10 @@
 [피그마 바로가기](https://www.figma.com/design/itBUC1ZBRytPzDgcvYnz0e/5%EC%A1%B0-%ED%94%BC%EA%B7%B8%EB%A7%88?node-id=0-1&t=o1H9Ie0rRb6fbeXK-1)
 
 ### 📺 화면 구성
-|화면 명|
-|:---:|
-|<img src="https://user-images.githubusercontent.com/80824750/208456048-acbf44a8-cd71-4132-b35a-500047adbe1c.gif" width="450"/>|
-|화면에 대한 설명을 입력합니다.|
-
-
-|화면 명|
-|:---:|
-|<img src="https://user-images.githubusercontent.com/80824750/208456234-fb5fe434-aa65-4d7a-b955-89098d5bbe0b.gif" width="450"/>|
-|화면에 대한 설명을 입력합니다.|
+|스플래쉬|메인페이지 동물 상호작용|
+|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|
+|페이지 새로고침시 렌더링 되는 화면 입니다.|귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|
 
 <br />
 
