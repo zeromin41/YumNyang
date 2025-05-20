@@ -67,19 +67,29 @@
 </td>
 </tr>
 </table>
-</br>
+
+<br />
 
 ## 🎨 Figma
 [Figma 주소](https://www.figma.com/design/itBUC1ZBRytPzDgcvYnz0e/5%EC%A1%B0-%ED%94%BC%EA%B7%B8%EB%A7%88?node-id=0-1&t=o1H9Ie0rRb6fbeXK-1)
-</br>
 
-## 배포
+<br />
+
+## 🔗배포
 [먹었냥🐾](https://seungwoo.i234.me/#/)
 
-## 백엔드 URL
+<br />
+
+## 🔗백엔드 URL
 [백엔드 URL 링크](https://github.com/zeromin41/YumNyang_Back)
 
 <br />
+
+## ❔QA
+[QA sheet](https://docs.google.com/spreadsheets/d/1EUr3LgSH4WWSsexbBcjvZkuLdijED0KhsJpb7i0BLmU/edit?usp=sharing)
+
+<br />
+
 <details><summary><h2>📺 화면 구성</h2></summary>
   
 ### 메인페이지
