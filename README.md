@@ -24,6 +24,27 @@
 |<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|<img src="https://github.com/user-attachments/assets/043451ee-2e35-4339-a678-49e409a5442b"/>|
 |귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|페이지 새로고침시 렌더링 되는 화면 입니다.|최근레시피와 인기레시피를 카드 스와이퍼로 나타냈습니다.|
 
+|레시피 작성 - 1| 레시피 작성 - 2| 레시피 작성 기본 정보 입력|
+|:---:|:---:|:---:|
+|<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 1" src="https://github.com/user-attachments/assets/3c9c5e12-6dba-40ea-af39-29a8aafaa149" />|<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 2" src="https://github.com/user-attachments/assets/c2ff8a5e-ce10-496b-a132-b998835d39dd" />|<img width="340" alt="레시피 작성 - 기본 정보  1" src="https://github.com/user-attachments/assets/c6ae08bf-15ed-4602-bb52-9e480931462e" />|
+|내용1|내용2|내용3|
+
+|레시피 작성 재료 검색|재료 추가|재료 직접 추가|
+|:---:|:---:|:---:|
+|<img width="340" alt="레시피 작성 - 재료 검색" src="https://github.com/user-attachments/assets/1ca53e28-8172-43c7-b194-6ecd8e294bd3" />|<img width="340" alt="레시피 작성 - 재료 추가" src="https://github.com/user-attachments/assets/0ee6637c-fae0-484f-866d-84f9ac8cd1cc" />|<img width="340" alt="레시피 작성 - 재료 직접 추가하기" src="https://github.com/user-attachments/assets/4af7c645-739b-430d-8878-26b09e16791f" />|
+|내용1|내용2|내용3|
+
+|조리법 작성|조리법 내용 입력|다음 단계 추가|
+|:---:|:---:|:---:|
+|<img width="341" alt="레피시 작성 - 세부 레시피 초기 화면" src="https://github.com/user-attachments/assets/f0b336eb-4ce9-4d30-b337-591d32dad389" />|<img width="340" alt="레시피 작성 - 세부 레시피 입력" src="https://github.com/user-attachments/assets/cdaf3786-44bb-4eee-9bf1-25c9825c106e" />|<img width="339" alt="레시피 작성 - 세부 레피시 다음 단계 추가" src="https://github.com/user-attachments/assets/1409d390-76dd-466c-8367-23f2edc3775c" />|
+|내용1|내용2|내용3|
+
+|세부 조리법 9단계까지 입력 가능|작성한 기본 정보 미리보기|작성한 조리법 미리보기|
+|:---:|:---:|:---:|
+|<img width="340" alt="레시피 작성 - 세부 레시피 9단계" src="https://github.com/user-attachments/assets/0f73a105-ae6c-41e7-8800-f0acb7bb239a" />|<img width="340" alt="레시피 작성 - 미리보기 1" src="https://github.com/user-attachments/assets/1f8bcbed-5c3b-4c98-b0e7-800d81a47869" />|<img width="340" alt="레시피 작성 - 미리보기 3" src="https://github.com/user-attachments/assets/df9d2e03-3a99-41a8-8b64-583206110f29" />|
+|내용1|내용2|내용3|
+
+
 <br />
 
 ## ⚙ 기술 스택
