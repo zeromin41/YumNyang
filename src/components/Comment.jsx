@@ -151,11 +151,10 @@ const Comment = ({ recipeId, setStarAverage }) => {
         }
 
         try {
-            await postRequest(`/upDateReview`, {
+            const response = await postRequest(`/upDateReview`, {
                 id: reviewId,
                 type: 'delete',
             })
-
             alert('댓글이 삭제되었습니다')
             await getReviewData()
         } catch (error) {
