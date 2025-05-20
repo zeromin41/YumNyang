@@ -1,11 +1,11 @@
-/* src/pages/Home.css */
-.home-container {
+/* src/pages/Home.module.css */
+.homeContainer {
     padding: 10px;
     max-width: 1200px; /* 최대 너비 설정 */
     margin: 0 auto; /* 가운데 정렬 */
 }
 
-.cat-card-section {
+.catCardSection {
     display: flex;
     flex-wrap: wrap; /* 카드가 많아지면 다음 줄로 넘김 */
     justify-content: center; /* 카드들을 가운데 정렬 */
@@ -14,10 +14,41 @@
     gap: 10px; /* 카드 사이 간격 */
 }
 
-.recipe-section {
+.recipeSection {
     margin-bottom: 30px;
 }
 
-.recipe-section h2 {
+.recipeSection h2 {
     padding-left: 10px; /* Swiper와 정렬 맞추기 위함 (RecipeCardSwiper 내부 패딩에 따라 조정) */
+}
+
+.logoutSuccessMessage {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    color: var(--service-colors-success);
+    padding: var(--fs12) 0;
+    text-align: center;
+    animation: slideDownFade 3s ease forwards;
+    z-index: 1000;
+}
+
+@keyframes slideDownFade {
+    0% {
+        transform: translateX(-50%) translateY(-100%);
+        opacity: 0;
+    }
+    10% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    90% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) translateY(-100%);
+        opacity: 0;
+    }
 }

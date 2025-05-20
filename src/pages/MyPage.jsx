@@ -102,7 +102,7 @@ const MyPage = () => {
             await logout()
             localStorage.removeItem('userId')
             dispatch(logoutUser())
-            navigate('/')
+            navigate('/', { state: { message: '로그아웃 되었습니다' } })
         } catch (err) {
             if (err.status === 401) {
                 setIsLogoutModalOpen(false)

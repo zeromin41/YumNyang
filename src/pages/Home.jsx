@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import RecipeCardSwiper from '../components/RecipeCardSwiper'
 import CatCard from '../components/CatCard'
-import './Home.module.css'
+import css from './Home.module.css'
 import FloatingButton from '../components/FloatingButton'
 import plusIcon from '../assets/plus.svg'
 import { getRequest } from '../apis/api' // getRequest만 필요
@@ -24,6 +24,18 @@ const Home = () => {
     const { userId: currentUserId, isLoggedIn: isUserLoggedIn } = useSelector((state) => state.user)
 
     const navigate = useNavigate()
+    const location = useLocation()
+
+    const [logoutSuccessMessage, setLogoutSuccessMessage] = useState('')
+
+    useEffect(() => {
+        if (location.state?.message) {
+            setLogoutSuccessMessage(location.state.message)
+
+            const timer = setTimeout(() => setUpdateSuccessMsg(''), 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [location.state])
 
     const fetchRecipeDetails = useCallback(async (entries, idFieldName = 'RECIPE_ID') => {
         if (!entries || entries.length === 0) return []
@@ -128,8 +140,12 @@ const Home = () => {
     )
 
     return (
-        <div className="home-container">
-            <div className="cat-card-section">
+        <div className={css.homeContainer}>
+            {logoutSuccessMessage && (
+                <div className={css.logoutSuccessMessage}>{logoutSuccessMessage}</div>
+            )}
+
+            <div className={css.catCardSection}>
                 <CatCard />
             </div>
 
