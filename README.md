@@ -10,21 +10,13 @@
 </div> 
 
 ## 📝 소개
-프론트엔드 깃 레파지토리의 README.md를 빠르게 작성하기 위해 만든 템플릿입니다.
-
-다음과 같은 내용을 작성할 수 있습니다.
-- 프로젝트 소개
-- 프로젝트 화면 구성
-- 사용한 기술 스택
-- 기술적 이슈와 해결 과정
-- 프로젝트 팀원
-
-필요한 기술 스택에 대한 logo는 [skills 폴더](/skills/)에서 다운로드 받을 수 있습니다.
+**먹었냥🐾** 프로젝트는 사랑하는 반려동물의 건강하고 행복한 식생활을 위해, 
+반려인들이 직접 만드는 특별한 레시피를 공유하고 '반려동물 집밥원료 API'를 통해 정확한 영양 정보까지 확인할 수 있는 React 기반 웹 서비스입니다.
 
 <br />
 
 ### 🎨 Figma
-![피그마](https://www.figma.com/design/itBUC1ZBRytPzDgcvYnz0e/5%EC%A1%B0-%ED%94%BC%EA%B7%B8%EB%A7%88?node-id=0-1&t=o1H9Ie0rRb6fbeXK-1)
+[피그마 바로가기](https://www.figma.com/design/itBUC1ZBRytPzDgcvYnz0e/5%EC%A1%B0-%ED%94%BC%EA%B7%B8%EB%A7%88?node-id=0-1&t=o1H9Ie0rRb6fbeXK-1)
 
 ### 📺 화면 구성
 |화면 명|
@@ -41,17 +33,14 @@
 <br />
 
 ## ⚙ 기술 스택
-> skills 폴더에 있는 아이콘을 이용할 수 있습니다.
 ### Front-end
 <div>
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/JavaScript.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/React.png?raw=true" width="80">
-<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/JWT.png?raw=true" width="80">
-</div>
+<img src="https://github.com/user-attachments/assets/ac853fc6-3489-4d55-be9b-66874e93d8bc" width="80">
+<img src="https://github.com/user-attachments/assets/df601d5e-bc6a-4c53-9d55-8e715e392cb5" width="80">
+<img src="https://github.com/user-attachments/assets/c97f9794-44f9-4f8c-ba3a-80ae8a62c084" width="80">
 
-### Infra
-<div>
-<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/AWSEC2.png?raw=true" width="80">
 </div>
 
 ### Tools
