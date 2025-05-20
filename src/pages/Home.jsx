@@ -32,7 +32,7 @@ const Home = () => {
         if (location.state?.message) {
             setLogoutSuccessMessage(location.state.message)
 
-            const timer = setTimeout(() => setUpdateSuccessMsg(''), 3000)
+            const timer = setTimeout(() => setLogoutSuccessMessage(''), 3000)
             return () => clearTimeout(timer)
         }
     }, [location.state])
