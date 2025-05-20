@@ -7,7 +7,7 @@ import style from './IngredientModal.module.css'
 import { getRequest, postRequest } from '../apis/api'
 import deleteSvg from '../assets/delete.svg'
 
-function IngredientModal({ ingredient, setIngredient, setIsModalOpen, setIndividualCal }) {
+function IngredientModal({ ingredient, setIngredient, setIsModalOpen }) {
     const [categoryOptions, setCategoryOptions] = useState([])
     const [ingredients, setIngredients] = useState([])
     const [search, setSearch] = useState('')

@@ -1,12 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
-import Button from '../components/Button'
 import Tag from '../components/Tag'
 import Input from '../components/Input'
 import DropDown from '../components/DropDown'
 import Modal from '../components/Modal'
-import { getRequest, postRequest } from '../apis/api'
 import style from './AdditionBasicInfo.module.css'
-import plus from '../assets/plus.svg'
 import HourglassIcon from '../assets/hourglass.svg'
 import IngredientModal from './IngredientModal'
 
@@ -39,12 +36,16 @@ const AdditionBasicInfo = ({
 
     const inputMainImage = (e) => {
         if (e.target.files && e.target.files[0]) {
+            if(e.target.files[0].size > 5 * 1024 * 1024) {
+                alert("이미지는 5MB까지 등록 가능합니다.")
+                return;
+            }
             setMainImage(e.target.files[0])
         }
     }
 
-    const deleteIngredient = (item, index) => {
-        setIngredient((prev) => prev.filter((_, idx) => idx !== index))
+    const deleteIngredient = (_, index) => {
+        setIngredient(prev => prev.filter((_, idx) => idx !== index))
     }
 
     useEffect(() => {
@@ -84,6 +85,10 @@ const AdditionBasicInfo = ({
                         e.preventDefault()
                         setIsDragging(false)
                         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                            if(e.dataTransfer.files[0].size > 5 * 1024 * 1024) {
+                                alert("이미지는 5MB까지 등록 가능합니다.")
+                                return;
+                            }
                             setMainImage(e.dataTransfer.files[0])
                         }
                     }}
@@ -231,7 +236,6 @@ const AdditionBasicInfo = ({
                         ingredient={ingredient}
                         setIngredient={setIngredient}
                         setIsModalOpen={setIsModalOpen}
-                        setIndividualCal={setIndividualCal}
                     />
                 </Modal>
             )}
