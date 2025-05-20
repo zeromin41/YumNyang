@@ -13,6 +13,9 @@
   width: 90%;
   max-width: 500px;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
 }
 .modalHeader {
   display: flex;
@@ -35,86 +38,118 @@
   background: #f0f0f0;
 }
 
-/* Full-width dropdown at top */
-.dropdownField {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 8px;
-  margin-bottom: 12px;
-}
-
-/* Full-width text input under dropdown */
 .inputField {
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 8px;
   margin-bottom: 12px;
+  font-size: 0.9rem; 
 }
 
-/* Ingredient suggestion list styling */
 .ingredients {
   width: 100%;
-  max-height: 200px;
+  max-height: 150px; 
   overflow-y: auto;
   border: 1px solid #eee;
-  padding: 8px;
+  padding: 8px; 
   margin-bottom: 16px;
 }
+.ingredients > div { 
+  font-size: 0.85rem; 
+}
 
-/* Row for custom-add inputs (name, qty, unit, button) */
+/* "찾는 식재료가 없으신가요?" 관련 텍스트 크기 조정 */
+.infoRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px; /* 기존 gap 유지 */
+  margin-bottom: 12px;
+}
+.infoRow > div:first-child { /* "찾는 식재료..." 텍스트와 "직접 추가하기" 버튼을 감싸는 div */
+  display: flex;
+  align-items: center; 
+  gap: 6px; 
+}
+.infoRow > div:first-child > span { /* "찾는 식재료가 없으신가요?" 텍스트 */
+  font-size: 0.85rem; 
+  color: #555; 
+}
+.infoRow button { /* "직접 추가하기" 버튼 */
+  background: none;
+  border: none; 
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px; 
+  cursor: pointer;
+  border-radius: 4px; 
+}
+.infoRow button:hover {
+  background-color: #f0f0f0; 
+}
+.infoRow button img {
+  width: 14px; 
+  height: 14px;
+}
+.infoRow button span { /* "직접 추가하기" 텍스트 */
+  font-size: 0.85rem; 
+  color: var(--main-colors-accent);
+}
+.infoText { /* "직접 입력하신 식재료는 영양 정보 제공이 어려울 수 있습니다." */
+  display: block;
+  color: #a99c92; 
+  font-size: 0.85rem; 
+}
+
 .fieldRow {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
 }
-
-/* Make text input take up most space */
 .fieldRow input[type="text"] {
   flex: 4;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 0.9rem; 
 }
-
-/* Fixed-size number input */
 .fieldRow input[type="number"] {
-    flex: 3;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-/* Fixed-size unit dropdown */
-.fieldRow select {
-  width: 60px;
+  flex: 3; /* 기존 flex 유지 */
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 0.9rem; 
 }
 
-.fieldRow > div {
-    flex: 1;
+
+.fieldRow > div { 
+  flex: 1;
+}
+.fieldRow > div > button { 
+  padding: 8px; 
+  width: 100%; 
+  font-size: 0.9rem; 
 }
 
-.fieldRow > div > button {
-    padding: 8px;
-}
-
-.fieldRow > button {
-    flex: 2;
+.fieldRow > button { /* Button 컴포넌트가 div로 안 감싸져 있고, flex 아이템으로 직접 사용될 때 */
+  flex: 2; 
+  font-size: 0.9rem; 
+  padding: 8px;
 }
 
 .fieldRow > .delete{
-    outline: none;
-    border: none;
-    background: none;
-    flex: 1;
+  outline: none;
+  border: none;
+  background: none;
+  flex: 1; 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
 }
 
-/* Bottom action buttons full-width, stacked */
 .buttonGroup {
   display: flex;
   flex-direction: row;
@@ -122,50 +157,13 @@
   width: 100%;
   margin-top: 16px;
 }
-
+.buttonGroup button { 
+  padding: 10px 15px; 
+  font-size: 0.9rem; 
+}
 .buttonGroup button:nth-of-type(1) {
-    flex: 2;
+  flex: 2; 
 }
 .buttonGroup button:nth-of-type(2){
-    flex: 1;
-}
-
-.modalBody {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.modalBody .inputField {
-  width: 100%;
-  margin-right: 0;
-}
-
-.infoRow {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  margin-bottom: 12px;
-}
-
-.infoRow > div:first-child {
-  display: flex;
-  gap: 4px;
-}
-
-.infoRow button {
-  background: none;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0;
-  cursor: pointer;
-}
-
-.infoText {
-  display: block;
-  color: #a99c92;
-  font-size: 0.875rem;
+  flex: 1;
 }
