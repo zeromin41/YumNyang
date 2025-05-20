@@ -19,10 +19,10 @@
 [피그마 바로가기](https://www.figma.com/design/itBUC1ZBRytPzDgcvYnz0e/5%EC%A1%B0-%ED%94%BC%EA%B7%B8%EB%A7%88?node-id=0-1&t=o1H9Ie0rRb6fbeXK-1)
 
 ### 📺 화면 구성
-|스플래쉬|메인페이지 동물 상호작용|
-|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|
-|페이지 새로고침시 렌더링 되는 화면 입니다.|귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|
+|스플래쉬|메인페이지 동물 상호작용|최근레시피 & 인기레시피|
+|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|<img src="https://github.com/user-attachments/assets/043451ee-2e35-4339-a678-49e409a5442b"/>|
+|귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|페이지 새로고침시 렌더링 되는 화면 입니다.|최근레시피와 인기레시피를 카드 스와이퍼로 나타냈습니다.|
 
 <br />
 
