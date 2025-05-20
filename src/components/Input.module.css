@@ -4,4 +4,5 @@
     outline: none;
     border: 1px solid var(--neutral-colors-sand-brown);
     border-radius: var(--fs4);
+    font-size: var(--fs16);
 }

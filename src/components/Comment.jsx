@@ -3,14 +3,16 @@ import css from './Comment.module.css'
 import StarRating from './StarRating'
 import axios from 'axios'
 import { API_BASE_URL } from '../utils/apiConfig'
-import { getRequest } from './../apis/api'
+import { getRequest, postRequest } from './../apis/api'
+import { data } from 'react-router-dom'
 
-const Comment = ({ recipeId }) => {
+const Comment = ({ recipeId, setStarAverage }) => {
     const [reviewData, setReviewData] = useState(null)
     const [reviewerNicknames, setReviewerNicknames] = useState({}) // 댓글 작성자들의 닉네임을 저장할 객체
     const [comment, setComment] = useState('')
     const [rating, setRating] = useState(0)
     const [loggedInNickname, setLoggedInNickname] = useState('')
+    const [loggedInUserId, setLoggedInUserId] = useState(null)
     // 리뷰 데이터 가져오기
 
     const getReviewData = async () => {
@@ -18,8 +20,19 @@ const Comment = ({ recipeId }) => {
             const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
             setReviewData(response.data)
 
+            //리뷰 별점값 가져오기
+
             // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
             if (response.data && response.data.review && response.data.review.length > 0) {
+                //리뷰 별점값 가져오기
+                const ratings = response.data.review.map((review) => review.RATING_SCORE)
+                const sum = ratings.reduce((total, rating) => total + rating, 0)
+                const average = sum / ratings.length
+
+                if (setStarAverage) {
+                    setStarAverage(average)
+                }
+
                 // 중복 없이 고유한 USER_ID 추출
                 const uniqueUserIds = [
                     ...new Set(response.data.review.map((review) => review.USER_ID)),
@@ -38,8 +51,11 @@ const Comment = ({ recipeId }) => {
             getReviewData()
             const getNickNameById = async () => {
                 const loggedInId = localStorage.getItem('userId')
-                const response = await getRequest(`/getUserNickname/${loggedInId}`)
-                setLoggedInNickname(response.nickname.NICKNAME)
+                if (loggedInId) {
+                    setLoggedInUserId(parseInt(loggedInId))
+                    const response = await getRequest(`/getUserNickname/${loggedInId}`)
+                    setLoggedInNickname(response.nickname.NICKNAME)
+                }
             }
             getNickNameById()
         }
@@ -123,6 +139,31 @@ const Comment = ({ recipeId }) => {
         }
     }
 
+    //리뷰 삭제하기
+    const DeleteReview = async (reviewId) => {
+        if (!loggedInUserId) {
+            alert('로그인 해주세요')
+            return
+        }
+
+        if (!window.confirm('댓글을 삭제하시겠습니까?')) {
+            return
+        }
+
+        try {
+            await postRequest(`/upDateReview`, {
+                id: reviewId,
+                type: 'delete',
+            })
+
+            alert('댓글이 삭제되었습니다')
+            await getReviewData()
+        } catch (error) {
+            console.error('댓글 삭제 실패:', error)
+            alert('댓글 삭제에 실패했습니다')
+        }
+    }
+
     // 해당 USER_ID의 닉네임 가져오기 (없으면 "익명" 반환)
     const getNickname = (userId) => {
         // reviewerNicknames[userId]가 객체가 아닌 문자열인지 확인
@@ -162,6 +203,15 @@ const Comment = ({ recipeId }) => {
                         <div className={css.userCon}>
                             {/* 객체를 직접 렌더링하지 않고 문자열만 렌더링 */}
                             <span className={css.commentNickname}>{getNickname(data.USER_ID)}</span>
+                            {/* 현재 로그인한 사용자가 댓글 작성자인 경우에만 삭제 버튼 표시 */}
+                            {loggedInUserId === data.USER_ID && (
+                                <button
+                                    className={css.deleteBtn}
+                                    onClick={() => DeleteReview(data.ID)}
+                                >
+                                    삭제
+                                </button>
+                            )}
                         </div>
 
                         <div className={css.msgCon}>

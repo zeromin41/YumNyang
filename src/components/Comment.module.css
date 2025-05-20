@@ -62,11 +62,13 @@
 }
 
 .userCon {
+    display: flex;
+    align-items: center;
     width: 120px;
 }
 
 .msgCon {
-    width: 250px;
+    width: 200px;
     display: flex;
     margin-left: var(--fs12);
 }
@@ -80,4 +82,22 @@
     height: 20px; /* 세로선 높이 */
     width: 1px; /* 세로선 너비 */
     background-color: var(--main-colors-accent); /* 세로선 색상 */
+}
+
+.deleteBtn {
+    position: absolute;
+    transform: translateY(-50%);
+    margin-top: 22px;
+    left: 85%;
+    display: flex;
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+}
+
+.deleteBtn:hover {
+    text-decoration: underline;
 }

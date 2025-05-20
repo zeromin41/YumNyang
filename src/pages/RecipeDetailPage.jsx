@@ -28,6 +28,7 @@ const RecipeDetailPage = () => {
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0)
     const [showTimer, setShowTimer] = useState(false)
+    const [starAverage, setStarAverage] = useState(0)
 
     // 데이터 가져오기
     useEffect(() => {
@@ -36,7 +37,6 @@ const RecipeDetailPage = () => {
 
             setLoading(true)
             setError(null)
-
             try {
                 const responseData = await getRequest(`/getRecipe/${recipeId}`)
                 setRecipeData(responseData)
@@ -61,7 +61,6 @@ const RecipeDetailPage = () => {
                         userId: parseInt(currentUserId, 10),
                         recipeId: parseInt(recipeId, 10),
                     })
-                    console.log(responseMessage.message || `최근 본 레시피 기록 성공`)
                 } catch (err) {
                     console.error('최근 본 레시피 기록 API 오류:', err.message)
                 }
@@ -102,7 +101,7 @@ const RecipeDetailPage = () => {
                 </div>
                 <div className={css.starWrap}>
                     <img src={starImg} alt="별" />
-                    <span>4.5</span>
+                    <span>{starAverage.toFixed(2)}</span>
                 </div>
                 <div className={css.likeWrap}>
                     <img src={heartImg} alt="하트" />
@@ -116,14 +115,17 @@ const RecipeDetailPage = () => {
         recipeData && (
             <div className={css.infoListWrap}>
                 <ul>
-                    <li>추천 대상: {recipeData.recipe?.TARGET_PET_TYPE || '정보없음'}</li>
                     <li>
-                        조리 시간: {recipeData.recipe?.COOKING_TIME_LIMIT || '정보없음'} / 난이도:{' '}
+                        <span>추천 대상:</span> {recipeData.recipe?.TARGET_PET_TYPE || '정보없음'}
+                    </li>
+                    <li>
+                        <span>조리 시간:</span>{' '}
+                        {recipeData.recipe?.COOKING_TIME_LIMIT || '정보없음'} / <span>난이도</span>:{' '}
                         {recipeData.recipe?.LEVEL || '정보없음'}
                     </li>
                     <li>
-                        칼로리: {recipeData.recipe?.CALORIES_PER_SERVING || '정보없음'}kcal / 1회
-                        급여량: {recipeData.ingredient[0]?.QUANTITY_AMOUNT}
+                        <span>칼로리</span>: {recipeData.recipe?.CALORIES_PER_SERVING || '정보없음'}
+                        kcal /<span>1회 급여량</span>: {recipeData.ingredient[0]?.QUANTITY_AMOUNT}
                         {recipeData.ingredient[0]?.QUANTITY_UNIT}
                     </li>
                 </ul>
@@ -139,8 +141,9 @@ const RecipeDetailPage = () => {
                     <ul>
                         {recipeData.ingredient.map((data, index) => (
                             <li key={index}>
-                                {data.INGREDIENT_NAME}&nbsp;{data.QUANTITY_AMOUNT}
-                                {data.QUANTITY_UNIT}{' '}
+                                &nbsp;{data.INGREDIENT_NAME}&nbsp;
+                                {data.QUANTITY_AMOUNT}
+                                {data.QUANTITY_UNIT}
                             </li>
                         ))}
                     </ul>
@@ -212,7 +215,7 @@ const RecipeDetailPage = () => {
             activeTab={activeTab}
             onTabChange={setActiveTab}
             tabContent={tabContent}
-            footerContent={<Comment recipeId={recipeId} />}
+            footerContent={<Comment recipeId={recipeId} setStarAverage={setStarAverage} />}
             floatingButton={floatingButtonElement}
             isLoading={loading}
             error={error}

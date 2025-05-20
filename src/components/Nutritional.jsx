@@ -53,7 +53,7 @@ const ProgressBar = ({ title, rating }) => {
                     className={style.progressText}
                     style={{ left: `${rating > 100 ? 100 : rating}%` }}
                 >
-                    {rating}%
+                    {rating.toFixed(2)}%
                 </span>
             </div>
         </div>

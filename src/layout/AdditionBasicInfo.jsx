@@ -27,7 +27,7 @@ const AdditionBasicInfo = ({
     rationType,
     setRationType,
     ingredient,
-    setIngredient
+    setIngredient,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
@@ -46,7 +46,7 @@ const AdditionBasicInfo = ({
 
     useEffect(() => {
         setIndividualCal([])
-        ingredient.map((e) =>{
+        ingredient.map((e) => {
             const crbQy = e.crbQy > 0 ? e.crbQy : 0
             const protQy = e.protQy > 0 ? e.protQy : 0
             const fatQy = e.fatQy > 0 ? e.fatQy : 0
@@ -56,7 +56,7 @@ const AdditionBasicInfo = ({
 
     useEffect(() => {
         const totalCalorie = individualCal.reduce((acc, curr) => {
-            return acc += curr
+            return (acc += curr)
         }, 0)
         setCalorie(totalCalorie)
     }, [individualCal])
@@ -69,9 +69,15 @@ const AdditionBasicInfo = ({
                 <div className={style.subHeader}>대표 사진</div>
                 <div
                     className={`${style.imageUploadArea} ${isDragging ? style.highlight : ''}`}
-                    onDragOver={e => { e.preventDefault(); setIsDragging(true) }}
-                    onDragLeave={e => { e.preventDefault(); setIsDragging(false) }}
-                    onDrop={e => {
+                    onDragOver={(e) => {
+                        e.preventDefault()
+                        setIsDragging(true)
+                    }}
+                    onDragLeave={(e) => {
+                        e.preventDefault()
+                        setIsDragging(false)
+                    }}
+                    onDrop={(e) => {
                         e.preventDefault()
                         setIsDragging(false)
                         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
@@ -80,10 +86,11 @@ const AdditionBasicInfo = ({
                     }}
                     onClick={() => fileInputRef.current.click()}
                 >
-                    {mainImage
-                        ? <img src={URL.createObjectURL(mainImage)} alt="Preview" />
-                        : <p>Drag & Drop 또는 클릭하여 업로드</p>
-                    }
+                    {mainImage ? (
+                        <img src={URL.createObjectURL(mainImage)} alt="Preview" />
+                    ) : (
+                        <p>Drag & Drop 또는 클릭하여 업로드</p>
+                    )}
                     <input
                         ref={fileInputRef}
                         className={style.hiddenInput}
@@ -101,10 +108,10 @@ const AdditionBasicInfo = ({
                         value={target}
                         options={[
                             { value: '강아지', label: '강아지' },
-                            { value: '고양이', label: '고양이' }
+                            { value: '고양이', label: '고양이' },
                         ]}
-                        onSelect={e => setTarget(e.value)}
-                        placeholder='선택해주세요'
+                        onSelect={(e) => setTarget(e.value)}
+                        placeholder="선택해주세요"
                     />
                 </div>
                 {/* 육류, 생선, 곡물, 간식, 기타 */}
@@ -119,8 +126,8 @@ const AdditionBasicInfo = ({
                             { value: 'snack', label: '간식' },
                             { value: 'others', label: '기타' },
                         ]}
-                        onSelect={e => setCategory(e.value)}
-                        placeholder='선택해주세요'
+                        onSelect={(e) => setCategory(e.value)}
+                        placeholder="선택해주세요"
                     />
                 </div>
             </div>
@@ -134,7 +141,7 @@ const AdditionBasicInfo = ({
                     <Input
                         type="number"
                         value={time}
-                        onChange={e => setTime(e.target.value)}
+                        onChange={(e) => setTime(e.target.value)}
                         placeholder="입력해주세요."
                     />
                     <DropDown
@@ -142,9 +149,9 @@ const AdditionBasicInfo = ({
                         options={[
                             { value: '시간', label: '시간' },
                             { value: '분', label: '분' },
-                            { value: '초', label: '초' }
+                            { value: '초', label: '초' },
                         ]}
-                        onSelect={e => setTimeType(e.value)}
+                        onSelect={(e) => setTimeType(e.value)}
                         placeholder="시간"
                     />
                     <DropDown
@@ -152,9 +159,9 @@ const AdditionBasicInfo = ({
                         options={[
                             { value: '쉬움', label: '쉬움' },
                             { value: '보통', label: '보통' },
-                            { value: '어려움', label: '어려움' }
+                            { value: '어려움', label: '어려움' },
                         ]}
-                        onSelect={e => setLevel(e.value)}
+                        onSelect={(e) => setLevel(e.value)}
                         placeholder="난이도 선택"
                     />
                 </div>
@@ -167,7 +174,7 @@ const AdditionBasicInfo = ({
                         <Input
                             type="number"
                             value={Math.floor(calorie * 100) / 100}
-                            readOnly={false}
+                            readOnly
                             placeholder="자동 계산 중"
                         />
                         <span>Kcal</span>
@@ -179,7 +186,7 @@ const AdditionBasicInfo = ({
                         <Input
                             type="number"
                             value={ration}
-                            onChange={e => setRation(e.target.value)}
+                            onChange={(e) => setRation(e.target.value)}
                             placeholder="입력해주세요."
                         />
                         <DropDown
@@ -188,9 +195,9 @@ const AdditionBasicInfo = ({
                                 { value: 'g', label: 'g' },
                                 { value: 'kg', label: 'kg' },
                                 { value: 'ml', label: 'ml' },
-                                { value: 'L', label: 'L' }
+                                { value: 'L', label: 'L' },
                             ]}
-                            onSelect={e => setRationType(e.value)}
+                            onSelect={(e) => setRationType(e.value)}
                             placeholder="g"
                         />
                     </div>

@@ -87,7 +87,7 @@ const Step = ({ count, item, inputDescription, inputImage, deleteDescription }) 
                 >
                   {item.image
                     ? <img src={URL.createObjectURL(item.image)} alt={`step-${count}`} />
-                    : <p>Drag & Drop 또는 클릭하여 업로드</p>
+                    : <p className={style.uploadText}>Drag & Drop 또는 클릭하여 업로드</p>
                   }
                   <input
                     ref={fileInputRef}
