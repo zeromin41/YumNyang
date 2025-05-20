@@ -42,6 +42,8 @@ const Comment = ({ recipeId, setStarAverage }) => {
                 fetchReviewerNicknames(uniqueUserIds)
             }
         } catch (error) {
+            // 댓글이 1개일 경우 렌더링이 안되는 경우 방지
+            setReviewData([])
             console.error('리뷰 데이터 가져오기 실패:', error)
         }
     }
