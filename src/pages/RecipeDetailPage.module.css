@@ -79,6 +79,11 @@
     height: 30px !important;
 }
 
+.deleteWrap img{
+    width: 28px !important;
+    height: 28px !important;
+    cursor: pointer;
+}
 /* 기본 정보 목록 */
 .infoListWrap {
     background: var(--neutral-colors-cream-beige);
@@ -163,7 +168,7 @@
         grid-row: 1;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
         margin-left: 0;
     }
 
@@ -183,13 +188,23 @@
         grid-row: 2;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
+        position: static;
+        right: auto;
+    }
+
+    .deleteWrap{
+        grid-column: 2;
+        grid-row: 3;
+        display: flex;
+        justify-content: flex-start;
         position: static;
         right: auto;
     }
 
     .starWrap img,
-    .likeWrap img {
+    .likeWrap img,
+    .deleteWrap img {
         width: 30px !important;
         height: 30px !important;
         margin-right: 2px;
