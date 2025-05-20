@@ -50,7 +50,10 @@ const ProgressBar = ({ title, rating }) => {
         <div>
             <div className={style.progressRow}>
                 <span className={style.progressTitle}>{title}</span>
-                <div className={`progress`} style={{ flex: '1', height: '16px', padding: '0' }}>
+                <div
+                    className={`progress`}
+                    style={{ width: `${percent}%`, height: '16px', padding: '0' }}
+                >
                     <div
                         // className={`progress-bar progress-bar-striped progress-bar-animated `}
                         className={
@@ -59,12 +62,12 @@ const ProgressBar = ({ title, rating }) => {
                                 : `progress-bar progress-bar-striped progress-bar-animated`
                         }
                         role={`progressbar`}
-                        style={{ width: `${percent}%`, marginRight: '5px' }}
+                        style={{ width: `${percent}%`, flex: '1' }}
                         aria-valuenow={percent}
                         aria-valuemax={'100'}
                     ></div>
-                    <span className={style.progressRating}>{percent}%</span>
                 </div>
+                <span className={style.progressRating}>{percent == 0.0 ? 0 : percent}%</span>
             </div>
         </div>
     )

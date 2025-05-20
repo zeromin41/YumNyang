@@ -123,7 +123,7 @@ const RecipeDetailPage = () => {
                 </div>
                 <div className={css.starWrap}>
                     <img src={starImg} alt="별" />
-                    <span>{starAverage.toFixed(2)}</span>
+                    <span>{starAverage == 0 ? starAverage : starAverage.toFixed(2)}</span>
                 </div>
                 <div className={css.likeWrap}>
                     <img src={heartImg} alt="하트" />
@@ -157,7 +157,10 @@ const RecipeDetailPage = () => {
                         {recipeData.recipe?.LEVEL || '정보없음'}
                     </li>
                     <li>
-                        <span>칼로리</span>: {recipeData.recipe?.CALORIES_PER_SERVING || '정보없음'}
+                        <span>칼로리</span>:{' '}
+                        {recipeData.recipe?.CALORIES_PER_SERVING == 0
+                            ? 0
+                            : recipeData.recipe?.CALORIES_PER_SERVING.toFixed(2) || '정보없음'}
                         kcal /<span>1회 급여량</span>: {recipeData.ingredient[0]?.QUANTITY_AMOUNT}
                         {recipeData.ingredient[0]?.QUANTITY_UNIT}
                     </li>
