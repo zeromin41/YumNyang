@@ -15,15 +15,17 @@
 
 <br />
 
-### 🎨 Figma
+## 🎨 Figma
 [피그마 바로가기](https://www.figma.com/design/itBUC1ZBRytPzDgcvYnz0e/5%EC%A1%B0-%ED%94%BC%EA%B7%B8%EB%A7%88?node-id=0-1&t=o1H9Ie0rRb6fbeXK-1)
 
-### 📺 화면 구성
+## 📺 화면 구성
+### 메인페이지
 |스플래쉬|메인페이지 동물 상호작용|최근레시피 & 인기레시피|
 |:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|<img src="https://github.com/user-attachments/assets/043451ee-2e35-4339-a678-49e409a5442b"/>|
 |귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|페이지 새로고침시 렌더링 되는 화면 입니다.|최근레시피와 인기레시피를 카드 스와이퍼로 나타냈습니다.|
 
+### 레시피 작성
 |레시피 작성 - 1| 레시피 작성 - 2| 레시피 작성 기본 정보 입력|
 |:---:|:---:|:---:|
 |<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 1" src="https://github.com/user-attachments/assets/3c9c5e12-6dba-40ea-af39-29a8aafaa149" />|<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 2" src="https://github.com/user-attachments/assets/c2ff8a5e-ce10-496b-a132-b998835d39dd" />|<img width="340" alt="레시피 작성 - 기본 정보  1" src="https://github.com/user-attachments/assets/c6ae08bf-15ed-4602-bb52-9e480931462e" />|
@@ -44,6 +46,23 @@
 |<img width="340" alt="레시피 작성 - 세부 레시피 9단계" src="https://github.com/user-attachments/assets/0f73a105-ae6c-41e7-8800-f0acb7bb239a" />|<img width="340" alt="레시피 작성 - 미리보기 1" src="https://github.com/user-attachments/assets/1f8bcbed-5c3b-4c98-b0e7-800d81a47869" />|<img width="340" alt="레시피 작성 - 미리보기 3" src="https://github.com/user-attachments/assets/df9d2e03-3a99-41a8-8b64-583206110f29" />|
 |조리법은 9단계까지만 추가가 가능합니다.|작성한 기본 정보를 미리볼 수 있습니다.|작성한 조리법을 미리볼 수 있습니다.|
 
+### 레시피 상세
+|레시피 상세 기본정보 - 1|레시피 상세 기본정보 - 2|레시피 상세 조리법|
+|:---:|:---:|:---:|
+|<img width="339" alt="기본정보" src="https://github.com/user-attachments/assets/38cbd3ad-834e-46c7-8602-a3ffd12b639c" />|<img width="340" alt="기본정보 - 영양정보" src="https://github.com/user-attachments/assets/5dee0c83-43b5-40d9-b212-b9f8f0e7d08c" />|<img width="340" alt="조리법" src="https://github.com/user-attachments/assets/1b7710dc-0b49-4f8e-9ba5-e7a72d46420e" />|
+|작성한 레시피의 기본 정보가 보여집니다.|작성한 레시피의 영양정보, 댓글이 보여집니다.|작성한 레시피의 조리법이 보여집니다.|
+
+|타이머|전체 레시피 읽어주기|단계별 레시피 읽어주기|
+|:---:|:---:|:---:|
+|<img width="340" alt="타이머" src="https://github.com/user-attachments/assets/8b8fe73e-d1e1-4811-931c-0c768c91a0a3" />|<img width="340" alt="전체 레시피 읽어주기(TTS)" src="https://github.com/user-attachments/assets/38876464-3389-4877-bd30-4d7b26655dcc" />|<img width="340" alt="단계별 레시피 읽어주기" src="https://github.com/user-attachments/assets/ba289084-17aa-48c2-a7b1-ff0c1eb94787" />|
+|조리법을 보며 타이머를 설정할 수 있습니다.|전체 레시피를 음성으로 들을 수 있습니다.|단계별 레시피를 음성으로 들을 수 있습니다.|
+
+|댓글 작성|댓글 삭제|레시피 삭제|
+|:---:|:---:|:---:|
+|<img width="339" alt="댓글 작성" src="https://github.com/user-attachments/assets/aeb205b7-f321-41e6-850d-7ed98132313e" />|<img width="323" alt="댓글 삭제" src="https://github.com/user-attachments/assets/da3a6205-2150-4294-8c0c-4360164b6eac" />|<img width="323" alt="레시피 삭제" src="https://github.com/user-attachments/assets/a9675c34-014f-4770-aa4c-4342d750b29c" />|
+|로그인한 사용자만 댓글을 작성할 수 있습니다.|본인이 작성한 댓글을 삭제할 수 있습니다.|본인이 작성한 레시피를 작성할 수 있습니다.|
+
+### 마이페이지
 |마이페이지 - 1|마이페이지 - 2|사용자 정보 수정|
 |:---:|:---:|:---:|
 |<img width="323" alt="마이페이지 - 1" src="https://github.com/user-attachments/assets/000aac81-0143-4130-9431-5ce7f1fe4c5b" />|<img width="323" alt="마이페이지 - 2" src="https://github.com/user-attachments/assets/c93ffa4a-05d0-4d60-a7a3-6a2b39a00e9e" />|<img width="322" alt="정보 수정 - 1" src="https://github.com/user-attachments/assets/e6ab54d5-6c2d-49d7-a51f-ce1402b97301" />|
@@ -59,23 +78,24 @@
 |<img width="310" alt="정보 수정 완료" src="https://github.com/user-attachments/assets/030f0257-e777-4403-b005-5c927caf1cc5" />|
 |수정된 내용이 마이페이지에 반영됩니다.|
 
+### 회원가입
 | 회원가입 - 1 | 회원가입 - 2 | 회원가입 입력 필드 유효성 검사 |
 |:---:|:---:|:---:|
 |<img width="324" alt="회원가입 - 1" src="https://github.com/user-attachments/assets/d0fab31b-4fa4-4529-ae46-8152f73a46e6" />|<img width="323" alt="회원가입 - 2" src="https://github.com/user-attachments/assets/5ae3bbd7-3259-4ac9-8de4-3b9844685af3" />|<img width="323" alt="회원가입 입력 필드 유효성 검사" src="https://github.com/user-attachments/assets/b0cc7c80-c581-4d29-bf41-14c695f7b31d" />|
 | 아이디, 닉네임, 비밀번호, 비밀번호 확인 필드가 보여집니다. | 반려동물 종류, 이름, 나이 입력 및 버튼이 보여집니다. | 모든 필드에 대해 유효성 검사를 진행합니다. <br/>단, 반려동물 입력은 선택이며 <br/>하나라도 입력한 경우 종류와 이름은 필수입니다. |
-
 
 | 중복 미확인 | 중복된 경우 | 중복 확인 성공 |
 |:---:|:---:|:---:|
 |<img width="323" alt="아이디   닉네임 중복 미확인" src="https://github.com/user-attachments/assets/8d6baf24-f4d8-4555-ab8b-c5bb4cedcbdd" />|<img width="323" alt="아이디   닉네임 중복" src="https://github.com/user-attachments/assets/c891f324-240c-44a1-ae5d-c3d65fbf08d6" />|<img width="323" alt="아이디   닉네임 중복 확인 성공" src="https://github.com/user-attachments/assets/226e196d-d690-4884-b9d7-c144c2d85177" />|
 | 중복 확인을 하지 않으면 회원가입이 불가능합니다. | 아이디 또는 닉네임이 중복된 경우, <br/>에러 메시지를 보여줍니다. | 아이디 또는 닉네임이 중복되지 않은 경우, <br/>성공 메시지를 보여줍니다. |
 
+### 로그인
 | 로그인 | 입력 필드 유효성 검사 | 잘못된 아이디 & 비밀번호 입력 |
 |:---:|:---:|:---:|
 |<img width="323" alt="로그인" src="https://github.com/user-attachments/assets/584d1895-7bfe-4c9f-ad66-274b034bf818" />|<img width="325" alt="로그인 입력 필드 유효성 검사" src="https://github.com/user-attachments/assets/93b1db3e-47a6-4598-9f73-9bb4d472d575" />|<img width="321" alt="잘못된 아이디   패스워드 " src="https://github.com/user-attachments/assets/de7d32b7-0ce4-4ed0-a71e-268beb2dd6d6" />|
 | 아이디와 비밀번호를 통해 로그인이 가능합니다. | 입력 필드가 비어 있거나 유효하지 않으면 <br/>에러 메시지를 보여줍니다. | 아이디 또는 비밀번호가 틀린 경우, <br/>로그인이 되지 않습니다. |
 
-
+### 회원탈퇴
 | 회원탈퇴 | 회원탈퇴 입력 필드 유효성 검사 | 비정상적 접근 탈퇴 |
 |:---:|:---:|:---:|
 |<img width="323" alt="회원탈퇴" src="https://github.com/user-attachments/assets/d9994bd4-cbb0-4487-a32f-4e4a543556fd" />|<img width="323" alt="회원탈퇴 입력 필드 유효성 검사" src="https://github.com/user-attachments/assets/14ad0862-f08d-46c5-b711-01da6e9ef8c6" />|<img width="323" alt="비정상적 접근 탈퇴" src="https://github.com/user-attachments/assets/7d3bfcf2-8aba-4576-a930-bae33a84dcca" />|
