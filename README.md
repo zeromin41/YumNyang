@@ -21,8 +21,8 @@
 ### 📺 화면 구성
 |스플래쉬|메인페이지 동물 상호작용|최근레시피 & 인기레시피|
 |:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|<img src="https://github.com/user-attachments/assets/043451ee-2e35-4339-a678-49e409a5442b"/>|
-|귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|페이지 새로고침시 렌더링 되는 화면 입니다.|최근레시피와 인기레시피를 카드 스와이퍼로 나타냈습니다.|
+|<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/043451ee-2e35-4339-a678-49e409a5442b"/>|
+|페이지 새로고침시 렌더링 되는 화면 입니다.|귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|최근레시피와 인기레시피를 카드 스와이퍼로 나타냈습니다.|
 
 |레시피 작성 - 1| 레시피 작성 - 2| 레시피 작성 기본 정보 입력|
 |:---:|:---:|:---:|
