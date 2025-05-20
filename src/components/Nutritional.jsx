@@ -1,6 +1,4 @@
 import style from './Nutritional.module.css'
-import chartImg from '../assets/chart.svg'
-
 const Nutritional = ({ recipeData }) => {
     // 영양소 명, 이전 변수명 : title
     const ingredientName = [

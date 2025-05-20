@@ -4,9 +4,7 @@ import StarRating from './StarRating'
 import axios from 'axios'
 import { API_BASE_URL } from '../utils/apiConfig'
 import { getRequest, postRequest } from './../apis/api'
-import { data } from 'react-router-dom'
 import { checkToken } from '../apis/auth'
-import { check } from 'prettier'
 
 const Comment = ({ recipeId, setStarAverage }) => {
     const [reviewData, setReviewData] = useState(null)
