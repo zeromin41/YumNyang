@@ -44,6 +44,20 @@
 |<img width="340" alt="레시피 작성 - 세부 레시피 9단계" src="https://github.com/user-attachments/assets/0f73a105-ae6c-41e7-8800-f0acb7bb239a" />|<img width="340" alt="레시피 작성 - 미리보기 1" src="https://github.com/user-attachments/assets/1f8bcbed-5c3b-4c98-b0e7-800d81a47869" />|<img width="340" alt="레시피 작성 - 미리보기 3" src="https://github.com/user-attachments/assets/df9d2e03-3a99-41a8-8b64-583206110f29" />|
 |내용1|내용2|내용3|
 
+|마이페이지 - 1|마이페이지 - 2|사용자 정보 수정|
+|:---:|:---:|:---:|
+|<img width="323" alt="마이페이지 - 1" src="https://github.com/user-attachments/assets/000aac81-0143-4130-9431-5ce7f1fe4c5b" />|<img width="323" alt="마이페이지 - 2" src="https://github.com/user-attachments/assets/c93ffa4a-05d0-4d60-a7a3-6a2b39a00e9e" />|<img width="322" alt="정보 수정 - 1" src="https://github.com/user-attachments/assets/e6ab54d5-6c2d-49d7-a51f-ce1402b97301" />|
+|사용자 정보, 정보 수정, 내가 찜한 레시피, 내가 작성한 레시피가 보여집니다.|내가 작성한 리뷰, 로그아웃, 회원탈퇴가 보여집니다.|정보 수정 버튼을 누르면 모달에서 수정이 가능하며, 기본 정보들이 채워져있습니다.|
+
+|닉네임 정보 수정|비밀번호 정보 수정|반려동물 정보 수정|
+|:---:|:---:|:---:|
+|<img width="322" alt="닉네임 정보 수정" src="https://github.com/user-attachments/assets/671274e6-c3b5-4af8-b214-4ddf9ca532e4" />|<img width="324" alt="비밀번호 정보 수정" src="https://github.com/user-attachments/assets/668095f5-bf73-4c98-a841-d69715b325a2" />|<img width="322" alt="반려동물 정보 수정" src="https://github.com/user-attachments/assets/875cd4db-ecd9-4d86-9fee-d8b3bfa1eeca" />|
+|닉네임 중복 확인을 통해 닉네임을 수정할 수 있습니다.|비밀번호 유효성 검증을 통과해야 비밀번호를 수정할 수 있습니다.|반려동물 정보를 수정할 수 있습니다. <br/>단, 나이가 수정된 경우 타입과 이름이 필수입니다.|
+
+|정보 수정 완료|
+|:---:|
+|<img width="310" alt="정보 수정 완료" src="https://github.com/user-attachments/assets/030f0257-e777-4403-b005-5c927caf1cc5" />|
+|수정된 내용이 마이페이지에 반영됩니다.|
 
 <br />
 
