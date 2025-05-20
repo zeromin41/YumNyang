@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react'
-import Input from '../components/Input'
 import plus from '../assets/plus.svg'
 import TextareaAutosize from 'react-textarea-autosize'
 import deleteSvg from '../assets/delete.svg'
@@ -30,7 +29,7 @@ const AdditionStep = ({ description, setDescription }) => {
     }
     const deleteDescription = (index) => {
         setDescription((prev) => (
-            prev.filter((item, idx) => idx !== index)
+            prev.filter((_, idx) => idx !== index)
         ))
     }
   return (
@@ -47,10 +46,14 @@ const AdditionStep = ({ description, setDescription }) => {
                 />
             ))
         }
-        <button className={style.addButton} onClick={descriptionAdd}>
-            <img src={plus} alt="plus" />
-            <span>다음 단계 추가</span>
-        </button>
+        {description.length < 9 ?
+            (
+                <button className={style.addButton} onClick={descriptionAdd}>
+                    <img src={plus} alt="plus" />
+                    <span>다음 단계 추가</span>
+                </button>
+            ) : null
+        }
     </div>
   )
 }
@@ -77,7 +80,6 @@ const Step = ({ count, item, inputDescription, inputImage, deleteDescription }) 
                     e.preventDefault()
                     setIsDragging(false)
                     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                      // simulate file input event
                       inputImage({ target: { files: [e.dataTransfer.files[0]] } }, count)
                     }
                   }}

@@ -18,6 +18,7 @@ import playImg from '../assets/play-03.svg'
 import RecipeStepCard from '../components/RecipeStepCard';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { checkToken } from '../apis/auth';
 
 const Addition = () => {
     const {userId, nickname} = useSelector(state => state.user)
@@ -47,19 +48,10 @@ const Addition = () => {
         setPage((prev) => prev + 1)
     }
 
-    const test = () => {
-        const formData = new FormData()
-        const descriptionData = []
-            description.map((e) => (
-                descriptionData.push(e.description)
-            ))
-        formData.append('description', descriptionData)
-        console.log(descriptionData)
-        console.log(formData.get('description'))
-    }
-
     const uploadRecipes = async () => {
         try {
+            await checkToken()
+
             const formData = new FormData()
             formData.append('userId', userId)
             formData.append('nickname', nickname)
@@ -115,7 +107,8 @@ const Addition = () => {
 
             navigate('/')
         } catch (error) {
-            alert(error)
+            console.error(error)
+            alert("저장 중에 문제가 발생했습니다.")
         }
     }
 
@@ -184,18 +177,15 @@ const Addition = () => {
 
     const RecipeSteps = () => {
 
-        // 전체 레시피 텍스트
         const allDescriptions = description.map((step) => step.description)
 
         return (
             <>
-                {/* 내용 전체재생 */}
                 <div className={css.ttsWrap}>
                     <TTSComponent text={allDescriptions} playBtnImg={playImg} />
                     <span className={css.btnTitle}>전체레시피 읽어주기</span>
                 </div>
 
-                {/* 레시피 단계별 카드 */}
                 {description.map((step, index) => (
                     <RecipeStepCard
                         key={index}
@@ -209,24 +199,15 @@ const Addition = () => {
         )
     }
 
-    // 타이머 플로팅 버튼 클릭 핸들러
     const handleTimerButtonClick = () => {
         setShowTimer((prev) => !prev)
     }
-
-    // 플로팅 버튼 (타이머)
+    
     const floatingButtonElement = (
         <>
             <FloatingButton iconSrc={watchImg} onClick={handleTimerButtonClick} />
             {showTimer && <Timer />}
         </>
-    )
-
-    // 로딩 상태의 텍스트 컴포넌트
-    const loadingComponent = (
-        <div className={css.loadingWrapper}>
-            레시피 <span className={css.loadingDots}>불러오는 중</span>
-        </div>
     )
 
     return (
@@ -284,7 +265,7 @@ const Addition = () => {
                         floatingButton={floatingButtonElement}
                         isLoading={false}
                         error={null}
-                        loadingComponent={loadingComponent}
+                        loadingComponent={null}
                     />
                 )}
             </div>
