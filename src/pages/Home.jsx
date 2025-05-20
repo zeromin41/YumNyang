@@ -31,6 +31,7 @@ const Home = () => {
     useEffect(() => {
         if (location.state?.message) {
             setLogoutSuccessMessage(location.state.message)
+            navigate(location.pathname, { replace: true })
 
             const timer = setTimeout(() => setLogoutSuccessMessage(''), 3000)
             return () => clearTimeout(timer)
