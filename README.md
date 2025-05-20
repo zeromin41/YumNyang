@@ -24,6 +24,11 @@
 |<img src="https://github.com/user-attachments/assets/912a0c3e-ebbe-4123-b18e-ddf2477b790d"/>|<img src="https://github.com/user-attachments/assets/a88a3dba-b22b-4ad0-a9f3-60f0f53ee781"/>|<img src="https://github.com/user-attachments/assets/043451ee-2e35-4339-a678-49e409a5442b"/>|
 |페이지 새로고침시 렌더링 되는 화면 입니다.|귀여운 고양이에게 츄르를 주어 상호작용 할 수 있습니다.|최근레시피와 인기레시피를 카드 스와이퍼로 나타냈습니다.|
 
+|검색페이지|필터 모달|필터된 검색 페이지|
+|:---:|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/0ab76d2a-8d9a-497f-90f7-7cfa609c94cf"/>|<img src="https://github.com/user-attachments/assets/29ffc503-77a7-482a-860a-15cb3a23deab"/>|<img src="https://github.com/user-attachments/assets/1645137d-83db-4eb8-b9ca-8cc13ed61570"/>|
+|검색할 수 있는 페이지 |필터를 선택하여 불러올 수 있습니다.|필터된 카드들이 나열됩니다.|
+
 |레시피 작성 - 1| 레시피 작성 - 2| 레시피 작성 기본 정보 입력|
 |:---:|:---:|:---:|
 |<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 1" src="https://github.com/user-attachments/assets/3c9c5e12-6dba-40ea-af39-29a8aafaa149" />|<img width="340" alt="레시피 작성 - 기본 정보 초기 화면 2" src="https://github.com/user-attachments/assets/c2ff8a5e-ce10-496b-a132-b998835d39dd" />|<img width="340" alt="레시피 작성 - 기본 정보  1" src="https://github.com/user-attachments/assets/c6ae08bf-15ed-4602-bb52-9e480931462e" />|
