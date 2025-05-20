@@ -36,6 +36,10 @@ const AdditionBasicInfo = ({
 
     const inputMainImage = (e) => {
         if (e.target.files && e.target.files[0]) {
+            if(e.target.files[0].size > 5 * 1024 * 1024) {
+                alert("이미지는 5MB까지 등록 가능합니다.")
+                return;
+            }
             setMainImage(e.target.files[0])
         }
     }
@@ -81,6 +85,10 @@ const AdditionBasicInfo = ({
                         e.preventDefault()
                         setIsDragging(false)
                         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                            if(e.dataTransfer.files[0].size > 5 * 1024 * 1024) {
+                                alert("이미지는 5MB까지 등록 가능합니다.")
+                                return;
+                            }
                             setMainImage(e.dataTransfer.files[0])
                         }
                     }}
@@ -228,7 +236,6 @@ const AdditionBasicInfo = ({
                         ingredient={ingredient}
                         setIngredient={setIngredient}
                         setIsModalOpen={setIsModalOpen}
-                        setIndividualCal={setIndividualCal}
                     />
                 </Modal>
             )}

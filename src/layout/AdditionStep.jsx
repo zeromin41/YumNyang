@@ -17,6 +17,11 @@ const AdditionStep = ({ description, setDescription }) => {
     const inputImage = (e, index) => {
         const file = e.target.files[0]
 
+        if(file.size > 5 * 1024 * 1024) {
+            alert("이미지는 5MB까지 등록 가능합니다.")
+            return;
+        }
+
         setDescription(prev => (
             prev.map((item, idx) => idx === index ? { ...item, image : file} : item)
         ))

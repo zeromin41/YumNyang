@@ -7,6 +7,7 @@ import style from './IngredientModal.module.css'
 import { getRequest, postRequest } from '../apis/api'
 import deleteSvg from '../assets/delete.svg'
 
+<<<<<<< HEAD
 function IngredientModal({ ingredient, setIngredient, setIsModalOpen, setIndividualCal }) {
     const [categoryOptions, setCategoryOptions] = useState([])
     const [ingredients, setIngredients] = useState([])
@@ -14,6 +15,14 @@ function IngredientModal({ ingredient, setIngredient, setIsModalOpen, setIndivid
     const [addIngredient, setAddIngredient] = useState([])
     const [modalIngredient, setModalIngredient] = useState([])
     const [showIngredientsList, setShowIngredientsList] = useState(false)
+=======
+function IngredientModal({ ingredient, setIngredient, setIsModalOpen }) {
+  const [category, setCategory] = useState('');
+  const [ingredients, setIngredients] = useState([]);
+  const [search, setSearch] = useState('');
+  const [addIngredient, setAddIngredient] = useState([]);
+  const [modalIngredient, setModalIngredient] = useState([]);
+>>>>>>> 99a7dd0 (fiX:파일 크기 제한 및 불필요한 코드 제거)
 
     useEffect(() => {
         setModalIngredient(ingredient || [])
