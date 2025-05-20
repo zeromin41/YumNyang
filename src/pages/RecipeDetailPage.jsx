@@ -1,7 +1,8 @@
 // RecipeDetailPage.jsx
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { getRequest, postRequest } from '../apis/api'
+import { useSelector } from 'react-redux' // useSelector 임포트
 
 import RecipeStepCard from '../components/RecipeStepCard'
 import TTSComponent from '../components/TTSComponent'
@@ -16,6 +17,7 @@ import playImg from '../assets/play-03.svg'
 import starImg from '../assets/full-star.svg'
 import heartImg from '../assets/view.svg'
 import watchImg from '../assets/stopwatch-03.svg'
+import trashImg from '../assets/trash.svg'
 
 // 스타일 임포트
 import css from './RecipeDetailPage.module.css'
@@ -23,12 +25,14 @@ import RecipeDetailLayout from '../layout/RecipeDetailLayout'
 
 const RecipeDetailPage = () => {
     const { recipeId } = useParams()
+    const navigate = useNavigate()
     const [recipeData, setRecipeData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState(0)
     const [showTimer, setShowTimer] = useState(false)
     const [starAverage, setStarAverage] = useState(0)
+    const loggedInUserId = useSelector((state) => state.user.userId)
 
     // 데이터 가져오기
     useEffect(() => {
@@ -53,12 +57,10 @@ const RecipeDetailPage = () => {
     // 최근 본 레시피 기록
     useEffect(() => {
         const recordRecentlyViewed = async () => {
-            const currentUserId = localStorage.getItem('userId')
-
-            if (currentUserId && recipeId && recipeData && !loading && !error) {
+            if (loggedInUserId && recipeId && recipeData && !loading && !error) {
                 try {
                     const responseMessage = await postRequest('/addRecentlyView', {
-                        userId: parseInt(currentUserId, 10),
+                        userId: loggedInUserId, // Redux store에서 가져온 userId 사용
                         recipeId: parseInt(recipeId, 10),
                     })
                 } catch (err) {
@@ -70,7 +72,27 @@ const RecipeDetailPage = () => {
         if (recipeData) {
             recordRecentlyViewed()
         }
-    }, [recipeData, recipeId, loading, error])
+    }, [recipeData, recipeId, loading, error, loggedInUserId])
+
+    // 레시피 삭제 함수
+    const handleDeleteRecipe = async () => {
+        if (!recipeData || !recipeData.recipe || !recipeData.recipe.ID) {
+            console.error('레시피 정보가 없어 삭제할 수 없습니다.')
+            return
+        }
+
+        // eslint-disable-next-line no-restricted-globals
+        if (confirm('이 레시피를 삭제하시겠습니까?')) {
+            try {
+                const response = await getRequest(`/removeRecipe/${recipeData.recipe.ID}`)
+                alert(response.message || '레시피가 성공적으로 삭제되었습니다.')
+                navigate('/')
+            } catch (err) {
+                console.error('레시피 삭제 API 오류:', err.message)
+                alert(err.response?.data?.error || '레시피 삭제에 실패했습니다.')
+            }
+        }
+    }
 
     // 로딩 상태의 텍스트 컴포넌트
     const loadingComponent = (
@@ -107,6 +129,17 @@ const RecipeDetailPage = () => {
                     <img src={heartImg} alt="하트" />
                     <span>{recipeData.recipe.VIEW_COUNT || 0}</span>
                 </div>
+                {recipeData.recipe.USER_ID == Number(loggedInUserId) && (
+                    <div
+                        className={css.deleteWrap}
+                        onClick={handleDeleteRecipe}
+                    >
+                        <img
+                            src={trashImg}
+                            alt="삭제"
+                        />
+                    </div>
+                )}
             </div>
         )
 

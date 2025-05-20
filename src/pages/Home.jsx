@@ -38,27 +38,6 @@ const Home = () => {
         }
     }, [location.state])
 
-    const fetchRecipeDetails = useCallback(async (entries, idFieldName = 'RECIPE_ID') => {
-        if (!entries || entries.length === 0) return []
-        const recipeDetailPromises = entries.map((entry) =>
-            getRequest(`/getRecipe/${entry[idFieldName]}`).catch((err) => {
-                console.error(
-                    `Home - Error fetching details for recipe ${entry[idFieldName]}:`,
-                    err.message
-                )
-                return null
-            })
-        )
-        const responses = await Promise.all(recipeDetailPromises)
-        return responses
-            .filter((response) => response && response.recipe)
-            .map((response) => ({
-                id: response.recipe.ID,
-                title: response.recipe.TITLE,
-                imageSrc: response.recipe.MAIN_IMAGE_URL,
-            }))
-    }, [])
-
     useEffect(() => {
         const fetchPopular = async () => {
             setIsLoadingPopular(true)
@@ -90,37 +69,53 @@ const Home = () => {
             setRecentRecipes([])
             return
         }
+
         const fetchRecent = async () => {
             setIsLoadingRecent(true)
             try {
-                const recentEntriesData = await getRequest(`/getRecentlyView/${currentUserId}`)
-                if (
-                    recentEntriesData &&
-                    recentEntriesData.recentlyView &&
-                    recentEntriesData.recentlyView.length > 0
-                ) {
-                    const entriesFromApi = recentEntriesData.recentlyView
-                    const newestFirstEntries = [...entriesFromApi]
-                    // 최신순으로 정렬된 배열에서 최대 MAX_RECENT_RECIPES 개수만큼만 선택
-                    const recipesToFetch = newestFirstEntries.slice(0, MAX_RECENT_RECIPES)
-                    const detailedRecipes = await fetchRecipeDetails(recipesToFetch, 'RECIPE_ID')
-                    setRecentRecipes(detailedRecipes)
+                const response = await getRequest(`/getRecentlyView/${currentUserId}`)
+
+                if (response && response.recipes && response.recipes.length > 0) {
+                    const mappedRecipes = response.recipes.map((recipe) => ({
+                        id: recipe.ID,
+                        title: recipe.TITLE,
+                        imageSrc: recipe.MAIN_IMAGE_URL,
+                        // 예를 들어, view_count 등도 필요하다면 recipe.VIEW_COUNT 와 같이 추가합니다.
+                    }))
+                    setRecentRecipes(mappedRecipes.slice(0, MAX_RECENT_RECIPES))
                 } else {
                     setRecentRecipes([])
                 }
             } catch (error) {
-                if (error.message && error.message.includes('최근 본 레시피가 없습니다')) {
-                    setRecentRecipes([])
+                if (
+                    error.response &&
+                    error.response.status === 404 &&
+                    error.response.data &&
+                    error.response.data.message === '최근 본 레시피가 없습니다.'
+                ) {
+                    setRecentRecipes([]) 
+                } else if (
+                    (error.message &&
+                        error.message.toLowerCase().includes('no recently viewed recipes')) ||
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.error &&
+                        error.response.data.error
+                            .toLowerCase()
+                            .includes('최근 본 레시피가 없습니다'))
+                ) {
+                    setRecentRecipes([]) 
                 } else {
                     console.error('Home - 최근 본 레시피 API 오류:', error.message)
-                    setRecentRecipes([])
+                    setRecentRecipes([]) 
                 }
             } finally {
                 setIsLoadingRecent(false)
             }
         }
+
         fetchRecent()
-    }, [isUserLoggedIn, currentUserId, fetchRecipeDetails])
+    }, [isUserLoggedIn, currentUserId, MAX_RECENT_RECIPES])
 
     const handleCardClick = (recipeId) => {
         navigate(`/recipe/${recipeId}`)
