@@ -4,7 +4,7 @@ import StarRating from './StarRating'
 import axios from 'axios'
 import { API_BASE_URL } from '../utils/apiConfig'
 import { getRequest, postRequest } from './../apis/api'
-import { data } from 'react-router-dom'
+import { checkToken } from '../apis/auth'
 
 const Comment = ({ recipeId, setStarAverage }) => {
     const [reviewData, setReviewData] = useState(null)
@@ -42,6 +42,8 @@ const Comment = ({ recipeId, setStarAverage }) => {
                 fetchReviewerNicknames(uniqueUserIds)
             }
         } catch (error) {
+            // 댓글이 1개일 경우 렌더링이 안되는 경우 방지
+            setReviewData([])
             console.error('리뷰 데이터 가져오기 실패:', error)
         }
     }
@@ -106,10 +108,8 @@ const Comment = ({ recipeId, setStarAverage }) => {
 
     // 등록하기 버튼 (리뷰 작성)
     const handleSubmit = async () => {
-        if (localStorage.getItem('userId') == null) {
-            alert('로그인 해주세요')
-            return
-        } else {
+        try {
+            await checkToken()
             if (rating === (null || 0)) {
                 alert('평점을 선택해주세요')
                 return
@@ -119,38 +119,30 @@ const Comment = ({ recipeId, setStarAverage }) => {
                 alert('내용을 작성해주세요')
                 return
             }
-
-            try {
-                const response = await axios.post(`${API_BASE_URL}/addReview`, {
-                    recipeId: parseInt(recipeId),
-                    userId: parseInt(localStorage.getItem('userId')),
-                    nickname: loggedInNickname,
-                    ratingScore: parseInt(rating),
-                    commentText: comment,
-                })
-                alert('리뷰 작성 완료!')
-                setComment('')
-                setRating(0)
-                await getReviewData()
-            } catch (error) {
-                console.log('리뷰 작성 실패', error)
-                alert(`리뷰 작성을 실패했습니다${loggedInNickname}`)
-            }
+            const response = await axios.post(`${API_BASE_URL}/addReview`, {
+                recipeId: parseInt(recipeId),
+                userId: parseInt(localStorage.getItem('userId')),
+                nickname: loggedInNickname,
+                ratingScore: parseInt(rating),
+                commentText: comment,
+            })
+            alert('리뷰 작성 완료!')
+            setComment('')
+            setRating(0)
+            await getReviewData()
+        } catch (error) {
+            console.log('로그인을 해주세요!', error)
+            alert(`로그인을 해주세요!`)
         }
     }
 
     //리뷰 삭제하기
     const DeleteReview = async (reviewId) => {
-        if (!loggedInUserId) {
-            alert('로그인 해주세요')
-            return
-        }
-
-        if (!window.confirm('댓글을 삭제하시겠습니까?')) {
-            return
-        }
-
         try {
+            await checkToken()
+            if (!window.confirm('댓글을 삭제하시겠습니까?')) {
+                return
+            }
             const response = await postRequest(`/upDateReview`, {
                 id: reviewId,
                 type: 'delete',
