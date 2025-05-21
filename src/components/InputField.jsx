@@ -11,6 +11,7 @@ const InputField = ({
     rightElement,
     errorMsg,
     successMsg,
+    min,
 }) => {
     return (
         <div className={css.inputFieldCon}>
@@ -18,7 +19,17 @@ const InputField = ({
                 {label}
             </label>
             <div className={css.inputWrapper}>
-                <input id={id} type={type} value={value} onChange={onChange} onKeyUp={onKeyUp} />
+                <input
+                    id={id}
+                    type={type}
+                    value={value}
+                    onChange={onChange}
+                    onKeyUp={onKeyUp}
+                    min={min}
+                    onInput={(e) => {
+                        if (type === 'number' && e.target.value < 0) e.target.value = 0
+                    }}
+                />
                 {rightElement && <div>{rightElement}</div>}
             </div>
             {errorMsg && <span className={`${css.msg} ${css.error}`}>{errorMsg}</span>}
