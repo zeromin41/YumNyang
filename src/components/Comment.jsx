@@ -20,8 +20,6 @@ const Comment = ({ recipeId, setStarAverage }) => {
             const response = await axios.get(`https://seungwoo.i234.me:3333/getReview/${recipeId}`)
             setReviewData(response.data)
 
-            //리뷰 별점값 가져오기
-
             // 리뷰 데이터를 받아온 후 각 리뷰 작성자의 닉네임 가져오기
             if (response.data && response.data.review && response.data.review.length > 0) {
                 //리뷰 별점값 가져오기
@@ -55,8 +53,14 @@ const Comment = ({ recipeId, setStarAverage }) => {
                 const loggedInId = localStorage.getItem('userId')
                 if (loggedInId) {
                     setLoggedInUserId(parseInt(loggedInId))
-                    const response = await getRequest(`/getUserNickname/${loggedInId}`)
-                    setLoggedInNickname(response.nickname.NICKNAME)
+                    try {
+                        const response = await getRequest(`/getUserNickname/${loggedInId}`)
+                        if (response && response.nickname) {
+                            setLoggedInNickname(response.nickname.NICKNAME)
+                        }
+                    } catch (error) {
+                        console.error('로그인 사용자 닉네임 가져오기 실패:', error)
+                    }
                 }
             }
             getNickNameById()
@@ -65,45 +69,42 @@ const Comment = ({ recipeId, setStarAverage }) => {
 
     // 닉네임 가져오기 함수
     const fetchReviewerNicknames = async (userIds) => {
-        try {
-            // 각 사용자 ID에 대한 닉네임 요청을 병렬로 처리
-            const nicknamePromises = userIds.map((userId) =>
-                axios.get(`https://seungwoo.i234.me:3333/getUserNickname/${userId}`)
-            )
+        const nicknames = { ...reviewerNicknames } // 기존 닉네임 복사
 
-            const responses = await Promise.all(nicknamePromises)
+        // 각 사용자 ID에 대해 개별적으로 닉네임 요청 처리
+        for (const userId of userIds) {
+            try {
+                const response = await axios.get(
+                    `https://seungwoo.i234.me:3333/getUserNickname/${userId}`
+                )
 
-            // 결과를 객체로 변환하여 저장 (userId: nickname)
-            const nicknames = {}
-            responses.forEach((response, index) => {
                 if (response.data) {
                     // 응답 데이터 구조에 따라 닉네임 추출
-                    // NICKNAME 필드가 있는 경우 (객체인 경우)
                     if (typeof response.data === 'object' && response.data.NICKNAME) {
-                        nicknames[userIds[index]] = response.data.NICKNAME
-                    }
-                    // nickname 필드가 있는 경우
-                    else if (typeof response.data === 'object' && response.data.nickname) {
-                        nicknames[userIds[index]] = response.data.nickname
-                    }
-                    // 응답이 직접 문자열인 경우
-                    else if (typeof response.data === 'string') {
-                        nicknames[userIds[index]] = response.data
-                    }
-                    // 다른 형태의 응답
-                    else {
-                        console.log('알 수 없는 닉네임 형식:', response.data)
-                        nicknames[userIds[index]] = '익명'
+                        nicknames[userId] = response.data.NICKNAME
+                    } else if (
+                        typeof response.data === 'object' &&
+                        response.data.nickname &&
+                        response.data.nickname.NICKNAME
+                    ) {
+                        nicknames[userId] = response.data.nickname.NICKNAME
+                    } else if (typeof response.data === 'string') {
+                        nicknames[userId] = response.data
+                    } else {
+                        console.log(`사용자 ID ${userId}의 알 수 없는 닉네임 형식:`, response.data)
+                        nicknames[userId] = `(알 수 없음)`
                     }
                 } else {
-                    nicknames[userIds[index]] = '익명' // 응답이 없는 경우 기본값
+                    nicknames[userId] = `(알 수 없음)`
                 }
-            })
-
-            setReviewerNicknames(nicknames)
-        } catch (error) {
-            console.error('닉네임 가져오기 실패:', error)
+            } catch (error) {
+                console.error(`사용자 ID ${userId}의 닉네임 가져오기 실패:`, error)
+                // 에러 발생 시 해당 사용자만 '탈퇴한 사용자'로 표시
+                nicknames[userId] = `(탈퇴한 사용자)`
+            }
         }
+
+        setReviewerNicknames(nicknames)
     }
 
     // 등록하기 버튼 (리뷰 작성)
@@ -155,15 +156,18 @@ const Comment = ({ recipeId, setStarAverage }) => {
         }
     }
 
-    // 해당 USER_ID의 닉네임 가져오기 (없으면 "익명" 반환)
+    // 해당 USER_ID의 닉네임 가져오기 (없으면 "탈퇴한 사용자" 반환)
     const getNickname = (userId) => {
-        // reviewerNicknames[userId]가 객체가 아닌 문자열인지 확인
         const nickname = reviewerNicknames[userId]
+        if (!nickname) {
+            return '(알 수 없음)'
+        }
+
         if (typeof nickname === 'object') {
             // 객체인 경우 NICKNAME 필드 추출
-            return nickname.NICKNAME || '익명'
+            return nickname.NICKNAME || '(알 수 없음)'
         }
-        return nickname || '익명'
+        return nickname
     }
 
     return (
@@ -192,7 +196,6 @@ const Comment = ({ recipeId, setStarAverage }) => {
                 {reviewData?.review.map((data, index) => (
                     <div className={css.commentWrapper} key={index}>
                         <div className={css.userCon}>
-                            {/* 객체를 직접 렌더링하지 않고 문자열만 렌더링 */}
                             <span className={css.commentNickname}>{getNickname(data.USER_ID)}</span>
                             {/* 현재 로그인한 사용자가 댓글 작성자인 경우에만 삭제 버튼 표시 */}
                             {loggedInUserId === data.USER_ID && (
