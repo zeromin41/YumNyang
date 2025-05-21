@@ -149,7 +149,9 @@ const AdditionBasicInfo = ({
                     <Input
                         type="number"
                         value={time}
-                        onChange={(e) => setTime(e.target.value)}
+                        onChange={(e) => {
+                            if(e.target.value >= 0) setTime(e.target.value.replace(/^0+(?=\d)/, ''));
+                        }}
                         placeholder="입력해주세요."
                     />
                     <DropDown
@@ -194,7 +196,9 @@ const AdditionBasicInfo = ({
                         <Input
                             type="number"
                             value={ration}
-                            onChange={(e) => setRation(e.target.value)}
+                            onChange={(e) => {
+                                if(e.target.value >= 0) setRation(e.target.value.replace(/^0+(?=\d)/, ''))
+                            }}
                             placeholder="입력해주세요."
                         />
                         <DropDown
