@@ -49,6 +49,18 @@ const Addition = () => {
     }
 
     const uploadRecipes = async () => {
+        if(title === '' || mainImage === '' || category === '' || target === '' || description.length <= 0){
+            alert("제목, 메인 이미지, 카테고리, 권장 대상은 필수입니다.")
+            return;
+        }
+
+        for(const des in description){
+            if(description[des].description === ''){
+                alert(`Step ${des}의 내용이 비어있습니다.`);
+                return;
+            }
+        }
+
         try {
             await checkToken()
 
@@ -131,7 +143,8 @@ const Addition = () => {
                         조리 시간: {time || '정보없음'} / 난이도: {level || '정보없음'}
                     </li>
                     <li>
-                        칼로리: {calorie || '정보없음'}kcal / 1회 급여량: {ration}
+                        칼로리: {calorie.toFixed(2) || '정보없음'}kcal / 1회
+                        급여량: {ration}
                         {rationType}
                     </li>
                 </ul>

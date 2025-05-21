@@ -222,6 +222,7 @@ const SignupPage = () => {
                     value={form.petAge}
                     onChange={handleChange('petAge')}
                     errorMsg={errors.petAge}
+                    min={0}
                 />
             </form>
             <div className={css.btnWrapper}>
