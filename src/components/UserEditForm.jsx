@@ -245,6 +245,7 @@ const UserEditForm = ({ userId, nickname, petInfo, onUpdate, onClose }) => {
                         type="number"
                         value={form.petAge}
                         onChange={handleChange('petAge')}
+                        min={0}
                     />
                     {errors.petAge && (
                         <span className={`${css.msg} ${css.error}`}>{errors.petAge}</span>
