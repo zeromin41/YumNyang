@@ -80,7 +80,6 @@ const Home = () => {
                         id: recipe.ID,
                         title: recipe.TITLE,
                         imageSrc: recipe.MAIN_IMAGE_URL,
-                        // 예를 들어, view_count 등도 필요하다면 recipe.VIEW_COUNT 와 같이 추가합니다.
                     }))
                     setRecentRecipes(mappedRecipes.slice(0, MAX_RECENT_RECIPES))
                 } else {
@@ -154,10 +153,10 @@ const Home = () => {
                         renderSkeletonSwiper()
                     ) : recentRecipes.length > 0 ? (
                         <RecipeCardSwiper
-                            data={recentRecipes} // RecipeCard에 필요한 데이터 (id, title, imageSrc)
-                            onCardClick={handleCardClick} // 상세 페이지 이동 핸들러
-                            isLoggedIn={isUserLoggedIn} // RecipeCard에 전달하여 내부 즐겨찾기 로직에 사용
-                            userId={currentUserId} // RecipeCard에 전달하여 내부 즐겨찾기 로직에 사용
+                            data={recentRecipes} 
+                            onCardClick={handleCardClick} 
+                            isLoggedIn={isUserLoggedIn} 
+                            userId={currentUserId} 
                         />
                     ) : (
                         <p className="no-recipes-message">최근 본 레시피가 없습니다.</p>
