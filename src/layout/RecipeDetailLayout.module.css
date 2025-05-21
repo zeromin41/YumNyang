@@ -33,24 +33,27 @@
 .tabBtn {
     display: flex;
     width: 100%;
+
     margin-bottom: var(--fs12);
     border-radius: 6px;
     overflow: hidden;
+    background-color: #e4e3e39c;
 }
 
 .tabBtn button {
     flex: 1;
     padding: var(--fs8) 0;
     text-align: center;
-    background-color: #f5f5f5;
+
     border: none;
     cursor: pointer;
     font-size: var(--fs20);
     transition: background-color 0.3s;
+    border-radius: 6px;
 }
 
 .tabBtn button.active {
-    background-color: var(--neutral-colors-light-gray);
+    background-color: #fff;
     font-weight: bold;
 }
 
