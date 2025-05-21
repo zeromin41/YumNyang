@@ -1,5 +1,6 @@
 import React from 'react'
 import css from './InputField.module.css'
+import { handleNumberInput, handleNumberKeyDown } from '../utils/inputUtil'
 
 const InputField = ({
     label,
@@ -13,32 +14,8 @@ const InputField = ({
     successMsg,
     min,
 }) => {
-    const handleKeyDown = (e) => {
-        if (type === 'number') {
-            const invalidKeys = ['-', '+', 'e', 'E', '.']
-            if (invalidKeys.includes(e.key)) {
-                e.preventDefault()
-            }
-        }
-    }
-
-    const handleInput = (e) => {
-        if (type === 'number') {
-            let cleanedValue = e.target.value.replace(/^0+(?=\d)/, '')
-
-            if (cleanedValue === '') {
-                e.target.value = ''
-                return
-            }
-
-            const numberValue = Number(cleanedValue)
-            if (numberValue < 0 || isNaN(numberValue)) {
-                e.target.value = ''
-            } else {
-                e.target.value = numberValue.toString()
-            }
-        }
-    }
+    const onKeyDown = type === 'number' ? handleNumberKeyDown : undefined
+    const onInput = type === 'number' ? handleNumberInput : undefined
 
     return (
         <div className={css.inputFieldCon}>
@@ -52,8 +29,8 @@ const InputField = ({
                     value={value}
                     onChange={onChange}
                     onKeyUp={onKeyUp}
-                    onKeyDown={handleKeyDown}
-                    onInput={handleInput}
+                    onKeyDown={onKeyDown}
+                    onInput={onInput}
                     min={min}
                 />
                 {rightElement && <div>{rightElement}</div>}
