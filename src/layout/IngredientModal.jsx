@@ -245,9 +245,9 @@ function IngredientModal({ ingredient, setIngredient, setIsModalOpen }) {
                             type="number"
                             value={e.capacity}
                             min="0"
-                            onChange={(i) =>
-                                handleAddIngredientChange(index, 'capacity', i.target.value)
-                            }
+                            onChange={(i) =>{
+                                if(i.target.value >= 0) handleAddIngredientChange(index, 'capacity', i.target.value.replace(/^0+(?=\d)/, ''))
+                            }}
                             placeholder="양"
                         />
                         <DropDown
