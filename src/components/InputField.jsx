@@ -13,6 +13,21 @@ const InputField = ({
     successMsg,
     min,
 }) => {
+    const handleKeyDown = (e) => {
+        if (type === 'number') {
+            const invalidKeys = ['-', '+', 'e', 'E', '.']
+            if (invalidKeys.includes(e.key)) {
+                e.preventDefault()
+            }
+        }
+    }
+
+    const handleInput = (e) => {
+        if (type === 'number' && Number(e.target.value) < 0) {
+            e.target.value = 0
+        }
+    }
+
     return (
         <div className={css.inputFieldCon}>
             <label className={css.label} htmlFor={id}>
@@ -25,10 +40,9 @@ const InputField = ({
                     value={value}
                     onChange={onChange}
                     onKeyUp={onKeyUp}
+                    onKeyDown={handleKeyDown}
+                    onInput={handleInput}
                     min={min}
-                    onInput={(e) => {
-                        if (type === 'number' && e.target.value < 0) e.target.value = 0
-                    }}
                 />
                 {rightElement && <div>{rightElement}</div>}
             </div>
