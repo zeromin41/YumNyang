@@ -1,5 +1,6 @@
 import React from 'react'
 import css from './InputField.module.css'
+import { handleNumberInput, handleNumberKeyDown } from '../utils/inputUtil'
 
 const InputField = ({
     label,
@@ -13,6 +14,9 @@ const InputField = ({
     successMsg,
     min,
 }) => {
+    const onKeyDown = type === 'number' ? handleNumberKeyDown : undefined
+    const onInput = type === 'number' ? handleNumberInput : undefined
+
     return (
         <div className={css.inputFieldCon}>
             <label className={css.label} htmlFor={id}>
@@ -25,10 +29,9 @@ const InputField = ({
                     value={value}
                     onChange={onChange}
                     onKeyUp={onKeyUp}
+                    onKeyDown={onKeyDown}
+                    onInput={onInput}
                     min={min}
-                    onInput={(e) => {
-                        if (type === 'number' && e.target.value < 0) e.target.value = 0
-                    }}
                 />
                 {rightElement && <div>{rightElement}</div>}
             </div>
